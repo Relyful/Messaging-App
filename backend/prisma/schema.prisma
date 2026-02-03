@@ -12,3 +12,30 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id  Int @id @default(autoincrement())
+  username String @unique
+  password  String
+  role Role @default(USER)
+  register_time DateTime  @default(now())
+  about String?
+  profile_pic_id  Int?  
+}
+
+model Chat {
+  id Int @id @default(autoincrement())
+  type Chat_type @default(SOLO)
+  name String?
+  created_at DateTime @default(now())
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Chat_type {
+  SOLO
+  GROUP
+}
