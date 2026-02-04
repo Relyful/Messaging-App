@@ -17,17 +17,43 @@ model User {
   id  Int @id @default(autoincrement())
   username String @unique
   password  String
+  displayName String?
   role Role @default(USER)
-  register_time DateTime  @default(now())
+  registerTime DateTime  @default(now())
   about String?
-  profile_pic_id  Int?  
+  profilePicId  Int?
+  deletedAt DateTime?
+  chatMembers ChatMember[]
+  messages Message[]
 }
 
 model Chat {
   id Int @id @default(autoincrement())
-  type Chat_type @default(SOLO)
+  type ChatType @default(SOLO)
   name String?
-  created_at DateTime @default(now())
+  createdAt DateTime @default(now())
+  chatMembers ChatMember[]
+  messages Message[]
+}
+
+model Message {
+  id  Int @id @default(autoincrement())
+  content String
+  createdAt DateTime @default(now())
+  deletedAt DateTime?
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  chatId Int
+}
+
+model ChatMember {
+  chat  Chat  @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  chatId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+
+  @@id([chatId, userId])
 }
 
 enum Role {
@@ -35,7 +61,7 @@ enum Role {
   ADMIN
 }
 
-enum Chat_type {
+enum ChatType {
   SOLO
   GROUP
 }

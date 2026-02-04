@@ -7,7 +7,8 @@
   "type": "commonjs",
   "main": "app.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "seed": "node seed.mjs"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.3.0",
