@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors');
 const indexRouter = require('./routers/indexRouter')
+const userRouter = require('./routers/userRouter')
 
 
 require('dotenv').config()
@@ -18,6 +19,7 @@ app.use(cors({
 app.use(express.json());
 
 app.use('/', indexRouter);
+app.use('/user', userRouter);
 
 //Catch all route
 app.get("/*splat", (req, res) => {
