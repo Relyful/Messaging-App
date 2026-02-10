@@ -5,5 +5,6 @@ const userRouter = Router();
 
 userRouter.post('/create', userController.createUser);
 userRouter.put('/delete', userController.deleteUser);
+userRouter.put('/profilePic/:picId', userController.updateProfilePic)
 
 module.exports = userRouter;
