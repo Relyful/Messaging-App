@@ -9,3 +9,15 @@ exports.createNewUser = async (username, password) => {
   })
   return newUser;
 }
+
+exports.deleteUser = async (id) => {
+  const user = await prisma.user.findUnique({ where: { id } });
+  const deletedUser = prisma.user.update({
+    where: { id },
+    data: {
+      deletedAt: Date.now(),
+      username: `${user.username}_del_${Date.now()}`
+    }
+  })
+  return deletedUser;
+}
