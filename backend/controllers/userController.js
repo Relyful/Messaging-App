@@ -31,3 +31,11 @@ exports.updateDisplayName = async (req, res) => {
   const updatedUser = await userServices.updateDisplayName(userId, newDisplayName);
   res.json(updatedUser);
 }
+
+exports.updateAbout = async (req, res) => {
+  //get userid form auth
+  const newAbout = req.data.aboutMe;
+  const userId = null;
+  const updatedUser = userServices.updateAbout(userId, newAbout);
+  res.json(updatedUser);
+}

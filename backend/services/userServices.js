@@ -43,3 +43,14 @@ exports.updateDisplayName = async (userId, displayName) => {
     }
   })
 }
+
+exports.updateAbout = async (userId, about) => {
+  return await prisma.user.update({
+    where: {
+      id: userId
+    },
+    data: {
+      about: about
+    }
+  })
+}
