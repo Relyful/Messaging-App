@@ -56,6 +56,13 @@ model ChatMember {
   @@id([chatId, userId])
 }
 
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String   @db.Text
+  expiresAt   DateTime
+}
+
 enum Role {
   USER
   ADMIN

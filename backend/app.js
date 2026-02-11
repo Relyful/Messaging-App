@@ -1,5 +1,8 @@
 const express = require('express')
 const cors = require('cors');
+const expressSession = require('express-session');
+const { prisma } = require('./lib/prisma.mjs');
+const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const indexRouter = require('./routers/indexRouter')
 const userRouter = require('./routers/userRouter')
 
@@ -17,6 +20,26 @@ app.use(cors({
 }));
 //Allow json 
 app.use(express.json());
+
+
+app.use(
+  expressSession({
+    cookie: {
+     maxAge: 7 * 24 * 60 * 60 * 1000 // ms aka a week
+    },
+    secret: process.env.SECRET,
+    resave: true,
+    saveUninitialized: true,
+    store: new PrismaSessionStore(
+      prisma,
+      {
+        checkPeriod: 2 * 60 * 1000,  //ms
+        dbRecordIdIsSessionId: true,
+        dbRecordIdFunction: undefined,
+      }
+    )
+  })
+);
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
