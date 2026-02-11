@@ -17,9 +17,17 @@ exports.deleteUser = async (req, res) => {
 };
 
 exports.updateProfilePic = async (req, res) => {
-  //add if from auth
+  //add id from auth
   const picId = req.params.picId
   const currentUserId = null;
   const udpatedUser = userServices.updateProfilePic(currentUserId, picId);
   res.json(udpatedUser);
 };
+
+exports.updateDisplayName = async (req, res) => {
+  //get user id from auth
+  const userId = null;
+  const newDisplayName = req.params.displayName;
+  const updatedUser = await userServices.updateDisplayName(userId, newDisplayName);
+  res.json(updatedUser);
+}

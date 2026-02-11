@@ -23,12 +23,23 @@ exports.deleteUser = async (id) => {
 }
 
 exports.updateProfilePic = async (userId, picId) => {
-  await prisma.user.update({
+  return await prisma.user.update({
     where: {
       id: userId
     },
     data: {
       profilePicId: picId
+    }
+  })
+}
+
+exports.updateDisplayName = async (userId, displayName) => {
+  return await prisma.user.update({
+    where: {
+      id: userId
+    },
+    data: {
+      displayName: displayName
     }
   })
 }
