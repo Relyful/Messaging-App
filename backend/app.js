@@ -3,6 +3,9 @@ const cors = require('cors');
 const expressSession = require('express-session');
 const { prisma } = require('./lib/prisma.mjs');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const bcrypt = require('bcrypt');
 const indexRouter = require('./routers/indexRouter')
 const userRouter = require('./routers/userRouter')
 
@@ -21,7 +24,7 @@ app.use(cors({
 //Allow json 
 app.use(express.json());
 
-
+//Set up session in prisma db
 app.use(
   expressSession({
     cookie: {
@@ -40,6 +43,38 @@ app.use(
     )
   })
 );
+
+//Setup passport-local strategy
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        username
+      }
+    })
+    if (!user) {
+      return done(null, false)
+    };
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return done(null, false);
+    }
+    return done(null, user);
+  })
+)
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: id
+    }
+  })
+  done(null, user);
+});
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
