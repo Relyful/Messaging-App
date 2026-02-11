@@ -39,3 +39,9 @@ exports.updateAbout = async (req, res) => {
   const updatedUser = userServices.updateAbout(userId, newAbout);
   res.json(updatedUser);
 }
+
+exports.getUserById = async (req, res) => {
+  const userId = req.params.userId;
+  const foundUser = userServices.getUserById(userId);
+  res.json(foundUser);
+}

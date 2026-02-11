@@ -54,3 +54,11 @@ exports.updateAbout = async (userId, about) => {
     }
   })
 }
+
+exports.getUserById = async (userId) => {
+  return await prisma.user.findUnique({
+    where: {
+      id: userId
+    }
+  })
+}
