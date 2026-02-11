@@ -14,16 +14,6 @@ require('dotenv').config()
 const app = express()
 const port = process.env.PORT || 8080;
 
-//Set-up url request body parsing
-app.use(express.urlencoded({ extended: false }));
-//Set-up cors access
-app.use(cors({
-  origin: process.env.ALLOWED_ORIGIN ? process.env.ALLOWED_ORIGIN : ["http://localhost:5173"],
-  credentials: true
-}));
-//Allow json 
-app.use(express.json());
-
 //Set up session in prisma db
 app.use(
   expressSession({
@@ -43,6 +33,19 @@ app.use(
     )
   })
 );
+
+//Set-up url request body parsing
+app.use(express.urlencoded({ extended: false }));
+//Set-up cors access
+app.use(cors({
+  origin: process.env.ALLOWED_ORIGIN ? process.env.ALLOWED_ORIGIN : ["http://localhost:5173"],
+  credentials: true
+}));
+//Allow json 
+app.use(express.json());
+//Session set-up
+app.use(passport.session());
+
 
 //Setup passport-local strategy
 passport.use(
