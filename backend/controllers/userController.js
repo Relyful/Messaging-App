@@ -20,7 +20,7 @@ exports.updateProfilePic = async (req, res) => {
   //add id from auth
   const picId = req.params.picId
   const currentUserId = null;
-  const udpatedUser = userServices.updateProfilePic(currentUserId, picId);
+  const udpatedUser = await userServices.updateProfilePic(currentUserId, picId);
   res.json(udpatedUser);
 };
 
@@ -36,12 +36,17 @@ exports.updateAbout = async (req, res) => {
   //get userid form auth
   const newAbout = req.data.aboutMe;
   const userId = null;
-  const updatedUser = userServices.updateAbout(userId, newAbout);
+  const updatedUser = await userServices.updateAbout(userId, newAbout);
   res.json(updatedUser);
 }
 
 exports.getUserById = async (req, res) => {
   const userId = req.params.userId;
-  const foundUser = userServices.getUserById(userId);
+  const foundUser = await userServices.getUserById(userId);
   res.json(foundUser);
+}
+
+exports.getAll = async (req, res) => {
+  const allUsers = await userServices.getAllUsers();
+  res.json(allUsers);
 }

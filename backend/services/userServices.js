@@ -62,3 +62,12 @@ exports.getUserById = async (userId) => {
     }
   })
 }
+
+exports.getAllUsers = async () => {
+  const activeUsers = await prisma.user.findMany({
+    where: {
+      deletedAt: null,
+    }
+  });
+  return activeUsers;
+}
