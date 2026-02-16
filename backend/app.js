@@ -6,8 +6,9 @@ const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt');
-const indexRouter = require('./routers/indexRouter')
-const userRouter = require('./routers/userRouter')
+const indexRouter = require('./routers/indexRouter');
+const userRouter = require('./routers/userRouter');
+const chatRouter = require('./routers/chatRouter');
 
 
 require('dotenv').config()
@@ -81,6 +82,7 @@ passport.deserializeUser(async (id, done) => {
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
+app.use('/chat', chatRouter);
 
 //Catch all route
 app.get("/*splat", (req, res) => {
