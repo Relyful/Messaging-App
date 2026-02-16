@@ -2,7 +2,7 @@
 const chatServices = require('../services/chatServices');
 
 exports.getAllChat = async (req, res) => {
-  const allChat = chatServices.getAllChat();
+  const allChat = await chatServices.getAllChat();
   res.json(allChat);
 };
 
