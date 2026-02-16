@@ -90,9 +90,15 @@ app.get("/*splat", (req, res) => {
 //Error middleware
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).send({
-    errMessage: err.message
+  console.error(err.stack);
+
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+
+
+  res.status(statusCode).json({
+    status: statusCode,
+    errMessage: message
   });
 });
 
