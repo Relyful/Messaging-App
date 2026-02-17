@@ -16,3 +16,10 @@ exports.openChatWithUser = async (req, res) => {
     : await chatServices.createNewChatWithUser(thisUser, userToChat);
   res.json(chat);
 };
+
+
+exports.deleteChat = async (req, res) => {
+  const chatToDeleteId = req.params.chatId;
+  const deletedChat = await chatServices.deleteChatById(chatToDeleteId);
+  res.json(deletedChat);
+}

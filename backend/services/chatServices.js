@@ -27,4 +27,13 @@ exports.createNewChatWithUser = async (creatingUserId, addedUserId) => {
   }
 });
 return newChat;
-}
+};
+
+exports.deleteChatById = async (chatId) => {
+  const deletedChat = await prisma.chat.delete({
+    where: {
+      id: chatId
+    }
+  })
+  return deletedChat;
+};
