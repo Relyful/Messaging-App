@@ -37,3 +37,15 @@ exports.deleteChatById = async (chatId) => {
   })
   return deletedChat;
 };
+
+exports.updateChatNameById = async (chatId, newChatName) => {
+  const updatedChat = await prisma.chat.update({
+    where: {
+      id: chatId
+    },
+    data: {
+      name: newChatName
+    }
+  })
+  return updatedChat;
+};

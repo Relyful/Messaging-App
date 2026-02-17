@@ -22,4 +22,12 @@ exports.deleteChat = async (req, res) => {
   const chatToDeleteId = req.params.chatId;
   const deletedChat = await chatServices.deleteChatById(chatToDeleteId);
   res.json(deletedChat);
+};
+
+exports.updateChatName = async (req, res) => {
+  const data = req.body;
+  const chatId = req.params;
+  //TODO: Check if user changing name is member of chat
+  const updatedChat = await chatServices.updateChatNameById(chatId, data.chatName);
+  res.json(updatedChat);
 }
