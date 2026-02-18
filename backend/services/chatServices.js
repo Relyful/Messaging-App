@@ -49,3 +49,16 @@ exports.updateChatNameById = async (chatId, newChatName) => {
   })
   return updatedChat;
 };
+
+exports.findChatByIdUserId = async (chatId, userId) => {
+  await prisma.chat.findFirst({
+    where: {
+      id: chatId,
+      AND: {
+        chatMembers: {
+          userId: userId
+        }
+      }
+    }
+  })
+}

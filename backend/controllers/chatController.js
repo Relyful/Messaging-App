@@ -24,10 +24,17 @@ exports.deleteChat = async (req, res) => {
   res.json(deletedChat);
 };
 
-exports.updateChatName = async (req, res) => {
+exports.updateChatName = async (req, res, next) => {
   const data = req.body;
   const chatId = req.params;
+  const thisUser = req.user.id
+  const foundChat = chatServices.findChatByIdUserId(chatId, thisUser)
   //TODO: Check if user changing name is member of chat
-  const updatedChat = await chatServices.updateChatNameById(chatId, data.chatName);
-  res.json(updatedChat);
+  if (foundChat) {
+    const updatedChat = await chatServices.updateChatNameById(chatId, data.chatName);
+    res.json(updatedChat);
+  }
+  const error = new Error("Chat not found");
+  error.statusCode = 404;
+  next(error);
 }
