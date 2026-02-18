@@ -29,8 +29,6 @@ exports.updateChatName = async (req, res) => {
   const chatId = req.params.chatId;
   const thisUser = req.user.id
   const foundChat = await chatServices.findChatByIdUserId(chatId, thisUser);
-  console.log(foundChat);
-  //TODO: Check if user changing name is member of chat
   if (foundChat) {
     const updatedChat = await chatServices.updateChatNameById(chatId, data.chatName);
     res.json(updatedChat);
