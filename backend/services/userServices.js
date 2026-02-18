@@ -13,7 +13,7 @@ exports.createNewUser = async (username, password) => {
 exports.deleteUser = async (id) => {
   const user = await prisma.user.findUnique({ where: { id } });
   const deletedUser = prisma.user.update({
-    where: { id },
+    where: { id: parseInt(id) },
     data: {
       deletedAt: Date.now(),
       username: `${user.username}_del_${Date.now()}`
@@ -25,10 +25,10 @@ exports.deleteUser = async (id) => {
 exports.updateProfilePic = async (userId, picId) => {
   return await prisma.user.update({
     where: {
-      id: userId
+      id: parseInt(userId)
     },
     data: {
-      profilePicId: picId
+      profilePicId: parseInt(picId)
     }
   })
 }
@@ -36,7 +36,7 @@ exports.updateProfilePic = async (userId, picId) => {
 exports.updateDisplayName = async (userId, displayName) => {
   return await prisma.user.update({
     where: {
-      id: userId
+      id: parseInt(userId)
     },
     data: {
       displayName: displayName
@@ -47,7 +47,7 @@ exports.updateDisplayName = async (userId, displayName) => {
 exports.updateAbout = async (userId, about) => {
   return await prisma.user.update({
     where: {
-      id: userId
+      id: parseInt(userId)
     },
     data: {
       about: about
@@ -58,7 +58,7 @@ exports.updateAbout = async (userId, about) => {
 exports.getUserById = async (userId) => {
   return await prisma.user.findUnique({
     where: {
-      id: userId
+      id: parseInt(userId)
     }
   })
 }
