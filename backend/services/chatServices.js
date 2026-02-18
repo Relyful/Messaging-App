@@ -6,59 +6,62 @@ exports.getAllChat = async () => {
 
 exports.getChatWithUserId = async (requestingUserId, requestedUserId) => {
   const existingChat = await prisma.chat.findFirst({
-  where: {
-    type: 'SOLO',
-    AND: [
-      { chatMembers: { some: { userId: requestingUserId } } },
-      { chatMembers: { some: { userId: requestedUserId } } }
-    ]
-  }
-});
-return existingChat;
+    where: {
+      type: "SOLO",
+      AND: [
+        { chatMembers: { some: { userId: parseInt(requestingUserId) } } },
+        { chatMembers: { some: { userId: parseInt(requestedUserId) } } },
+      ],
+    },
+  });
+  return existingChat;
 };
 
 exports.createNewChatWithUser = async (creatingUserId, addedUserId) => {
   const newChat = await prisma.chat.create({
-  data: {
-    type: 'SOLO',
-    chatMembers: {
-      create: [{ userId: creatingUserId }, { userId: addedUserId }]
-    }
-  }
-});
-return newChat;
+    data: {
+      type: "SOLO",
+      chatMembers: {
+        create: [{ userId: parseInt(creatingUserId) }, { userId: parseInt(addedUserId) }],
+      },
+    },
+  });
+  return newChat;
 };
 
 exports.deleteChatById = async (chatId) => {
   const deletedChat = await prisma.chat.delete({
     where: {
-      id: chatId
-    }
-  })
+      id: parseInt(chatId),
+    },
+  });
   return deletedChat;
 };
 
 exports.updateChatNameById = async (chatId, newChatName) => {
   const updatedChat = await prisma.chat.update({
     where: {
-      id: chatId
+      id: parseInt(chatId),
     },
     data: {
-      name: newChatName
-    }
-  })
+      name: newChatName,
+    },
+  });
   return updatedChat;
 };
 
 exports.findChatByIdUserId = async (chatId, userId) => {
-  await prisma.chat.findFirst({
+  const foundChat = await prisma.chat.findFirst({
     where: {
-      id: chatId,
+      id: parseInt(chatId),
       AND: {
         chatMembers: {
-          userId: userId
-        }
-      }
-    }
-  })
-}
+          some: {
+            userId: parseInt(userId),
+          },
+        },
+      },
+    },
+  });
+  return foundChat;
+};
