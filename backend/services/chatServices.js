@@ -65,3 +65,15 @@ exports.findChatByIdUserId = async (chatId, userId) => {
   });
   return foundChat;
 };
+
+exports.userMemberCheck = async (userId, chatId) => {
+  const membership = await prisma.chatMember.findUnique({
+    where: {
+      chatId_userId: {
+        chatId: parseInt(chatId),
+        userId: userId
+      }
+    }
+  })
+  return membership;
+};
