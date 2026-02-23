@@ -4,5 +4,5 @@ const authMidd = require('../middleware/authenticationMiddleware');
 
 const messageRouter = new Router();
 
-messageRouter.post('/', authMidd, messageController.newMessage);
+messageRouter.post('/new', authMidd, messageController.newMessage);
 messageRouter.put('./delete/:messageId', authMidd, messageController.softDeleteMessage);
