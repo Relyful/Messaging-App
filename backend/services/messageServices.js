@@ -17,4 +17,26 @@ exports.newMessage = async (userId, chatId, content) => {
     }
   })
   return newMessage;
+};
+
+exports.softDeleteMessage = async (messageId) => {
+  const deletedMessage = await prisma.message.update({
+  where: {
+    id: messageId,
+  },
+  data: {
+    deletedAt: Date.now(),
+  }
+  })
+  return deletedMessage;
+};
+
+exports.messageOwnerCheck = async (userId, messageId) => {
+  const foundMessage = await prisma.message.findUnique({
+    where: {
+      id: messageId,
+      authorId: userId
+    }
+  })
+  return foundMessage;
 }
