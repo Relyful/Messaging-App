@@ -7,3 +7,16 @@ exports.newMessage = async (req, res) => {
   const newMessage = await messageServices.newMessage(userId, chatId, data.content);
   res.json(newMessage)
 };
+
+exports.softDeleteMessage = async (req, res) => {
+  const messageId = req.params.messageId;
+  const thisUserId = req.user.id;
+  const ownershipCheck = await messageServices.messageOwnerCheck(thisUserId, messageId);
+  if (!ownershipCheck) {
+    const error = new Error("Privilege error");
+    error.status = 401;
+    throw error;
+  }
+  const softDeletedMessage = await messageServices.softDeleteMessage(messageId);
+  res.json(softDeletedMessage);
+}
