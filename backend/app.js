@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt');
 const indexRouter = require('./routers/indexRouter');
 const userRouter = require('./routers/userRouter');
 const chatRouter = require('./routers/chatRouter');
+const messageRouter = require('./routers/messageRouter');
 
 
 require('dotenv').config()
@@ -83,6 +84,7 @@ passport.deserializeUser(async (id, done) => {
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/chat', chatRouter);
+app.user('/message', messageRouter);
 
 //Catch all route
 app.get("/*splat", (req, res) => {
