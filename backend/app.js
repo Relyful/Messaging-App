@@ -84,7 +84,7 @@ passport.deserializeUser(async (id, done) => {
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/chat', chatRouter);
-app.user('/message', messageRouter);
+app.use('/message', messageRouter);
 
 //Catch all route
 app.get("/*splat", (req, res) => {
