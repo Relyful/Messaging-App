@@ -9,5 +9,6 @@ chatRouter.get('/user/:userId', authMidd, chatController.getChatWithUserId);
 chatRouter.post('/user/:userId', authMidd, chatController.createChatWithUser);
 chatRouter.post('/delete/:chatId', authMidd, chatController.deleteChat);
 chatRouter.put('/displayName/:chatId', authMidd, chatController.updateChatName);
+chatRouter.get('/my', authMidd, chatController.getUsersChats);
 
 module.exports = chatRouter;

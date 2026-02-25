@@ -39,4 +39,10 @@ exports.getChatWithUserId = async (req, res) => {
   const userToChat = req.params.userId;
   const chat = await chatServices.getChatWithUserId(thisUser, userToChat);
   res.json(chat);
+};
+
+exports.getUsersChats = async (req, res) => {
+  const thisUser = req.user.id;
+  const usersChats = await chatServices.findUsersChats(thisUser);
+  res.json(usersChats);
 }

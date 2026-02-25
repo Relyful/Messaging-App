@@ -18,9 +18,9 @@ exports.getChatWithUserId = async (requestingUserId, requestedUserId) => {
         select: {
           author: true,
           content: true,
-        }
-      }
-    }
+        },
+      },
+    },
   });
   return existingChat;
 };
@@ -30,7 +30,10 @@ exports.createNewChatWithUser = async (creatingUserId, addedUserId) => {
     data: {
       type: "SOLO",
       chatMembers: {
-        create: [{ userId: parseInt(creatingUserId) }, { userId: parseInt(addedUserId) }],
+        create: [
+          { userId: parseInt(creatingUserId) },
+          { userId: parseInt(addedUserId) },
+        ],
       },
     },
   });
@@ -79,9 +82,40 @@ exports.userMemberCheck = async (userId, chatId) => {
     where: {
       chatId_userId: {
         chatId: parseInt(chatId),
-        userId: userId
-      }
-    }
-  })
+        userId: userId,
+      },
+    },
+  });
   return membership;
+};
+
+exports.findUsersChats = async (userId) => {
+  const usersChats = await prisma.chat.findMany({
+    where: {
+      chatMembers: {
+        some: {
+          userId,
+        },
+      },
+    },
+    include: {
+      chatMembers: {
+        select: {
+          user: true,
+        },
+      },
+      messages: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 1,
+      },
+    },
+  });
+  const orderChatFromLatest = usersChats.sort((x, y) => {
+    const timeX = x.messages[0]?.createdAt || x.createdAt;
+    const timeY = y.messages[0]?.createdAt || y.createdAt;
+    return new Date(timeY) - new Date(timeX);
+  })
+  return orderChatFromLatest;
 };
