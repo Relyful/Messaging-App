@@ -13,6 +13,14 @@ exports.getChatWithUserId = async (requestingUserId, requestedUserId) => {
         { chatMembers: { some: { userId: parseInt(requestedUserId) } } },
       ],
     },
+    include: {
+      messages: {
+        select: {
+          author: true,
+          content: true,
+        }
+      }
+    }
   });
   return existingChat;
 };
