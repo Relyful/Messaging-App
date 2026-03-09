@@ -103,12 +103,24 @@ exports.findUsersChats = async (userId) => {
         select: {
           user: true,
         },
+        where: {
+          NOT: {
+            userId: userId,
+          }
+        }
       },
       messages: {
         orderBy: {
           createdAt: "desc",
         },
         take: 1,
+        include: {
+          author: {
+            select: {
+              username: true,
+            }
+          }
+        }
       },
     },
   });
