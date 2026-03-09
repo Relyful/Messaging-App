@@ -46,3 +46,17 @@ exports.getUsersChats = async (req, res) => {
   const usersChats = await chatServices.findUsersChats(thisUser);
   res.json(usersChats);
 }
+
+exports.getChatById = async (req, res) => {
+  const thisUser = req.user.id;
+  const chatId = req.params.chatId;
+  const isMember = await chatServices.userMemberCheck(thisUser, chatId);
+  console.log(isMember);
+  if (!isMember) {
+    const error = new Error("Access Denied");
+    error.statusCode = 403;
+    throw error;
+  }
+  const chat = await chatServices.getChatById(thisUser, chatId);
+  res.json(chat);
+}
