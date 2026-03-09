@@ -131,3 +131,36 @@ exports.findUsersChats = async (userId) => {
   })
   return orderChatFromLatest;
 };
+
+exports.getChatById = async (requestingUserId, chatId) => {
+  const chat = await prisma.chat.findFirst({
+    where: {
+      id: parseInt(chatId),
+    },
+    include: {
+      chatMembers: {
+        select: {
+          user: true,
+        },
+        where: {
+          NOT: {
+            userId: parseInt(requestingUserId),
+          }
+        }
+      },
+      messages: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: {
+          author: {
+            select: {
+              username: true,
+            }
+          }
+        }
+      },
+    },
+  });
+  return chat;
+}
