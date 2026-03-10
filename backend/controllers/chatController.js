@@ -32,7 +32,7 @@ exports.updateChatName = async (req, res) => {
   const error = new Error("Chat not found");
   error.statusCode = 404;
   throw(error);
-}
+};
 
 exports.getChatWithUserId = async (req, res) => {
   const thisUser = req.user.id;
@@ -45,13 +45,12 @@ exports.getUsersChats = async (req, res) => {
   const thisUser = req.user.id;
   const usersChats = await chatServices.findUsersChats(thisUser);
   res.json(usersChats);
-}
+}; 
 
 exports.getChatById = async (req, res) => {
   const thisUser = req.user.id;
   const chatId = req.params.chatId;
   const isMember = await chatServices.userMemberCheck(thisUser, chatId);
-  console.log(isMember);
   if (!isMember) {
     const error = new Error("Access Denied");
     error.statusCode = 403;
@@ -59,4 +58,18 @@ exports.getChatById = async (req, res) => {
   }
   const chat = await chatServices.getChatById(thisUser, chatId);
   res.json(chat);
+};
+
+exports.addUserToChatById = async (req, res) => {
+  const thisUser = req.user.id;
+  const userToAdd = req.params.userId;
+  const chatToUpdate = req.params.chatId;
+  const isMember = await chatServices.userMemberCheck(thisUser, chatToUpdate);
+  if (!isMember) {
+    const error = new Error("Access Denied");
+    error.statusCode = 403;
+    throw error;
+  };
+  const updatedChatInfo = await chatServices.addUserToChatById(userToAdd, chatToUpdate);
+  res.json(updatedChatInfo);
 }

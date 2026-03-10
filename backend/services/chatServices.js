@@ -163,4 +163,14 @@ exports.getChatById = async (requestingUserId, chatId) => {
     },
   });
   return chat;
-}
+};
+
+exports.addUserToChatById = async (toAddUserId, chatId) => {
+  const userAddedToChat = await prisma.chatMember.create({
+    data: {
+      chatId: parseInt(chatId),
+      userId: parseInt(toAddUserId)
+    }
+  });
+  return userAddedToChat;
+};
