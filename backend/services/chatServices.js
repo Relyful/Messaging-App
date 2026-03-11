@@ -26,6 +26,22 @@ exports.getChatWithUserId = async (requestingUserId, requestedUserId) => {
 };
 
 exports.createNewChatWithUser = async (creatingUserId, addedUserId) => {
+  if (addedUserId.isArray()) {
+    const createArray = addedUserId.map((userId) => {
+      return {userId: parseInt(userId)}
+    });
+    // Add the creating user themselves to the array
+    createArray.push({userid: parseInt(creatingUserId)});
+    const newChat = await prisma.chat.create({
+    data: {
+      type: "GROUP",
+      chatMembers: {
+        create: createArray,
+      },
+    },
+  });
+  return newChat;
+  };
   const newChat = await prisma.chat.create({
     data: {
       type: "SOLO",
