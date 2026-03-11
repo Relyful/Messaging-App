@@ -26,12 +26,17 @@ exports.getChatWithUserId = async (requestingUserId, requestedUserId) => {
 };
 
 exports.createNewChatWithUser = async (creatingUserId, addedUserId) => {
-  if (addedUserId.isArray()) {
+  if (!Array.isArray(addedUserId) || !Number.isInteger(parseInt(addedUserId))) {
+    const err = new Error("Invalid data");
+    err.statusCode = 400;
+    throw err;
+  }
+  if (Array.isArray(addedUserId)) {
     const createArray = addedUserId.map((userId) => {
       return {userId: parseInt(userId)}
     });
     // Add the creating user themselves to the array
-    createArray.push({userid: parseInt(creatingUserId)});
+    createArray.push({userId: parseInt(creatingUserId)});
     const newChat = await prisma.chat.create({
     data: {
       type: "GROUP",
