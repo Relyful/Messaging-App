@@ -1,6 +1,7 @@
 import styles from "./MainLayout.module.css";
 import { Link } from "react-router";
 import { Outlet } from "react-router";
+import Footer from "../Footer/Footer";
 
 function MainLayout() {
   return (
@@ -14,8 +15,10 @@ function MainLayout() {
           <Link to='/chat'>Chat</Link>
         </div>
       </header>
-      <Outlet />
-      <footer>This is a footer</footer>
+      <main className={styles.container}>
+        <Outlet />
+      </main>
+      <Footer />
     </>
   )
 }

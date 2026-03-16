@@ -9,3 +9,8 @@
   display: flex;
   gap: 2em;
 }
+
+.container {
+  display: flex;
+  flex-grow: 1;
+}
