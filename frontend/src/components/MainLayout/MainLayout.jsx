@@ -1,11 +1,22 @@
 import styles from "./MainLayout.module.css";
 import { Link } from "react-router";
+import { Outlet } from "react-router";
 
 function MainLayout() {
   return (
-    <header>
-      <Link to='/' className={styles.headerLink}><h2>Rely&aposs Chat</h2></Link>
-    </header>
+    <>
+      <header className={styles.header}>
+        <div className={styles.leftHeader}>
+          <Link to='/' className={styles.headerLink}><h2>Rely&apos;s Chat</h2></Link>
+        </div>
+        <div className={styles.rightHeader}>
+          <Link to='/home'>Home</Link>
+          <Link to='/chat'>Chat</Link>
+        </div>
+      </header>
+      <Outlet />
+      <footer>This is a footer</footer>
+    </>
   )
 }
 
