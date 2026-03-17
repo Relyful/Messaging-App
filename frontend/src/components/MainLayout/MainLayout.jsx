@@ -11,7 +11,7 @@ function MainLayout() {
           <Link to='/' className={styles.headerLink}><h2>Rely&apos;s Chat</h2></Link>
         </div>
         <div className={styles.rightHeader}>
-          <Link to='/home'>Home</Link>
+          <Link to='/'>Home</Link>
           <Link to='/chat'>Chat</Link>
         </div>
       </header>
