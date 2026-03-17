@@ -46,3 +46,14 @@ exports.getAll = async (req, res) => {
   const allUsers = await userServices.getAllUsers();
   res.json(allUsers);
 }
+
+exports.thisUser = (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.json(undefined);
+  }
+  const thisUser = req.user;
+  res.json({'username': thisUser.username,
+    'displayName': thisUser.displayName,
+    'role': thisUser.role
+  });
+}
