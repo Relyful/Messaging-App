@@ -54,6 +54,7 @@ exports.thisUser = (req, res) => {
   const thisUser = req.user;
   res.json({'username': thisUser.username,
     'displayName': thisUser.displayName,
-    'role': thisUser.role
+    'role': thisUser.role,
+    'id': thisUser.id
   });
 }
