@@ -2,9 +2,11 @@ import styles from "./MainLayout.module.css";
 import { Link } from "react-router";
 import { Outlet } from "react-router";
 import Footer from "../Footer/Footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function MainLayout() {
+  const [user, setUser] = useState('undefined');
+
   const controller = new AbortController();
   const fetchUser = async () => {
     try {
@@ -14,13 +16,13 @@ function MainLayout() {
       });
       if (!response.ok) {
         if (response.status == '404') {
-          // TODO: Set user to undefined 
+          setUser(undefined);
           return console.log('User not logged in')
         }
         throw new Error("Auth failed");
       }
-      // TODO: SET USER STATE
       const data = await response.json();
+      setUser(data);
       console.log(data);
     } catch (err) {
       console.error(err);
@@ -42,6 +44,7 @@ function MainLayout() {
         <div className={styles.rightHeader}>
           <Link to="/">Home</Link>
           <Link to="/chat">Chat</Link>
+          {user ? <div>{user.username}</div> : <Link to='/login'>Log In</Link>}
         </div>
       </header>
       <main className={styles.container}>
