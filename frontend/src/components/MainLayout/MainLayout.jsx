@@ -31,6 +31,7 @@ function MainLayout() {
   useEffect(() => {
     const controller = new AbortController();
     fetchUser(controller);
+    return () => controller.abort;
   }, []);
 
   return (
