@@ -5,10 +5,9 @@ import Footer from "../Footer/Footer";
 import { useEffect, useState } from "react";
 
 function MainLayout() {
-  const [user, setUser] = useState('undefined');
+  const [user, setUser] = useState(null);
 
-  const controller = new AbortController();
-  const fetchUser = async () => {
+  const fetchUser = async (controller) => {
     try {
       const response = await fetch("http://localhost:8080/user/me", {
         credentials: "include",
@@ -30,8 +29,9 @@ function MainLayout() {
   };
 
   useEffect(() => {
-    fetchUser();
-  });
+    const controller = new AbortController();
+    fetchUser(controller);
+  }, []);
 
   return (
     <>
