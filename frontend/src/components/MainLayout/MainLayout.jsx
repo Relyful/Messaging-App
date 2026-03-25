@@ -3,35 +3,31 @@ import { Link } from "react-router";
 import { Outlet } from "react-router";
 import Footer from "../Footer/Footer";
 import { useEffect, useState } from "react";
+import { fetchUser } from "../../api/userApi";
 
 function MainLayout() {
   const [user, setUser] = useState(null);
 
-  const fetchUser = async (controller) => {
-    try {
-      const response = await fetch("http://localhost:8080/user/me", {
-        credentials: "include",
-        signal: controller.signal,
-      });
-      if (!response.ok) {
-        if (response.status == '404') {
-          setUser(undefined);
-          return console.log('User not logged in')
-        }
-        throw new Error("Auth failed");
-      }
-      const data = await response.json();
-      setUser(data);
-      console.log(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  useEffect(() => {
+useEffect(() => {
     const controller = new AbortController();
-    fetchUser(controller);
-    return () => controller.abort;
+    const getUser = async () => {
+      try {
+        const userData = await fetchUser(controller);        
+        if (!userData) {
+          setUser(undefined);
+        } else {
+          setUser(userData);
+        }
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          console.error("Failed to fetch user:", error);
+          setUser(undefined);
+        }
+      }
+    };
+
+    getUser();
+    return () => controller.abort();
   }, []);
 
   return (
@@ -49,7 +45,7 @@ function MainLayout() {
         </div>
       </header>
       <main className={styles.container}>
-        <Outlet />
+        <Outlet context={[setUser]}/>
       </main>
       <Footer />
     </>
