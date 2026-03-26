@@ -63,6 +63,7 @@ export default function Login() {
 
   return (
     <div className={styles.logInContainer}>
+      <h2>Log In</h2>
       <form action={onLogInSubmit} className={styles.logInForm}>
         <input
           type="text"
