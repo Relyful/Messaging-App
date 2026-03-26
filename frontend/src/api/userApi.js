@@ -10,9 +10,27 @@ export const fetchUser = async (controller = null) => {
         }
         throw new Error("Auth failed");
       }
+      console.log(response)
       const data = await response.json();
       return data;
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  export const logOut = async (controller = null) => {
+   try {
+      const response = await fetch("http://localhost:8080/logout", {
+        method: "POST",
+        credentials: "include",
+        signal: controller?.signal,
+      });
+      if (!response.ok) {
+        throw new Error("Logout failed");
+      }
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false
     }
   };
