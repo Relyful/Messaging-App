@@ -3,14 +3,12 @@ import { Link } from "react-router";
 import { Outlet } from "react-router";
 import Footer from "../Footer/Footer";
 import { useEffect, useState } from "react";
-import { fetchUser } from "../../api/userApi";
+import { fetchUser, logOut } from "../../api/userApi";
 
 function MainLayout() {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const getUser = async () => {
+  const getUser = async (controller = null) => {
       try {
         const userData = await fetchUser(controller);
         if (!userData) {
@@ -26,9 +24,17 @@ function MainLayout() {
       }
     };
 
-    getUser();
+  useEffect(() => {
+    const controller = new AbortController();
+    getUser(controller);
     return () => controller.abort();
   }, []);
+
+  async function logOutHandler() {
+    const response = await logOut();
+    console.log(response);
+    getUser();
+  }
 
   return (
     <>
@@ -44,7 +50,7 @@ function MainLayout() {
           {user ? (
             <>
               <div className={styles.headerUsername}>{user.username}</div>
-              <button className={styles.logOutButt}>Log Out</button>
+              <button className={styles.logOutButt} onClick={logOutHandler}>Log Out</button>
             </>
           ) : (
             <Link to="/login">Log In</Link>
