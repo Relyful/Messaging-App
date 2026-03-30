@@ -10,7 +10,7 @@ exports.login = (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      return res.json(info)
+      return res.status(401).json(info);
     }
     req.logIn(user, (err) => {
       if (err) return next(err);
