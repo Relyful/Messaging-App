@@ -49,7 +49,7 @@ exports.getAll = async (req, res) => {
 
 exports.thisUser = (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.status(404).send('No user found');
+    return res.status(401).send('No user found');
   }
   const thisUser = req.user;
   res.json({'username': thisUser.username,
