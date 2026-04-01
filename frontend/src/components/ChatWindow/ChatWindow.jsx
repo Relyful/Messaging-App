@@ -1,23 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./ChatWindow.module.css";
 import { fetchMyChats } from "../../api/userApi";
 
-function ChatRow() {
+function ChatRow({ data }) {
+  console.log(data)
   return (
     <div className={styles.chatRow}>
-      <div className={styles.chatName}></div>
-      <div className={styles.lastMessage}></div>
+      <div className={styles.chatName}>{data.name ? data.name : data.chatMembers[0].user.displayName}</div>
+      <div className={styles.lastMessage}>{data.messages[0]?.content}</div>
     </div>
   );
 }
 
 function ChatWindow() {
+  const [chats, setChats] = useState(null);
+
   const fetchChatHandler = async (controller) => {
     try {
-      const chats = await fetchMyChats(controller);
-      return chats;
+      const chatData = await fetchMyChats(controller);
+      setChats(chatData);
     } catch (error) {
-      console.error(error);
+      if (error.name !== "AbortError") {
+        console.error(error);
+      }
     }
   };
 
@@ -33,7 +38,9 @@ function ChatWindow() {
         <h3 className={styles.topRowHeading}>Chat</h3>
         <div>New Chat</div>
       </div>
-      <ChatRow />
+      {chats ? chats.map((chat) => (
+        <ChatRow key={chat.id} data={chat}/>
+      )) : null}
     </div>
   );
 }
