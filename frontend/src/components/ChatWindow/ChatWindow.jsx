@@ -7,7 +7,17 @@ function ChatRow({ data }) {
   return (
     <div className={styles.chatRow}>
       <div className={styles.chatName}>{data.name ? data.name : data.chatMembers[0].user.displayName}</div>
-      <div className={styles.lastMessage}>{data.messages[0]?.content}</div>
+      <div className={styles.lastMessage}>
+        <div className={styles.messageInfo}>
+          {data.messages?.length < 1 ? (
+            'No messages yet'
+          ) : (
+            `${data.messages[0]?.author.username} said on ${new Date(data.messages[0]?.createdAt).toLocaleTimeString()}:`
+          )}
+          
+        </div>
+        <div className={styles.messageContent}>{data.messages[0]?.content}</div>
+      </div>
     </div>
   );
 }
