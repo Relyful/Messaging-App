@@ -17,7 +17,7 @@ function SubmitButton() {
 }
 
 export default function Login() {
-  const [setUser] = useOutletContext();
+  const {setUser} = useOutletContext();
   async function updateUser() {
     try {
       const userData = await fetchUser();

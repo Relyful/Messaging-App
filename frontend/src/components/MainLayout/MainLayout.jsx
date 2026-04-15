@@ -58,7 +58,7 @@ function MainLayout() {
         </div>
       </header>
       <main className={styles.container}>
-        <Outlet context={[setUser]} />
+        <Outlet context={{user, setUser}} />
       </main>
       <Footer />
     </>
