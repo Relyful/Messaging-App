@@ -2,3 +2,26 @@
   flex-grow: 1;
   margin: 0 20%;
 }
+
+.chatHeader {
+  font-size: larger;
+  font-weight: bold;
+}
+
+.chatContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  color: black;
+}
+
+.thisUser {
+  color: black;
+  align-self: end;
+}
+
+.otherUser {
+  color: black;
+}

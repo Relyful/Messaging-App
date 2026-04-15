@@ -1,20 +1,27 @@
-import { useParams } from "react-router";
+import { useOutletContext, useParams } from "react-router";
 import styles from "./Chat.module.css";
 import { fetchChat } from "../../api/userApi";
 import { useEffect, useState } from "react";
 
-function ChatMessage({ chatMessages }) {
-  const formattedMessages = chatMessages.map((message) => (
-    <div className={styles.message} key={message.id}>
+function ChatMessage({ chatMessages, user }) {
+  const formattedMessages = chatMessages.map((message) => {
+    let thisUser = null;
+    if (user.id !== message.authorId) {
+      thisUser = false;
+    } else {
+      thisUser = true;
+    }
+    return (<div className={`${styles.message}, ${thisUser ? styles.thisUser : styles.otherUser}`} key={message.id}>
       {message.content}
-    </div>
-  ));
+    </div>)
+});
   return formattedMessages;
 }
 
 export default function Chat() {
   const [chat, setChat] = useState(null);
   const params = useParams();
+  const {user} = useOutletContext(); 
 
   async function loadChat(abortController) {
     const chatData = await fetchChat(params.chatId);
@@ -33,7 +40,7 @@ export default function Chat() {
         {chat && <div className={styles.chatName}>{chat.name ? chat.name : chat.chatMembers[0].user.displayName}</div>}
       </div>
       {/* <div className={styles.chatContent}>CHAT CONTENT WILL GO HERE</div> */}
-      {chat && <ChatMessage chatMessages={chat.messages} />}
+      {chat && <div className={styles.chatContent}><ChatMessage chatMessages={chat.messages} user={user}/></div>}
     </div>
   );
 }
