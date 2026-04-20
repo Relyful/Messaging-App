@@ -19,7 +19,7 @@ h2 {
   font-size: 1.7em;
 }
 
-input {
+.loginInput {
   font-size: 1.3em;
   margin-bottom: 0.4em;
   padding: 3px;
@@ -27,7 +27,7 @@ input {
   border-bottom: 1px solid grey;
 }
 
-input:focus {
+loginInput:focus {
   outline: none;
   box-shadow: none;
 }

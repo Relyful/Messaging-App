@@ -70,12 +70,14 @@ export default function Login() {
           name="username"
           id="username"
           placeholder="Username"
+          className={styles.loginInput}
         />
         <input
           type="password"
           name="password"
           id="password"
           placeholder="Password"
+          className={styles.loginInput}
         />
         <SubmitButton />
       </form>
