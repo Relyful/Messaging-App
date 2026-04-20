@@ -11,8 +11,11 @@ function ChatMessage({ chatMessages, user }) {
     } else {
       thisUser = true;
     }
-    return (<div className={`${styles.message}, ${thisUser ? styles.thisUser : styles.otherUser}`} key={message.id}>
+    return (<div className={`${styles.message} ${thisUser ? styles.thisUser : styles.otherUser}`} key={message.id}>
+    <div className={styles.nameCard}>{message.author.username}: </div>
+    <div className={styles.messageContent} >
       {message.content}
+    </div>
     </div>)
 });
   return formattedMessages;

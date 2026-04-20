@@ -14,14 +14,21 @@
 }
 
 .message {
-  color: black;
+  color: black;  
+}
+
+.messageContent {
+  border: 1px solid black;
+  padding: 0.5em;
+  border-radius: 10px;
 }
 
 .thisUser {
   color: black;
-  align-self: end;
+  align-self: flex-end;
 }
 
 .otherUser {
   color: black;
+  align-self: flex-start;
 }
