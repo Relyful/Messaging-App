@@ -171,7 +171,7 @@ exports.getChatById = async (requestingUserId, chatId) => {
       },
       messages: {
         orderBy: {
-          createdAt: "desc",
+          createdAt: "asc",
         },
         include: {
           author: {
