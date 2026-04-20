@@ -1,20 +1,33 @@
+/* * {
+  border: 1px solid black;
+} */
+
 .chatContainer {
   flex-grow: 1;
-  margin: 0 20%;
+  margin: 0 20%;  
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid black;
 }
 
 .chatHeader {
   font-size: larger;
   font-weight: bold;
+  margin: 1em;
 }
 
 .chatContent {
   display: flex;
-  flex-direction: column;
+  flex-direction: column;  
+  flex: 1; 
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 .message {
   color: black;  
+  max-width: 49%;
 }
 
 .messageContent {
@@ -31,4 +44,24 @@
 .otherUser {
   color: black;
   align-self: flex-start;
+}
+
+.replyBox {
+  height: 80px;
+  justify-self: flex-end;
+  display: flex;
+  padding: 2px;
+}
+
+.replyInput {
+  flex: 1;
+  height: 100%;
+  resize: none;
+}
+
+.replyButton {
+  height: 2em;
+  padding: 0 1.5em;
+  margin: 0.5em;
+  align-self: center;
 }

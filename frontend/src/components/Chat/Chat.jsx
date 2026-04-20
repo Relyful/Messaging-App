@@ -42,8 +42,11 @@ export default function Chat() {
       <div className={styles.chatHeader}>
         {chat && <div className={styles.chatName}>{chat.name ? chat.name : chat.chatMembers[0].user.displayName}</div>}
       </div>
-      {/* <div className={styles.chatContent}>CHAT CONTENT WILL GO HERE</div> */}
       {chat && <div className={styles.chatContent}><ChatMessage chatMessages={chat.messages} user={user}/></div>}
+      <div className={styles.replyBox}>
+        <textarea name="newMessage" id="newMessage"  className={styles.replyInput} rows={1}></textarea>
+        <button className={styles.replyButton}>Reply</button>
+      </div>
     </div>
   );
 }
