@@ -71,14 +71,17 @@ export const fetchChat = async (chatId, controller = null) => {
 
 export const sendMessage = async (chatId, newMessageContent) => {
   try {
-    const response = await fetch(`http://localhost:8080/message/new/${chatId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `http://localhost:8080/message/new/${chatId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ content: newMessageContent }),
       },
-      credentials: "include",
-      body: JSON.stringify({'content': newMessageContent}),
-    });    
+    );
     if (!response.ok) {
       throw new Error("Error sending message");
     }
@@ -86,4 +89,4 @@ export const sendMessage = async (chatId, newMessageContent) => {
   } catch (err) {
     console.error(err);
   }
-}
+};
