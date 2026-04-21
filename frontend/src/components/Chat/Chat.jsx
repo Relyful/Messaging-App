@@ -2,6 +2,8 @@ import { useOutletContext, useParams } from "react-router";
 import styles from "./Chat.module.css";
 import { fetchChat } from "../../api/userApi";
 import { useEffect, useState } from "react";
+import { useRef } from 'react';
+
 
 function ChatMessage({ chatMessages, user }) {
   const formattedMessages = chatMessages.map((message) => {
@@ -25,6 +27,8 @@ export default function Chat() {
   const [chat, setChat] = useState(null);
   const params = useParams();
   const {user} = useOutletContext(); 
+  
+  const newMessageRef = useRef(null);
 
   async function loadChat(abortController) {
     const chatData = await fetchChat(params.chatId);
@@ -44,8 +48,8 @@ export default function Chat() {
       </div>
       {chat && <div className={styles.chatContent}><ChatMessage chatMessages={chat.messages} user={user}/></div>}
       <div className={styles.replyBox}>
-        <textarea name="newMessage" id="newMessage"  className={styles.replyInput} rows={1}></textarea>
-        <button className={styles.replyButton}>Reply</button>
+        <textarea name="newMessage" id="newMessage" ref={newMessageRef} className={styles.replyInput} rows={1}></textarea>
+        <button className={styles.replyButton} onClick={() => console.log(newMessageRef.current.value)}>Reply</button>
       </div>
     </div>
   );
