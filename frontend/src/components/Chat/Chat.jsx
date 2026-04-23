@@ -3,6 +3,7 @@ import styles from "./Chat.module.css";
 import { fetchChat } from "../../api/userApi";
 import { useEffect, useState } from "react";
 import { useRef } from 'react';
+import { sendMessage } from "../../api/userApi";
 
 
 function ChatMessage({ chatMessages, user }) {
@@ -35,6 +36,12 @@ export default function Chat() {
     setChat(chatData, abortController);    
   }
 
+  async function sendMessageHandler() {
+    await sendMessage(chat.id, newMessageRef.current.value);
+    newMessageRef.current.value = '';
+    await loadChat();
+  }
+
   useEffect(() => {
     const controller = new AbortController();
     loadChat(controller);
@@ -49,7 +56,7 @@ export default function Chat() {
       {chat && <div className={styles.chatContent}><ChatMessage chatMessages={chat.messages} user={user}/></div>}
       <div className={styles.replyBox}>
         <textarea name="newMessage" id="newMessage" ref={newMessageRef} className={styles.replyInput} rows={1}></textarea>
-        <button className={styles.replyButton} onClick={() => console.log(newMessageRef.current.value)}>Reply</button>
+        <button className={styles.replyButton} onClick={sendMessageHandler}>Reply</button>
       </div>
     </div>
   );
