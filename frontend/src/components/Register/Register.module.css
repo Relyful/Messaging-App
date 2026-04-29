@@ -1,0 +1,10 @@
+.registerFormContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 10em auto;
+}
+
+.registerForm {
+  display: flex;
+  flex-direction: column;
+}
