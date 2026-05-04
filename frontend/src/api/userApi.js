@@ -90,3 +90,22 @@ export const sendMessage = async (chatId, newMessageContent) => {
     console.error(err);
   }
 };
+
+export const registerUser = async (newUserData) => {
+  try {
+    const response = await fetch(`http://localhost:8080/user/create`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: "include",
+      body: JSON.stringify(newUserData)
+    });
+    if (!response.ok) {
+      throw new Error("Error registering user")
+    };
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+}
