@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./ChatWindow.module.css";
-import { fetchMyChats } from "../../api/userApi";
+import { fetchMyChats } from "../../api/chatApi";
 import { Link } from "react-router";
 
 

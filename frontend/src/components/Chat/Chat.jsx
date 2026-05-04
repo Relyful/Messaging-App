@@ -1,9 +1,9 @@
 import { useOutletContext, useParams } from "react-router";
 import styles from "./Chat.module.css";
-import { fetchChat } from "../../api/userApi";
+import { fetchChat } from "../../api/chatApi";
 import { useEffect, useState } from "react";
 import { useRef } from 'react';
-import { sendMessage } from "../../api/userApi";
+import { sendMessage } from "../../api/messageApi";
 
 
 function ChatMessage({ chatMessages, user }) {
