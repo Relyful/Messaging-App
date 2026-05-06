@@ -52,4 +52,25 @@ export const registerUser = async (newUserData) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const fetchUserData = async (userId, controller = null) => {
+  try {
+    const response = await fetch(`http://localhost:8080/user/${userId}`, {
+      signal: controller?.signal,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+    if (!response.ok) {
+      console.log(response);
+      throw new Error('Error fetching user data')
+    };
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error)
+  }
 }
