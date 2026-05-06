@@ -7,22 +7,25 @@ import { fetchUser, logOut } from "../../api/userApi";
 
 function MainLayout() {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getUser = async (controller = null) => {
-      try {
-        const userData = await fetchUser(controller);
-        if (!userData) {
-          setUser(undefined);
-        } else {
-          setUser(userData);
-        }
-      } catch (error) {
-        if (error.name !== "AbortError") {
-          console.error("Failed to fetch user:", error);
-          setUser(undefined);
-        }
+    try {
+      const userData = await fetchUser(controller);
+      if (!userData) {
+        setUser(undefined);
+      } else {
+        setUser(userData);
       }
-    };
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        console.error("Failed to fetch user:", error);
+        setUser(undefined);
+      }
+    } finally {
+    setIsLoading(false);
+  }
+  };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -50,7 +53,9 @@ function MainLayout() {
           {user ? (
             <>
               <div className={styles.headerUsername}>{user.username}</div>
-              <button className={styles.logOutButt} onClick={logOutHandler}>Log Out</button>
+              <button className={styles.logOutButt} onClick={logOutHandler}>
+                Log Out
+              </button>
             </>
           ) : (
             <>
@@ -60,9 +65,13 @@ function MainLayout() {
           )}
         </div>
       </header>
-      <main className={styles.container}>
-        <Outlet context={{user, setUser}} />
-      </main>
+      {isLoading ? (
+        <div className={styles.container}>Loading ...</div>
+      ) : (
+        <main className={styles.container}>
+          <Outlet context={{ user, setUser }} />
+        </main>
+      )}
       <Footer />
     </>
   );
