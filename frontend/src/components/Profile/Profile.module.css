@@ -26,6 +26,11 @@
   margin-right: 10%;
 }
 
+.editForm {
+  display: flex;
+  flex-direction: column;
+}
+
 .displayName {
   margin-bottom: 1em;
 }

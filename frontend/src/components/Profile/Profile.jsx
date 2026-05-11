@@ -8,6 +8,7 @@ export default function Profile() {
   // Add userData state and keep data there.
   const { user } = useOutletContext();
   const [profileData, setProfileData] = useState(null);
+  const [editMode, setEditMode] = useState(true);
 
   async function fetchDataHandler(user, controller) {
     if (user) {
@@ -27,22 +28,35 @@ export default function Profile() {
     <div className={styles.profileContainer}>
       <div className={styles.profileHeader}>
         <h2>User profile</h2>
-        <button type="button">Edit profile</button>
+        <button type="button" onClick={() => setEditMode(!editMode)}>Edit profile</button>
       </div>
       {profileData ? (
         <div className={styles.profileData}>
-          <div className={styles.profilePicture}><div className={styles.profilePicPlaceholder}></div></div>
+          <div className={styles.profilePicture}>
+            <div className={styles.profilePicPlaceholder}></div>
+          </div>
           <div className={styles.infoContainer}>
-            <div className={styles.displayName}>
-              Display name:{" "}
-              {profileData.displayName
-                ? `${profileData.displayName}`
-                : `Not set`}
-            </div>
-            <div className={styles.aboutMe}>
-              About me:{" "}
-              {profileData.about ? `${profileData.about}` : `No info yet`}
-            </div>
+            {editMode ? (
+              <form className={styles.editForm}>
+                <label htmlFor="displayName">Display name: </label>
+                <input type="text" name="displayName" id="displayName" />
+                <label htmlFor="aboutMe">About me: </label>
+                <textarea name="aboutMe" id="aboutMe"></textarea>
+              </form>
+            ) : (
+              <>
+                <div className={styles.displayName}>
+                  Display name:{" "}
+                  {profileData.displayName
+                    ? `${profileData.displayName}`
+                    : `Not set`}
+                </div>
+                <div className={styles.aboutMe}>
+                  About me:{" "}
+                  {profileData.about ? `${profileData.about}` : `No info yet`}
+                </div>
+              </>
+            )}
           </div>
         </div>
       ) : (
