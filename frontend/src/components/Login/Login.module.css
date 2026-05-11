@@ -14,7 +14,7 @@
   max-width: 30em;
 }
 
-h2 {
+.loginHeader {
   padding: 0 0 2rem 0;
   font-size: 1.7em;
 }
