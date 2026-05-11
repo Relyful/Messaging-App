@@ -2,10 +2,37 @@
   display: flex;;
   flex-direction: column;
   margin: 0 auto;
+  width: 60%;
 
+}
+
+.profileHeader {
+  margin-bottom: 2em;
+  display: flex;
+  justify-content: space-between;
 }
 
 .infoContainer {
   display: flex;
   flex-direction: column;
+}
+
+.profileData {
+  display: flex;
+  /* align-items: center; */
+}
+
+.profilePicture {
+  margin-right: 10%;
+}
+
+.displayName {
+  margin-bottom: 1em;
+}
+
+.profilePicPlaceholder {
+  width: 8em;
+  height: 8em;
+  border-radius: 80px;
+  background-color: black;
 }

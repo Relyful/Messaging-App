@@ -25,10 +25,13 @@ export default function Profile() {
 
   return (
     <div className={styles.profileContainer}>
-      <h2>User profile</h2>
+      <div className={styles.profileHeader}>
+        <h2>User profile</h2>
+        <button type="button">Edit profile</button>
+      </div>
       {profileData ? (
         <div className={styles.profileData}>
-          <div className={styles.profilePicture}></div>
+          <div className={styles.profilePicture}><div className={styles.profilePicPlaceholder}></div></div>
           <div className={styles.infoContainer}>
             <div className={styles.displayName}>
               Display name:{" "}
