@@ -52,7 +52,7 @@ function MainLayout() {
           <Link to="/chat">Chat</Link>
           {user ? (
             <>
-              <div className={styles.headerUsername}>{user.username}</div>
+              <div className={styles.headerUsername}><Link to="/profile">{user.username}</Link></div>
               <button className={styles.logOutButt} onClick={logOutHandler}>
                 Log Out
               </button>
