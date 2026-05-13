@@ -30,7 +30,7 @@ exports.updateDisplayName = async (req, res) => {
 }
 
 exports.updateAbout = async (req, res) => {
-  const newAbout = req.data.aboutMe;
+  const newAbout = req.body.aboutMe;
   const userId = req.user.id;
   const updatedUser = await userServices.updateAbout(userId, newAbout);
   res.json(updatedUser);
