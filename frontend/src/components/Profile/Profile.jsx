@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Profile.module.css";
-import { fetchUserData } from "../../api/userApi";
+import { fetchUserData, updateProfile } from "../../api/userApi";
 import { useOutletContext } from "react-router";
 
 export default function Profile() {
@@ -16,6 +16,15 @@ export default function Profile() {
       setProfileData(data);
       console.log(data);
     }
+  };
+
+  async function handleProfileUpdate(formData) {
+    const newData = {
+      'displayName': formData.get('displayName'),
+      'aboutMe': formData.get('aboutMe')
+    };
+    await updateProfile(newData);
+    setEditMode(false);
   }
 
   useEffect(() => {
@@ -37,11 +46,15 @@ export default function Profile() {
           </div>
           <div className={styles.infoContainer}>
             {editMode ? (
-              <form className={styles.editForm}>
+              <form action={handleProfileUpdate} className={styles.editForm}>
                 <label htmlFor="displayName">Display name: </label>
                 <input type="text" name="displayName" id="displayName" />
                 <label htmlFor="aboutMe">About me: </label>
                 <textarea name="aboutMe" id="aboutMe"></textarea>
+                <div className={styles.formButtonRow}>
+                  <button type="submit">Save</button>
+                  <button type="button" onClick={() => setEditMode(false)}>Cancel</button>
+                </div>
               </form>
             ) : (
               <>
