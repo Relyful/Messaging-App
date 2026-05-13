@@ -73,4 +73,35 @@ export const fetchUserData = async (userId, controller = null) => {
   } catch (error) {
     console.error(error)
   }
+};
+
+export const updateProfile = async (data) => {
+  try {
+    const response = await fetch(`http://localhost:8080/user/updateDisplayName/${data.displayName}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include'
+    });
+    if (!response.ok) {
+      throw new Error('Error updating display name');
+    };
+    console.log(data.aboutMe)
+    const response2 = await fetch(`http://localhost:8080/user/updateAbout/`, {
+      body: JSON.stringify({'aboutMe': data.aboutMe}),
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include'
+    });
+    if (!response2.ok) {
+      throw new Error('Error updating about me');
+    };
+    console.log(response);
+    console.log(response2);
+  } catch (error) {
+    console.error(error);
+  }
 }
