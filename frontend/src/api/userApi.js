@@ -89,19 +89,21 @@ export const updateProfile = async (data) => {
     };
     console.log(data.aboutMe)
     const response2 = await fetch(`http://localhost:8080/user/updateAbout/`, {
-      body: JSON.stringify({'aboutMe': data.aboutMe}),
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: 'include'
+      credentials: 'include',
+      body: JSON.stringify({'aboutMe': data.aboutMe}),
     });
     if (!response2.ok) {
       throw new Error('Error updating about me');
     };
     console.log(response);
     console.log(response2);
+    return true;
   } catch (error) {
     console.error(error);
+    return false;
   }
 }
