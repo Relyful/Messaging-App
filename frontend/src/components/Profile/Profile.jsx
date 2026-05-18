@@ -56,9 +56,9 @@ export default function Profile() {
             {editMode ? (
               <form action={handleProfileUpdate} className={styles.editForm}>
                 <label htmlFor="displayName">Display name: </label>
-                <input type="text" name="displayName" id="displayName" />
+                <input type="text" name="displayName" id="displayName" defaultValue={profileData.displayName} />
                 <label htmlFor="aboutMe">About me: </label>
-                <textarea name="aboutMe" id="aboutMe"></textarea>
+                <textarea name="aboutMe" id="aboutMe" defaultValue={profileData.about}></textarea>
                 <div className={styles.formButtonRow}>
                   <button type="submit">Save</button>
                   <button type="button" onClick={() => setEditMode(false)}>Cancel</button>
