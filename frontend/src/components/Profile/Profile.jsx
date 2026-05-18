@@ -23,7 +23,15 @@ export default function Profile() {
       'displayName': formData.get('displayName'),
       'aboutMe': formData.get('aboutMe')
     };
-    await updateProfile(newData);
+    const profileUpdateStatus = await updateProfile(newData);
+    // Edit mode becomes false too fast i guess Fix it
+    if (profileUpdateStatus) {
+      setProfileData({
+        ...profileData,
+        'displayName': newData.displayName,
+        'about': newData.aboutMe,
+      });
+    };
     setEditMode(false);
   }
 
