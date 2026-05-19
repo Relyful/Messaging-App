@@ -45,7 +45,7 @@ export default function Profile() {
     <div className={styles.profileContainer}>
       <div className={styles.profileHeader}>
         <h2>User profile</h2>
-        <button type="button" onClick={() => setEditMode(!editMode)}>Edit profile</button>
+        <button type="button" onClick={() => setEditMode(!editMode)}>{editMode ? `Cancel edit` : `Edit profile`}</button>
       </div>
       {profileData ? (
         <div className={styles.profileData}>
