@@ -106,4 +106,22 @@ export const updateProfile = async (data) => {
     console.error(error);
     return false;
   }
+};
+
+export const getAllUsers = async () => {
+  try {
+    const response = await fetch(`http://localhost:8080/user/`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+    if (!response.ok) {
+      throw new Error('Error fetching users')
+    };
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 }
