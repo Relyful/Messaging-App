@@ -26,7 +26,7 @@ exports.getChatWithUserId = async (requestingUserId, requestedUserId) => {
 };
 
 exports.createNewChatWithUser = async (creatingUserId, addedUserId) => {
-  if (!Array.isArray(addedUserId) || !Number.isInteger(parseInt(addedUserId))) {
+  if (!Array.isArray(addedUserId) && !Number.isInteger(parseInt(addedUserId))) {
     const err = new Error("Invalid data");
     err.statusCode = 400;
     throw err;
