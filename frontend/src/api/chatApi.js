@@ -47,4 +47,21 @@ export const existingChatCheck = async (chatterId) => {
     console.error(error);
     return false;
   }
+};
+
+export const createNewChat = async (chatterId) => {
+  try {
+    const response = await fetch(`http://localhost:8080/chat/user/${chatterId}`, {
+      method: 'POST',
+      credentials: 'include',      
+    });
+    if (!response.ok) {
+      throw new Error('Error creating chat');
+    }
+    const data = await response.json();
+    console.log(data)
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 }
