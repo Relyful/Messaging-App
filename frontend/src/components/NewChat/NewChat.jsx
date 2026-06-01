@@ -1,11 +1,23 @@
 import { useEffect, useState } from 'react'
 import styles from './NewChat.module.css'
 import { getAllUsers } from '../../api/userApi';
+import { useOutletContext } from 'react-router';
 
-// function UserCards({ usersData }) {
-//   // const cards = usersData.filter((user) => {})
-//   // Map filtered array and create user cards
-// }
+function UserCards({ usersData }) {
+  const {user} = useOutletContext();
+  const filteredUsers = usersData.filter((userD) => userD.id != user.id);
+  console.log(filteredUsers);
+  const cards = filteredUsers.map((user) => {
+    return (
+      <div className={styles.userCard} key={user.id}>
+        <div className={styles.name}>
+          {user.displayName || user.username}
+        </div>
+      </div>
+    )
+  }) 
+  return cards;
+}
 
 
 export default function NewChat() {
@@ -24,11 +36,10 @@ export default function NewChat() {
   return (
     <div className={styles.newChatContainer}>
       <div className={styles.headerContainer}>
-        <h2>This is a header</h2>
+        <h2>Start new chat</h2>
       </div>
       <div className={styles.userPicker}>
-        {/* Show all users available to chat */}
-        {`${users}`}
+        {users && <UserCards usersData = {users}/>}
       </div>
     </div>
   )
