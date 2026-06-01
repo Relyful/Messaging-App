@@ -31,3 +31,20 @@ export const fetchChat = async (chatId, controller = null) => {
     console.error(err);
   }
 };
+
+export const existingChatCheck = async (chatterId) => {
+  try {
+    const response = await fetch(`http://localhost:8080/chat/user/${chatterId}`, {
+      credentials: 'include'
+    });
+    if (!response.ok) {
+      throw new Error('Error searching chat');
+    };
+    const data = await response.json();
+    return data;
+
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
