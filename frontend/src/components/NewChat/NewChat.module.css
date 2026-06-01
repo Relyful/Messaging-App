@@ -4,3 +4,10 @@
   margin: 0 auto;
   width: 60%;
 }
+
+.userPicker {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-rows: 1fr;
+  grid-auto-rows: 1fr;
+}
