@@ -1,15 +1,27 @@
 import { useEffect, useState } from 'react'
 import styles from './NewChat.module.css'
 import { getAllUsers } from '../../api/userApi';
-import { useOutletContext } from 'react-router';
+import { useOutletContext, useNavigate } from 'react-router';
+import { createNewChat, existingChatCheck } from '../../api/chatApi';
 
 function UserCards({ usersData }) {
   const {user} = useOutletContext();
+  const navigate = useNavigate();
   const filteredUsers = usersData.filter((userD) => userD.id != user.id);
   console.log(filteredUsers);
+
+  async function newChatOnClickHandler(id) {
+    const check = await existingChatCheck(id);
+    if (check) {
+      return navigate(`/chat/${check.id}`);
+    };
+    const newChat = await createNewChat(id);
+    navigate(`/chat/${newChat.id}`);
+  }
+
   const cards = filteredUsers.map((user) => {
     return (
-      <div className={styles.userCard} key={user.id}>
+      <div className={styles.userCard} key={user.id} onClick={() => newChatOnClickHandler(user.id)}>
         <div className={styles.name}>
           {user.displayName || user.username}
         </div>
