@@ -9,14 +9,15 @@ import NewChat from './components/NewChat/NewChat';
 const routes = [
   {
     path: '/',
-    Component: MainLayout,
+    element: <MainLayout />,
     children: [
-      {index: true, Component: ChatWindow},
-      {path: '/login', Component: Login},
-      {path: '/chat/:chatId', Component: Chat},
-      {path: '/chat/new', Component: NewChat},
-      {path: '/register', Component: Register},
-      {path: '/profile', Component: Profile},
+      {index: true, element: <ChatWindow />},
+      {path: '/login', element: <Login />},
+      {path: '/chat/:chatId', element: <Chat />},
+      {path: '/chat/new', element: <NewChat />},
+      {path: '/chat/new-group', element: <NewChat />},
+      {path: '/register', element: <Register />},
+      {path: '/profile', element: <Profile />},
     ]
   }
 ]
