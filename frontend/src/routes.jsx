@@ -13,9 +13,9 @@ const routes = [
     children: [
       {index: true, element: <ChatWindow />},
       {path: '/login', element: <Login />},
+      {path: '/chat/new', element: <NewChat mode="solo" />},
+      {path: '/chat/new-group', element: <NewChat mode="group"/>},
       {path: '/chat/:chatId', element: <Chat />},
-      {path: '/chat/new', element: <NewChat />},
-      {path: '/chat/new-group', element: <NewChat />},
       {path: '/register', element: <Register />},
       {path: '/profile', element: <Profile />},
     ]
