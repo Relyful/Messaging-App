@@ -58,10 +58,26 @@ export const createNewChat = async (chatterId) => {
     if (!response.ok) {
       throw new Error('Error creating chat');
     }
-    const data = await response.json();
-    console.log(data)
+    const data = await response.json();    
     return data;
   } catch (error) {
     console.error(error);
   }
-}
+};
+
+export const createNewGroupChat = async (chatterArray) => {
+  try {
+    const response = await fetch(`http://localhost:8080/chat/newGroupChat`, {
+      method: 'POST',
+      credentials: 'include',   
+      body: JSON.stringify({ userArray: chatterArray}),
+    });
+    if (!response.ok) {
+      throw new Error('Error creating chat');
+    }
+    const data = await response.json();    
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
