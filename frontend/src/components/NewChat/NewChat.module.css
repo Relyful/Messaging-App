@@ -1,5 +1,5 @@
 .newChatContainer {
-  display: flex;;
+  display: flex;
   flex-direction: column;
   margin: 0 auto;
   width: 60%;
@@ -11,6 +11,7 @@
   grid-template-rows: 5em;
   grid-auto-rows: 5em;
   gap: 2em;
+  overflow: scroll;
 }
 
 .userCard {
