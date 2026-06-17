@@ -77,7 +77,8 @@ exports.addUserToChatById = async (req, res) => {
 exports.createGroupChat = async (req, res) => {
   const thisUser = req.user.id;
   const userArray = req.body.userArray;
+  const chatName = req.body.chatName;
   console.log(userArray)
-  const createdChat = await chatServices.createNewChatWithUser(thisUser, userArray);
+  const createdChat = await chatServices.createNewChatWithUser(thisUser, userArray, chatName);
   res.json(createdChat);
 }

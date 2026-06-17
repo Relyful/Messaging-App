@@ -25,7 +25,7 @@ exports.getChatWithUserId = async (requestingUserId, requestedUserId) => {
   return existingChat;
 };
 
-exports.createNewChatWithUser = async (creatingUserId, addedUserId) => {
+exports.createNewChatWithUser = async (creatingUserId, addedUserId, chatName = null) => {
   if (!Array.isArray(addedUserId) && !Number.isInteger(parseInt(addedUserId))) {
     const err = new Error("Invalid data");
     err.statusCode = 400;
@@ -40,6 +40,7 @@ exports.createNewChatWithUser = async (creatingUserId, addedUserId) => {
     const newChat = await prisma.chat.create({
     data: {
       type: "GROUP",
+      name: chatName,
       chatMembers: {
         create: createArray,
       },
