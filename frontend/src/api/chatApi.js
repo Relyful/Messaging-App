@@ -34,15 +34,17 @@ export const fetchChat = async (chatId, controller = null) => {
 
 export const existingChatCheck = async (chatterId) => {
   try {
-    const response = await fetch(`http://localhost:8080/chat/user/${chatterId}`, {
-      credentials: 'include'
-    });
+    const response = await fetch(
+      `http://localhost:8080/chat/user/${chatterId}`,
+      {
+        credentials: "include",
+      },
+    );
     if (!response.ok) {
-      throw new Error('Error searching chat');
-    };
+      throw new Error("Error searching chat");
+    }
     const data = await response.json();
     return data;
-
   } catch (error) {
     console.error(error);
     return false;
@@ -51,31 +53,34 @@ export const existingChatCheck = async (chatterId) => {
 
 export const createNewChat = async (chatterId) => {
   try {
-    const response = await fetch(`http://localhost:8080/chat/user/${chatterId}`, {
-      method: 'POST',
-      credentials: 'include',      
-    });
+    const response = await fetch(
+      `http://localhost:8080/chat/user/${chatterId}`,
+      {
+        method: "POST",
+        credentials: "include",
+      },
+    );
     if (!response.ok) {
-      throw new Error('Error creating chat');
+      throw new Error("Error creating chat");
     }
-    const data = await response.json();    
+    const data = await response.json();
     return data;
   } catch (error) {
     console.error(error);
   }
 };
 
-export const createNewGroupChat = async (chatterArray) => {
+export const createNewGroupChat = async (chatterArray, chatName) => {
   try {
     const response = await fetch(`http://localhost:8080/chat/newGroupChat`, {
-      method: 'POST',
-      credentials: 'include',   
-      body: JSON.stringify({ userArray: chatterArray}),
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({ userArray: chatterArray, chatName: chatName }),
     });
     if (!response.ok) {
-      throw new Error('Error creating chat');
+      throw new Error("Error creating chat");
     }
-    const data = await response.json();    
+    const data = await response.json();
     return data;
   } catch (error) {
     console.error(error);
