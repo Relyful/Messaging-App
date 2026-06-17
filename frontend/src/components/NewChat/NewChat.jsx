@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import styles from "./NewChat.module.css";
 import { getAllUsers } from "../../api/userApi";
 import { useOutletContext, useNavigate } from "react-router";
-import { createNewChat, existingChatCheck } from "../../api/chatApi";
+import { createNewChat, createNewGroupChat, existingChatCheck } from "../../api/chatApi";
 
-function UserCards({ usersData, mode }) {
-  const { user } = useOutletContext();
-  const [chosenUsers, setChosenUsers] = useState([]);
+function UserCards({ usersData, mode, chosenUsers, setChosenUsers }) {
+  const { user } = useOutletContext();  
   const navigate = useNavigate();
   const filteredUsers = usersData.filter((userD) => userD.id != user.id);
 
@@ -39,9 +38,7 @@ function UserCards({ usersData, mode }) {
             : () => newGroupChatOnClickHandler(user.id)
         }
       >
-        <div className={styles.name}>
-          {user.displayName || user.username}
-        </div>
+        <div className={styles.name}>{user.displayName || user.username}</div>
       </div>
     );
   });
@@ -50,6 +47,8 @@ function UserCards({ usersData, mode }) {
 
 export default function NewChat({ mode }) {
   const [users, setUsers] = useState(null);
+  const [chosenUsers, setChosenUsers] = useState([]);
+  const navigate = useNavigate();
 
   async function handleFetchUsers() {
     const users = await getAllUsers();
@@ -60,14 +59,30 @@ export default function NewChat({ mode }) {
     handleFetchUsers();
   }, []);
 
+  async function createNewGroupChatHandler(formData) {
+    const userArray = chosenUsers;
+    const chatName = formData.get("chatGroupName");
+    const newGroupChat = await createNewGroupChat(userArray, chatName);
+    navigate(`/chat/${newGroupChat.id}`);
+  }
+
   return (
     <div className={styles.newChatContainer}>
       <div className={styles.headerContainer}>
         <h2>Start new chat</h2>
       </div>
       <div className={styles.userPicker}>
-        {users && <UserCards usersData={users} mode={mode} />}
+        {users && <UserCards usersData={users} mode={mode} chosenUsers={chosenUsers} setChosenUsers={setChosenUsers}/>}
       </div>
+      <form action={createNewGroupChatHandler}>
+        <div className={styles.inputRow}>
+          <label htmlFor="groupChatName">Chat Name: </label>
+          <input type="text" name="chatGroupName" id="chatGroupName" />
+        </div>
+        <div className={styles.buttonGroupRow}>
+          <button type="submit">Create chat</button>
+        </div>
+      </form>
     </div>
   );
 }
