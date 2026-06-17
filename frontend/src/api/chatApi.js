@@ -72,9 +72,13 @@ export const createNewChat = async (chatterId) => {
 
 export const createNewGroupChat = async (chatterArray, chatName) => {
   try {
+    console.log(chatterArray);
     const response = await fetch(`http://localhost:8080/chat/newGroupChat`, {
       method: "POST",
       credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ userArray: chatterArray, chatName: chatName }),
     });
     if (!response.ok) {
