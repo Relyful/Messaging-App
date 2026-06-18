@@ -20,3 +20,8 @@
   text-decoration: none;
   color: black;
 }
+
+.newChatLinks {
+  display: flex;
+  gap: 2em;
+}
