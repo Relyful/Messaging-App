@@ -74,7 +74,7 @@ export default function NewChat({ mode }) {
       <div className={styles.userPicker}>
         {users && <UserCards usersData={users} mode={mode} chosenUsers={chosenUsers} setChosenUsers={setChosenUsers}/>}
       </div>
-      <form action={createNewGroupChatHandler}>
+      {mode === "group" && (<form action={createNewGroupChatHandler}>
         <div className={styles.inputRow}>
           <label htmlFor="groupChatName">Chat Name: </label>
           <input type="text" name="chatGroupName" id="chatGroupName" />
@@ -82,7 +82,7 @@ export default function NewChat({ mode }) {
         <div className={styles.buttonGroupRow}>
           <button type="submit">Create chat</button>
         </div>
-      </form>
+      </form>)}
     </div>
   );
 }
