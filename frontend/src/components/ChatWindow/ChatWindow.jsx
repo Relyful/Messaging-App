@@ -48,7 +48,10 @@ function ChatWindow() {
     <div className={styles.chatContainer}>
       <div className={styles.chatTopRow}>
         <h3 className={styles.topRowHeading}>Chat</h3>
-        <div>New Chat</div>
+        <div className={styles.newChatLinks}>
+          <Link to={`/chat/new-group`}>New Group Chat</Link>
+          <Link to={`/chat/new`}>New Chat</Link>
+        </div>
       </div>
       {chats ? chats.map((chat) => (
         <Link to={`/chat/${chat.id}`} key={chat.id} className={styles.chatLink}><ChatRow data={chat}/></Link>
