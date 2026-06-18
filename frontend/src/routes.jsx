@@ -5,6 +5,7 @@ import Chat from './components/Chat/Chat';
 import Register from './components/Register/Register';
 import Profile from './components/Profile/Profile';
 import NewChat from './components/NewChat/NewChat';
+import Home from './components/Home/Home';
 
 const routes = [
   {
@@ -12,6 +13,7 @@ const routes = [
     element: <MainLayout />,
     children: [
       {index: true, element: <ChatWindow />},
+      {path: '/home', element: <Home />},
       {path: '/login', element: <Login />},
       {path: '/chat/new', element: <NewChat mode="solo" />},
       {path: '/chat/new-group', element: <NewChat mode="group"/>},
