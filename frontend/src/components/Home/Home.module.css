@@ -1,0 +1,21 @@
+.homeContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.heading, .logo {
+  display: flex;
+  flex-grow: 1;
+}
+
+.heading {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  justify-content: center;
+  align-items: center;
+}
