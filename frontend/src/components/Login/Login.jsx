@@ -1,6 +1,6 @@
 import styles from "./Login.module.css";
 import { useFormStatus } from "react-dom";
-import { useOutletContext } from "react-router";
+import { useOutletContext, useNavigate } from "react-router";
 import { fetchUser } from "../../api/userApi";
 
 function SubmitButton() {
@@ -18,6 +18,8 @@ function SubmitButton() {
 
 export default function Login() {
   const {setUser} = useOutletContext();
+  const navigate = useNavigate();
+
   async function updateUser() {
     try {
       const userData = await fetchUser();
@@ -54,8 +56,8 @@ export default function Login() {
       if (!response.ok) {
         throw new Error("Error logging in");
       }
-      console.log(response);
       await updateUser();
+      navigate('/chat');
     } catch (err) {
       console.error(err);
     }
