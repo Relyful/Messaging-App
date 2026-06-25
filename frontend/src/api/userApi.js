@@ -125,3 +125,18 @@ export const getAllUsers = async () => {
     console.error(error);
   }
 }
+
+export const updateProfilePic = async (picId) => {
+  try {
+    const response = await fetch(`http://localhost:8080/user/profilePic/${picId}`, {
+      credentials: 'include',
+      method: 'PUT',
+    });
+    if (!response.ok) {
+      throw new Error('Error updating profile pic')
+    };
+    return true;
+  } catch (error) {
+    console.error(error);
+  }
+}
