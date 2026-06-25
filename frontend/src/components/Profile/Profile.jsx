@@ -24,7 +24,6 @@ export default function Profile() {
       'aboutMe': formData.get('aboutMe')
     };
     const profileUpdateStatus = await updateProfile(newData);
-    // Edit mode becomes false too fast i guess Fix it
     if (profileUpdateStatus) {
       setProfileData({
         ...profileData,
@@ -51,6 +50,9 @@ export default function Profile() {
         <div className={styles.profileData}>
           <div className={styles.profilePicture}>
             <div className={styles.profilePicPlaceholder}></div>
+            {editMode ? (
+              <button type="button" className={styles.changeProfilePicButton}>Change profile picture</button>
+            ) : null}
           </div>
           <div className={styles.infoContainer}>
             {editMode ? (
