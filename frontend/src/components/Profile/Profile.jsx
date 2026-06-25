@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import styles from "./Profile.module.css";
-import { fetchUserData, updateProfile } from "../../api/userApi";
+import { fetchUserData, updateProfile, updateProfilePic } from "../../api/userApi";
 import { useOutletContext } from "react-router";
+import { profilePicColorHelper } from "../../utils/userUtils";
 
 export default function Profile() {
   // Fetch stuff from backend based on users id saved in user state
@@ -9,6 +10,7 @@ export default function Profile() {
   const { user } = useOutletContext();
   const [profileData, setProfileData] = useState(null);
   const [editMode, setEditMode] = useState(true);
+  const [modalStatus, setModalStatus] = useState(false);
 
   async function fetchDataHandler(user, controller) {
     if (user) {
@@ -34,6 +36,20 @@ export default function Profile() {
     setEditMode(false);
   }
 
+  function handleModalOpenClose() {
+    setModalStatus((prevStatus) => !prevStatus)
+  };
+
+  async function handleProfilePicChange(picId) {
+    await updateProfilePic(picId);
+    setProfileData((prevData) => {
+      return {
+        ...prevData,
+        'profilePicId': picId,
+      }
+    })
+  };
+
   useEffect(() => {
     const controller = new AbortController();
     fetchDataHandler(user, controller);
@@ -42,6 +58,18 @@ export default function Profile() {
 
   return (
     <div className={styles.profileContainer}>
+      <div className={`${styles.profilePicPickerModal} ${modalStatus ? styles.isOpen : null}`} onClick={handleModalOpenClose}>
+        <div className={styles.profilePicPickerContent}>
+          <h3>Pick your new profile picture</h3>
+          <div className={styles.picPicker}>
+            <div className={styles.picOption} style={{backgroundColor: 'white'}} onClick={() => handleProfilePicChange(0)}/>
+            <div className={styles.picOption} style={{backgroundColor: `black`}} onClick={() => handleProfilePicChange(1)}/>
+            <div className={styles.picOption} style={{backgroundColor: `red`}} onClick={() => handleProfilePicChange(2)}/>
+            <div className={styles.picOption} style={{backgroundColor: `green`}} onClick={() => handleProfilePicChange(3)}/>
+            <div className={styles.picOption} style={{backgroundColor: `blue`}} onClick={() => handleProfilePicChange(4)}/>
+          </div>
+        </div>
+      </div>
       <div className={styles.profileHeader}>
         <h2>User profile</h2>
         <button type="button" onClick={() => setEditMode(!editMode)}>{editMode ? `Cancel edit` : `Edit profile`}</button>
@@ -49,9 +77,9 @@ export default function Profile() {
       {profileData ? (
         <div className={styles.profileData}>
           <div className={styles.profilePicture}>
-            <div className={styles.profilePicPlaceholder}></div>
+            <div className={styles.profilePicPlaceholder} style={{backgroundColor: profilePicColorHelper(profileData.profilePicId)}}></div>
             {editMode ? (
-              <button type="button" className={styles.changeProfilePicButton}>Change profile picture</button>
+              <button type="button" className={styles.changeProfilePicButton} onClick={handleModalOpenClose}>Change profile picture</button>
             ) : null}
           </div>
           <div className={styles.infoContainer}>
