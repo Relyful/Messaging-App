@@ -4,6 +4,7 @@ import { fetchChat } from "../../api/chatApi";
 import { useEffect, useState } from "react";
 import { useRef } from 'react';
 import { sendMessage } from "../../api/messageApi";
+import ChatMembersModal from "./ChatMembersModal";
 
 
 function ChatMessage({ chatMessages, user }) {
@@ -28,6 +29,7 @@ export default function Chat() {
   const [chat, setChat] = useState(null);
   const params = useParams();
   const {user} = useOutletContext(); 
+  const [modalState, setModalState] = useState(false);
   
   const newMessageRef = useRef(null);
 
@@ -42,6 +44,10 @@ export default function Chat() {
     await loadChat();
   }
 
+  function modalToggle() {
+    setModalState((prevState) => !prevState);
+  };
+
   useEffect(() => {
     const controller = new AbortController();
     loadChat(controller);
@@ -50,8 +56,9 @@ export default function Chat() {
 
   return (
     <div className={styles.chatContainer}>
+      {chat && <ChatMembersModal modalState={modalState} modalToggle={modalToggle} chatMembers={chat.chatMembers}/>}
       <div className={styles.chatHeader}>
-        {chat && <div className={styles.chatName}>{chat.name ? chat.name : chat.chatMembers[0].user.displayName}</div>}
+        {chat && <div className={styles.chatName} onClick={modalToggle}>{chat.name ? chat.name : chat.chatMembers[0].user.displayName}</div>}
       </div>
       {chat && <div className={styles.chatContent}><ChatMessage chatMessages={chat.messages} user={user}/></div>}
       <div className={styles.replyBox}>
