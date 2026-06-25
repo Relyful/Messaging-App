@@ -48,6 +48,7 @@ export default function Profile() {
         'profilePicId': picId,
       }
     })
+    setModalStatus((prevStatus) => !prevStatus);
   };
 
   useEffect(() => {
@@ -59,7 +60,7 @@ export default function Profile() {
   return (
     <div className={styles.profileContainer}>
       <div className={`${styles.profilePicPickerModal} ${modalStatus ? styles.isOpen : null}`} onClick={handleModalOpenClose}>
-        <div className={styles.profilePicPickerContent}>
+        <div className={styles.profilePicPickerContent} onClick={(e) => e.stopPropagation()}>
           <h3>Pick your new profile picture</h3>
           <div className={styles.picPicker}>
             <div className={styles.picOption} style={{backgroundColor: 'white'}} onClick={() => handleProfilePicChange(0)}/>
@@ -72,7 +73,7 @@ export default function Profile() {
       </div>
       <div className={styles.profileHeader}>
         <h2>User profile</h2>
-        <button type="button" onClick={() => setEditMode(!editMode)}>{editMode ? `Cancel edit` : `Edit profile`}</button>
+        <button type="button" onClick={() => setEditMode(!editMode)}>{editMode ? `Stop editing` : `Edit profile`}</button>
       </div>
       {profileData ? (
         <div className={styles.profileData}>
