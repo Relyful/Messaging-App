@@ -97,3 +97,23 @@
   border: 1px solid black;
   cursor: pointer;
 }
+
+.modalClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  
+  font-size: 24px;
+  line-height: 1;
+  color: #888888;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.modalClose:hover {
+  color: #333333;
+}

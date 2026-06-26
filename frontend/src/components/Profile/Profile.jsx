@@ -61,6 +61,7 @@ export default function Profile() {
     <div className={styles.profileContainer}>
       <div className={`${styles.profilePicPickerModal} ${modalStatus ? styles.isOpen : null}`} onClick={handleModalOpenClose}>
         <div className={styles.profilePicPickerContent} onClick={(e) => e.stopPropagation()}>
+          <button className={styles.modalClose} onClick={handleModalOpenClose} >&times;</button>
           <h3>Pick your new profile picture</h3>
           <div className={styles.picPicker}>
             <div className={styles.picOption} style={{backgroundColor: 'white'}} onClick={() => handleProfilePicChange(0)}/>
