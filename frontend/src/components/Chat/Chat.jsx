@@ -58,7 +58,7 @@ export default function Chat() {
     <div className={styles.chatContainer}>
       {chat && <ChatMembersModal modalState={modalState} modalToggle={modalToggle} chatMembers={chat.chatMembers}/>}
       <div className={styles.chatHeader}>
-        {chat && <div className={styles.chatName} onClick={modalToggle}>{chat.name ? chat.name : chat.chatMembers[0].user.displayName}</div>}
+        {chat && <div className={`${styles.chatName} ${(chat.type == "GROUP") ? styles.groupLinkHeader : null}`} onClick={(chat.type == "GROUP") ? modalToggle : null}>{chat.name ? chat.name : chat.chatMembers[0].user.displayName}</div>}
       </div>
       {chat && <div className={styles.chatContent}><ChatMessage chatMessages={chat.messages} user={user}/></div>}
       <div className={styles.replyBox}>

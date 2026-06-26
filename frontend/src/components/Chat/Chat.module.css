@@ -66,3 +66,7 @@
   margin: 0.5em;
   align-self: center;
 }
+
+.groupLinkHeader {
+  cursor: pointer;
+}
