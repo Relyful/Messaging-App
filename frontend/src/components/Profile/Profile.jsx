@@ -9,7 +9,7 @@ export default function Profile() {
   // Add userData state and keep data there.
   const { user } = useOutletContext();
   const [profileData, setProfileData] = useState(null);
-  const [editMode, setEditMode] = useState(true);
+  const [editMode, setEditMode] = useState(false);
   const [modalStatus, setModalStatus] = useState(false);
 
   async function fetchDataHandler(user, controller) {
