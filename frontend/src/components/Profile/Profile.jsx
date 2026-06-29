@@ -61,7 +61,7 @@ export default function Profile({ mode }) {
       fetchDataHandler(user, controller);
     }
     return () => controller.abort();
-  }, [user]);
+  }, [user, mode]);
 
   return (
     <div className={styles.profileContainer}>
