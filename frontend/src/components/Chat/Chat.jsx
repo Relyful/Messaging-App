@@ -60,7 +60,7 @@ export default function Chat() {
       <div className={styles.chatHeader}>
         {chat && <div className={`${styles.chatName} ${(chat.type == "GROUP") ? styles.groupLinkHeader : null}`} onClick={(chat.type == "GROUP") ? modalToggle : null}>{chat.name ? chat.name : chat.chatMembers[0].user.displayName}</div>}
       </div>
-      {chat && <div className={styles.chatContent}><ChatMessage chatMessages={chat.messages} user={user}/></div>}
+      {(chat && user) && <div className={styles.chatContent}><ChatMessage chatMessages={chat.messages} user={user}/></div>}
       <div className={styles.replyBox}>
         <textarea name="newMessage" id="newMessage" ref={newMessageRef} className={styles.replyInput} rows={1}></textarea>
         <button className={styles.replyButton} onClick={sendMessageHandler}>Reply</button>
