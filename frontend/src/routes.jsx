@@ -19,7 +19,8 @@ const routes = [
       {path: '/chat/new-group', element: <NewChat mode="group"/>},
       {path: '/chat/:chatId', element: <Chat />},
       {path: '/register', element: <Register />},
-      {path: '/profile', element: <Profile />},
+      {path: '/profile', element: <Profile mode="current" />},
+      {path: '/profile/:profileId', element: <Profile mode="other" />},
     ]
   }
 ]
