@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import styles from "./Profile.module.css";
 import { fetchUserData, updateProfile, updateProfilePic } from "../../api/userApi";
-import { useOutletContext } from "react-router";
+import { useOutletContext, useParams } from "react-router";
 import { profilePicColorHelper } from "../../utils/userUtils";
 
-export default function Profile() {
+export default function Profile({ mode }) {
+  // Mode can be current or other
   // Fetch stuff from backend based on users id saved in user state
   // Add userData state and keep data there.
   const { user } = useOutletContext();
   const [profileData, setProfileData] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [modalStatus, setModalStatus] = useState(false);
+  const params = useParams();
 
   async function fetchDataHandler(user, controller) {
     if (user) {
@@ -53,7 +55,11 @@ export default function Profile() {
 
   useEffect(() => {
     const controller = new AbortController();
-    fetchDataHandler(user, controller);
+    if (mode === 'other') {
+      fetchDataHandler({'id': params.profileId}, controller);
+    } else {
+      fetchDataHandler(user, controller);
+    }
     return () => controller.abort();
   }, [user]);
 
@@ -73,8 +79,8 @@ export default function Profile() {
         </div>
       </div>
       <div className={styles.profileHeader}>
-        <h2>User profile</h2>
-        <button type="button" onClick={() => setEditMode(!editMode)}>{editMode ? `Stop editing` : `Edit profile`}</button>
+        <h2>{mode == 'current' ? 'User profile' : `${profileData?.username}'s profile`}</h2>
+        {mode !== 'other' && <button type="button" onClick={() => setEditMode(!editMode)}>{editMode ? `Stop editing` : `Edit profile`}</button>}
       </div>
       {profileData ? (
         <div className={styles.profileData}>
