@@ -1,8 +1,9 @@
 import styles from './ChatMembersModal.module.css'
+import { Link } from "react-router";
 
 function ChatMemberList({ chatMembers }) {
   const list = chatMembers.map(element => {
-          return <div className={styles.gCMemberRow} key={element.user.id}>{element.user.displayName ? element.user.displayName : element.user.username}</div>
+          return <Link to={`/profile/${element.user.id}`} key={element.user.id}><div className={styles.gCMemberRow}>{element.user.displayName ? element.user.displayName : element.user.username}</div></Link>
         })
   return (
     <div className={styles.memberListContainer}>
