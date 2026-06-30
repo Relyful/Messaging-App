@@ -15,6 +15,7 @@
 .infoContainer {
   display: flex;
   flex-direction: column;
+  max-width: 40em;
 }
 
 .profileData {
@@ -33,6 +34,15 @@
 .editForm {
   display: flex;
   flex-direction: column;
+}
+
+.aboutMeTextarea {
+  min-width: 40em;
+}
+
+.editDisplayName {
+  max-width: 50%;
+  flex: 0;
 }
 
 .displayName {
