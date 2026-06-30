@@ -47,7 +47,7 @@ function ChatWindow() {
   return (
     <div className={styles.chatContainer}>
       <div className={styles.chatTopRow}>
-        <h3 className={styles.topRowHeading}>Chat</h3>
+        <h3 className={styles.topRowHeading}>Your chats</h3>
         <div className={styles.newChatLinks}>
           <Link to={`/chat/new-group`}>New Group Chat</Link>
           <Link to={`/chat/new`}>New Chat</Link>
