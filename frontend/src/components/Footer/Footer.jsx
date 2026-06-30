@@ -1,6 +1,8 @@
+import styles from './Footer.module.css';
+
 function Footer() {
   return (
-    <footer>This is a footer</footer>
+    <footer className={styles.footerContainer}>This is a footer</footer>
   )
 };
 

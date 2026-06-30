@@ -3,6 +3,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 3rem 15%;
+
+  background-color: #778873;
+  color: #FDF6ED;
+}
+
+.header a {
+  text-decoration: none;
 }
 
 .rightHeader {
@@ -13,4 +20,10 @@
 .container {
   display: flex;
   flex-grow: 1;
+}
+
+.logOutButt {
+  background: none;
+  border: none;
+  color: #DCCFC0;
 }

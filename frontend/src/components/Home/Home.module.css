@@ -2,6 +2,13 @@
   display: flex;
   justify-content: space-between;
   flex-grow: 1;
+  
+  background-color: #A1BC98;
+  color: #FDF6ED;  
+}
+
+.homeContainer a {
+  text-decoration: none;
 }
 
 .heading, .logo {
