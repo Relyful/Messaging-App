@@ -3,8 +3,8 @@
   justify-content: space-between;
   flex-grow: 1;
   
-  background-color: #F2F0EF;
-  color: #245F73;  
+  background-color: #06457f;
+  color: white;  
 }
 
 .homeContainer a {
@@ -20,9 +20,20 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  font-size: 1.5rem;
 }
 
 .logo {
   justify-content: center;
   align-items: center;
+}
+
+.callToAction {
+  font-size: smaller;
+  text-align: center;
+}
+
+.callToAction a {
+  text-decoration: underline;
 }

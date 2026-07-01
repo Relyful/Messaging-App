@@ -13,8 +13,8 @@ export default function Home() {
         <div className={styles.callToAction}>
         {!user ? (
           <>
-            <p>Register to continue!</p>
-            <p>Already an user? Log in!</p>
+            <p><Link to={'/register'}>Register</Link> to continue!</p>
+            <p>Already an user? <Link to={'/login'}>Log in!</Link></p>
           </>
         ) : (
         <div><Link to={'/chat'}>Continue</Link></div>
