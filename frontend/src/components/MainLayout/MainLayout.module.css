@@ -4,8 +4,8 @@
   align-items: center;
   padding: 3rem 15%;
 
-  background-color: #778873;
-  color: #FDF6ED;
+  background-color: #BBBDBC;
+  color: #245F73;
 }
 
 .header a {
@@ -25,5 +25,5 @@
 .logOutButt {
   background: none;
   border: none;
-  color: #DCCFC0;
+  color: #000000;
 }
