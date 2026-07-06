@@ -23,6 +23,9 @@
 .container {
   display: flex;
   flex-grow: 1;
+
+  background-color: #06457f;
+  color: white;
 }
 
 .logOutButt {
