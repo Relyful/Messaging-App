@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 2em 0;
 }
 
 .chatRow {
@@ -14,14 +15,36 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid black;
+  padding: 0.3em 0;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.chatRow:hover {
+  transform: scale(1.03);
+  color: rgb(255, 243, 229);
 }
 
 .chatLink {
   text-decoration: none;
-  color: black;
+  color: white;
+}
+
+.topRowHeading {
+  font-size: 1.8em;
 }
 
 .newChatLinks {
   display: flex;
   gap: 2em;
+  font-size: 1.2em;
+}
+
+.chatName {
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
+.lastMessage {
+  font-size: 1.2em;
 }
