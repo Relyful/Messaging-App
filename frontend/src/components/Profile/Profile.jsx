@@ -79,8 +79,8 @@ export default function Profile({ mode }) {
         </div>
       </div>
       <div className={styles.profileHeader}>
-        <h2>{mode == 'current' ? 'User profile' : `${profileData?.username}'s profile`}</h2>
-        {mode !== 'other' && <button type="button" onClick={() => setEditMode(!editMode)}>{editMode ? `Stop editing` : `Edit profile`}</button>}
+        <h3 className={styles.mainHeading}>{mode == 'current' ? 'User profile' : `${profileData?.username}'s profile`}</h3>
+        {mode !== 'other' && <button className={styles.editProfileButton} type="button" onClick={() => setEditMode(!editMode)}>{editMode ? `Stop editing` : `Edit profile`}</button>}
       </div>
       {profileData ? (
         <div className={styles.profileData}>
