@@ -1,6 +1,7 @@
 .footerContainer{
-  background-color: #BBBDBC;
-  color: #245F73;
+  background-color: #06457f;
+  color: white;
 
   height: 2em;
+  border-top: 1px solid black;
 }
