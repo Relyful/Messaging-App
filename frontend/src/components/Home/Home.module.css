@@ -36,4 +36,15 @@
 
 .callToAction a {
   text-decoration: underline;
+  color: white;
+}
+
+.actionLink {
+  display: inline-block;
+  transition: all 0.1s ease-in;
+}
+
+.actionLink:hover {
+  transform: scale(1.05);
+  color: rgb(255, 255, 194);
 }
