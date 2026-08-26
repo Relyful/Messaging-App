@@ -27,7 +27,7 @@
   border-bottom: 1px solid grey;
 }
 
-loginInput:focus {
+.loginInput:focus {
   outline: none;
   box-shadow: none;
 }
