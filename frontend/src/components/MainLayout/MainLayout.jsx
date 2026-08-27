@@ -1,5 +1,5 @@
 import styles from "./MainLayout.module.css";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Outlet } from "react-router";
 import Footer from "../Footer/Footer";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import { fetchUser, logOut } from "../../api/userApi";
 function MainLayout() {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   const getUser = async (controller = null) => {
     try {
@@ -37,6 +38,7 @@ function MainLayout() {
     const response = await logOut();
     console.log(response);
     getUser();
+    navigate('/');
   }
 
   return (
