@@ -22,7 +22,7 @@
 
 .chatRow:hover {
   transform: scale(1.03);
-  color: rgb(255, 243, 229);
+  color: rgb(255, 255, 194);
 }
 
 .chatLink {
