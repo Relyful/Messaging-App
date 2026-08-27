@@ -42,4 +42,9 @@
   border: none;
   color: #e2b3b3;
   cursor: pointer;
+  transition: all 0.15s ease-in;
+}
+
+.logOutButt:hover {
+  transform: scale(1.05);
 }
