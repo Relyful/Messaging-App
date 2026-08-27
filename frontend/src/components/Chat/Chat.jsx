@@ -13,13 +13,22 @@ function ChatMessage({ chatMessages, user }) {
       thisUser = false;
     } else {
       thisUser = true;
-    }
+    };
+    const date = new Date(message.createdAt);
+    const format = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+    const formattedDateTime = format.format(date);
     return (
       <div
         className={`${styles.message} ${thisUser ? styles.thisUser : styles.otherUser}`}
         key={message.id}
       >
-        <div className={styles.nameCard}>{message.author.username} on xxx at xxx: </div>
+        <div className={styles.nameCard}>{message.author.username} on {formattedDateTime}: </div>
         <div className={styles.messageContent}>{message.content}</div>
       </div>
     );
