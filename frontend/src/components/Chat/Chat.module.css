@@ -27,7 +27,6 @@
 }
 
 .message {
-  color: black;  
   max-width: 49%;
 }
 
@@ -38,12 +37,12 @@
 }
 
 .thisUser {
-  color: black;
+  color: white;
   align-self: flex-end;
 }
 
 .otherUser {
-  color: black;
+  color: white;
   align-self: flex-start;
 }
 
