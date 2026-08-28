@@ -76,7 +76,7 @@ export default function NewChat({ mode }) {
       </div>
       {mode === "group" && (<form action={createNewGroupChatHandler}>
         <div className={styles.inputRow}>
-          <label htmlFor="groupChatName">Chat Name: </label>
+          <label htmlFor="groupChatName">Group chat name: </label>
           <input type="text" name="chatGroupName" id="chatGroupName" />
         </div>
         <div className={styles.buttonGroupRow}>
