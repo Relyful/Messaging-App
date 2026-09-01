@@ -28,6 +28,7 @@
   text-align: center;
   border-radius: 20px;
   background-color: rgba(0, 0, 0, 0.205);
+  cursor: pointer;
 }
 
 .inputRow {
@@ -67,4 +68,9 @@
 .buttonGroupRow button:hover {
   background-color: rgb(255, 249, 206);
   transform: scale(1.05);
+}
+
+.groupSelectInfo {
+  margin-top: 0.3em;
+  font-size: 1.2em;
 }

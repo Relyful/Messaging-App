@@ -69,7 +69,9 @@ export default function NewChat({ mode }) {
   return (
     <div className={styles.newChatContainer}>
       <div className={styles.headerContainer}>
-        <h2>Start new chat</h2>
+        <h2>Start new{mode === "group" && ' group'} chat</h2>
+        {mode === "group" && <p className={styles.groupSelectInfo}>Select users to create group chat with: </p>}
+        {mode === "solo" && <p className={styles.groupSelectInfo}>Select user to chat with: </p>}
       </div>
       <div className={styles.userPicker}>
         {users && <UserCards usersData={users} mode={mode} chosenUsers={chosenUsers} setChosenUsers={setChosenUsers}/>}
