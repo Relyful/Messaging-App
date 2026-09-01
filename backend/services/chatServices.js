@@ -140,6 +140,7 @@ exports.findUsersChats = async (userId) => {
           author: {
             select: {
               username: true,
+              displayName: true,
             }
           }
         }
