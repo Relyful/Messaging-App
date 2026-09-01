@@ -28,7 +28,7 @@ function ChatMessage({ chatMessages, user }) {
         className={`${styles.message} ${thisUser ? styles.thisUser : styles.otherUser}`}
         key={message.id}
       >
-        <div className={styles.nameCard}>{message.author.username} on {formattedDateTime}: </div>
+        <div className={styles.nameCard}>{message.author.displayName || message.author.username} on {formattedDateTime}: </div>
         <div className={styles.messageContent}>{message.content}</div>
       </div>
     );

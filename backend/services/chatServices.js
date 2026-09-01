@@ -179,6 +179,7 @@ exports.getChatById = async (requestingUserId, chatId) => {
           author: {
             select: {
               username: true,
+              displayName: true,
             }
           }
         }
