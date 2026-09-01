@@ -8,13 +8,13 @@ function ChatRow({ data }) {
   console.log(data)
   return (
        <div className={styles.chatRow}>
-        <div className={styles.chatName}>{data.name ? data.name : data.chatMembers[0].user.displayName}</div>
+        <div className={styles.chatName}>{data.name ? data.name : data.chatMembers[0].user.displayName || data.chatMembers[0].user.username}</div>
         <div className={styles.lastMessage}>
           <div className={styles.messageInfo}>
             {data.messages?.length < 1 ? (
               'No messages yet'
             ) : (
-              `${data.messages[0]?.author.username} said on ${new Date(data.messages[0]?.createdAt).toLocaleTimeString()}:`
+              `${data.messages[0]?.author.displayName || data.messages[0]?.author.username} said on ${new Date(data.messages[0]?.createdAt).toLocaleTimeString()}:`
             )}
       
           </div>

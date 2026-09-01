@@ -80,7 +80,7 @@ export default function Chat() {
             className={`${styles.chatName} ${chat.type == "GROUP" ? styles.groupLinkHeader : null}`}
             onClick={chat.type == "GROUP" ? modalToggle : null}
           >
-            {chat.name ? chat.name : chat.chatMembers[0].user.displayName}
+            {chat.name ? chat.name : chat.chatMembers[0].user.displayName || chat.chatMembers[0].user.username}
           </div>
         )}
       </div>
