@@ -57,3 +57,10 @@
 .lastMessage {
   font-size: 1.2em;
 }
+
+.messageContent {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 13em;
+}
