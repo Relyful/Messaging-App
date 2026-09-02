@@ -64,3 +64,27 @@
   white-space: nowrap;
   max-width: 13em;
 }
+
+.deleteChatButton {
+  background: transparent;
+  border: none;
+  color: #ff6b6b;
+  font-size: 1.4em;
+  cursor: pointer;
+  padding: 4px 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.chatRow:hover .deleteChatButton {
+  opacity: 1;
+}
+
+.deleteChatButton:hover {
+  color: #ff2f2f;
+}
+
+.rightSideRow {
+  display: flex;
+  gap: 1em
+}
