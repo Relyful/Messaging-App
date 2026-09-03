@@ -9,7 +9,7 @@
 }
 
 .modalBox {
-  background-color: #002244; /* Dark blue matching your app */
+  background-color: #002244;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   padding: 24px;
@@ -43,4 +43,16 @@
   border-radius: 4px;
   cursor: pointer;
   font-weight: 600;
+}
+
+.modalHeading {
+  margin-bottom: 0.5em;
+}
+
+.deleteBtn, .cancelBtn {
+  transition: all 0.15s ease-in;
+}
+
+.deleteBtn:hover, .cancelBtn:hover {
+  transform: scale(1.05);
 }

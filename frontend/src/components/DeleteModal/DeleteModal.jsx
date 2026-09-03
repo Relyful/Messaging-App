@@ -4,9 +4,9 @@ export default function DeleteModal({ isOpen, chatName, onConfirm, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalOverlay}>
+    <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalBox}>
-        <h4>Delete Chat?</h4>
+        <h4 className={styles.modalHeading}>Delete Chat?</h4>
         <p>Are you sure you want to delete <strong>{chatName}</strong>? This action cannot be undone.</p>
         <div className={styles.actions}>
           <button className={styles.cancelBtn} onClick={onClose}>Cancel</button>
