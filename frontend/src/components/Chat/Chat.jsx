@@ -45,8 +45,8 @@ export default function Chat() {
   const newMessageRef = useRef(null);
 
   async function loadChat(abortController) {
-    const chatData = await fetchChat(params.chatId);
-    setChat(chatData, abortController);
+    const chatData = await fetchChat(params.chatId, abortController);
+    setChat(chatData);
   }
 
   async function sendMessageHandler() {
