@@ -72,12 +72,12 @@
   font-size: 1.4em;
   cursor: pointer;
   padding: 4px 8px;
-  opacity: 0;
+  display: none;
   transition: opacity 0.2s ease;
 }
 
 .chatRow:hover .deleteChatButton {
-  opacity: 1;
+  display: inline-block;
 }
 
 .deleteChatButton:hover {

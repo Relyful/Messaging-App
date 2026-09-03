@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./ChatWindow.module.css";
-import { fetchMyChats } from "../../api/chatApi";
+import { deleteChat, fetchMyChats } from "../../api/chatApi";
 import { Link } from "react-router";
 import DeleteModal from "../DeleteModal/DeleteModal";
 
@@ -62,9 +62,13 @@ function ChatWindow() {
     if (!deletingChat) return;
 
     try {
-      // Call API to delete chat
-      setChats((prev) => prev.filter((c) => c.id !== deletingChat.id));
-      setDeletingChat(null);
+      const response = await deleteChat(deletingChat.id);
+      if (response.ok) {
+        setChats((prev) => prev.filter((c) => c.id !== deletingChat.id));
+        setDeletingChat(null);
+      } else {
+        throw new Error('Delete request failed.')
+      }      
     } catch (error) {
       console.error("Failed to delete chat:", error);
     }

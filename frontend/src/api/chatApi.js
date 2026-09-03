@@ -90,3 +90,18 @@ export const createNewGroupChat = async (chatterArray, chatName) => {
     console.error(error);
   }
 };
+
+export const deleteChat = async (chatId) => {
+  try {
+    const response = await fetch(`http://localhost:8080/chat/delete/${chatId}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+    if (!response.ok) {
+      throw new Error('Error deleting chat');
+    };
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
