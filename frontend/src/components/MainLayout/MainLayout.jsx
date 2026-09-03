@@ -51,7 +51,7 @@ function MainLayout() {
         </div>
         <div className={styles.rightHeader}>
           <Link to="/">Home</Link>
-          <Link to="/chat">Chat</Link>
+          {user && <Link to="/chat">Chat</Link>}
           {user ? (
             <>
               <div className={styles.headerUsername}><Link to="/profile">{user.username}</Link></div>
