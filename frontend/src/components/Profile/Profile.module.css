@@ -51,6 +51,7 @@
 
 .aboutMeTextarea {
   min-width: 40em;
+  resize: none;
 }
 
 .editDisplayName {
@@ -164,4 +165,9 @@
 .formButtonRow button:hover {
   background-color: rgb(255, 249, 206);
   transform: scale(1.05);
+}
+
+.editDisplayName, .aboutMeTextarea {
+  border-radius: 5px;
+  padding: 0.2em;
 }
