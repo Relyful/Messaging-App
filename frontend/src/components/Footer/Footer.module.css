@@ -2,6 +2,9 @@
   background-color: #06457f;
   color: white;
 
-  height: 2em;
+  height: 3em;
   border-top: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
