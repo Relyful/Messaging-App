@@ -27,7 +27,7 @@
 .infoContainer {
   display: flex;
   flex-direction: column;
-  max-width: 40em;
+  flex-grow: 1;
 }
 
 .profileData {
@@ -50,7 +50,7 @@
 }
 
 .aboutMeTextarea {
-  min-width: 40em;
+  width: 100%;
   resize: none;
 }
 
