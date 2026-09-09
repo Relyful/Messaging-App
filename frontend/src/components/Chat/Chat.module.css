@@ -24,10 +24,15 @@
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   padding: 1em;
+  overflow: scroll;
+}
+
+.messageContainer {
+  max-width: 45%;
 }
 
 .message {
-  max-width: 49%;
+  max-width: 100%;
 }
 
 .messageContent {
