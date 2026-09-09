@@ -52,7 +52,7 @@
 
 .nameCard {
   grid-area: header;
-  font-size: 0.85em;
+  font-size: 0.95em;
   margin-bottom: 0.2em;
 }
 
@@ -60,7 +60,6 @@
   grid-area: button;
   border: none;
   background: none;
-  /* padding: 0 0.5em 0 0; */
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -154,4 +153,85 @@
 
 @keyframes l21{
   100%{background-position: left}
+}
+
+.optionWrapper {
+  grid-area: button;
+  position: relative; /* Anchor for absolute dropdown */
+  display: flex;
+  align-items: center;
+  align-self: center;
+}
+
+.optionButton {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.optionButton img {
+  width: 20px;
+  height: auto;
+}
+
+.optionButton:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.optionButton:active,
+.activeOptionButton {
+  background-color: rgba(0, 0, 0, 0.15);
+  transform: scale(0.92);
+}
+
+.dropdownMenu {
+  position: absolute;
+  right: 100%;
+  bottom: 5;
+  margin-top: 4px;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 4px;
+  z-index: 100;
+  min-width: 110px;
+  animation: fadeIn 0.12s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menuItem {
+  width: 100%;
+  padding: 0.5em 0.8em;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.deleteItem {
+  color: #d93025;
+  font-weight: 500;
+}
+
+.deleteItem:hover {
+  background-color: #fce8e6;
 }

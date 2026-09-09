@@ -5,39 +5,68 @@ import { useEffect, useState } from "react";
 import { useRef } from "react";
 import { sendMessage } from "../../api/messageApi";
 import ChatMembersModal from "./ChatMembersModal";
-import optionsPng from "../../assets/icon_menu.png"
+import optionsPng from "../../assets/icon_menu.png";
 
-function ChatMessage({ chatMessages, user }) {
+function ChatMessage({ chatMessages, user, onDeleteMessage }) {
+  const [activeMenuId, setActiveMenuId] = useState(null);
+
+  const toggleMenu = (messageId, e) => {
+    e.stopPropagation();
+    setActiveMenuId((prev) => (prev === messageId ? null : messageId));
+  };
+
   const formattedMessages = chatMessages.map((message) => {
     let thisUser = null;
     if (user.id !== message.authorId) {
       thisUser = false;
     } else {
       thisUser = true;
-    };
+    }
     const date = new Date(message.createdAt);
-    const format = new Intl.DateTimeFormat('en-GB', {
-      day: '2-digit',
-      month: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
+    const format = new Intl.DateTimeFormat("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
       hour12: false,
     });
     const formattedDateTime = format.format(date);
+    const isMenuOpen = activeMenuId === message.id;
+
     return (
-      <div 
-        className={`${styles.messageContainer} ${thisUser ? styles.thisUser : styles.otherUser}`} 
+      <div
+        className={`${styles.messageContainer} ${thisUser ? styles.thisUser : styles.otherUser}`}
         key={message.id}
       >
         <div className={styles.nameCard}>
-          {message.author.displayName || message.author.username} on {formattedDateTime}: 
-        </div>        
-        <div className={styles.messageContent}>
-          {message.content}
+          {message.author.displayName || message.author.username} on{" "}
+          {formattedDateTime}:
         </div>
-        <button className={styles.optionButton}>
-          <img src={optionsPng} alt="Option button" />
-        </button>
+        <div className={styles.messageContent}>{message.content}</div>
+        {thisUser && <div className={styles.optionWrapper}>
+          <button
+            className={`${styles.optionButton} ${
+              isMenuOpen ? styles.activeOptionButton : ""
+            }`}
+            onClick={(e) => toggleMenu(message.id, e)}
+            aria-label="Message options"
+          >
+            <img src={optionsPng} alt="Option button" />
+          </button>
+          {isMenuOpen && (
+            <div className={styles.dropdownMenu}>
+              <button
+                className={`${styles.menuItem} ${styles.deleteItem}`}
+                onClick={() => {
+                  onDeleteMessage(message.id);
+                  setActiveMenuId(null);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          )}
+        </div>}
       </div>
     );
   });
@@ -78,7 +107,7 @@ export default function Chat() {
       <div className={styles.chatContainerLoading}>
         <div className={styles.loader}></div>
       </div>
-    )
+    );
   }
 
   return (
@@ -96,7 +125,10 @@ export default function Chat() {
             className={`${styles.chatName} ${chat.type == "GROUP" ? styles.groupLinkHeader : null}`}
             onClick={chat.type == "GROUP" ? modalToggle : null}
           >
-            {chat.name ? chat.name : chat.chatMembers[0].user.displayName || chat.chatMembers[0].user.username}
+            {chat.name
+              ? chat.name
+              : chat.chatMembers[0].user.displayName ||
+                chat.chatMembers[0].user.username}
           </div>
         )}
       </div>
