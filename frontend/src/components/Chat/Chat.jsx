@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { sendMessage } from "../../api/messageApi";
 import ChatMembersModal from "./ChatMembersModal";
 import optionsPng from "../../assets/icon_menu.png";
+import DeleteModal from "../DeleteModal/DeleteModal";
 
 function ChatMessage({ chatMessages, user, onDeleteMessage }) {
   const [activeMenuId, setActiveMenuId] = useState(null);
@@ -78,6 +79,7 @@ export default function Chat() {
   const params = useParams();
   const { user } = useOutletContext();
   const [modalState, setModalState] = useState(false);
+  const [deletingMessage, setDeletingMessage] = useState(null);
 
   const newMessageRef = useRef(null);
 
@@ -134,7 +136,7 @@ export default function Chat() {
       </div>
       {chat && user && (
         <div className={styles.chatContent}>
-          <ChatMessage chatMessages={chat.messages} user={user} />
+          <ChatMessage chatMessages={chat.messages} user={user} onDeleteMessage={setDeletingMessage} />
         </div>
       )}
       <div className={styles.replyBox}>
@@ -149,6 +151,12 @@ export default function Chat() {
           Reply
         </button>
       </div>
+      <DeleteModal
+              isOpen={deletingMessage}
+              chatName={'this message'}
+              onConfirm={'function / api call to delete message here'}
+              onClose={() => setDeletingMessage(null)}
+            />
     </div>
   );
 }
