@@ -65,6 +65,14 @@ export default function Chat() {
     return () => controller.abort();
   }, []);
 
+  if (!chat) {
+    return (
+      <div className={styles.chatContainerLoading}>
+        <div className={styles.loader}></div>
+      </div>
+    )
+  }
+
   return (
     <div className={styles.chatContainer}>
       {chat && (

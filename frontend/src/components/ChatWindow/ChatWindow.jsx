@@ -67,8 +67,8 @@ function ChatWindow() {
         setChats((prev) => prev.filter((c) => c.id !== deletingChat.id));
         setDeletingChat(null);
       } else {
-        throw new Error('Delete request failed.')
-      }      
+        throw new Error("Delete request failed.");
+      }
     } catch (error) {
       console.error("Failed to delete chat:", error);
     }
@@ -84,6 +84,14 @@ function ChatWindow() {
     deletingChat?.name ||
     deletingChat?.chatMembers?.[0]?.user?.displayName ||
     deletingChat?.chatMembers?.[0]?.user?.username;
+
+  if (!chats) {
+    return (
+      <div className={styles.chatContainerLoading}>
+        <div className={styles.loader}></div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.chatContainer}>
