@@ -42,7 +42,7 @@ function MainLayout() {
   }
 
   return (
-    <>
+    <div className={styles.mainContainer}>
       <header className={styles.header}>
         <div className={styles.leftHeader}>
           <Link to="/" className={styles.headerLink}>
@@ -75,7 +75,7 @@ function MainLayout() {
         </main>
       )}
       <Footer />
-    </>
+    </div>
   );
 }
 
