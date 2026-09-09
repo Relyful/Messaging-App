@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRef } from "react";
 import { sendMessage } from "../../api/messageApi";
 import ChatMembersModal from "./ChatMembersModal";
+import optionsPng from "../../assets/icon_menu.png"
 
 function ChatMessage({ chatMessages, user }) {
   const formattedMessages = chatMessages.map((message) => {
@@ -24,12 +25,19 @@ function ChatMessage({ chatMessages, user }) {
     });
     const formattedDateTime = format.format(date);
     return (
-      <div
-        className={`${styles.message} ${thisUser ? styles.thisUser : styles.otherUser}`}
+      <div 
+        className={`${styles.messageContainer} ${thisUser ? styles.thisUser : styles.otherUser}`} 
         key={message.id}
       >
-        <div className={styles.nameCard}>{message.author.displayName || message.author.username} on {formattedDateTime}: </div>
-        <div className={styles.messageContent}>{message.content}</div>
+        <div className={styles.nameCard}>
+          {message.author.displayName || message.author.username} on {formattedDateTime}: 
+        </div>        
+        <div className={styles.messageContent}>
+          {message.content}
+        </div>
+        <button className={styles.optionButton}>
+          <img src={optionsPng} alt="Option button" />
+        </button>
       </div>
     );
   });

@@ -29,6 +29,14 @@
 
 .messageContainer {
   max-width: 45%;
+  margin-bottom: 0.75em;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "header header"
+    "content button";
+  align-items: center;
 }
 
 .message {
@@ -36,9 +44,33 @@
 }
 
 .messageContent {
+  grid-area: content;
   border: 1px solid black;
   padding: 0.5em;
   border-radius: 10px;
+}
+
+.nameCard {
+  grid-area: header;
+  font-size: 0.85em;
+  margin-bottom: 0.2em;
+}
+
+.optionButton {
+  grid-area: button;
+  border: none;
+  background: none;
+  /* padding: 0 0.5em 0 0; */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+}
+
+.optionButton img {
+  height: 20px;
+  width: auto;
 }
 
 .thisUser {
