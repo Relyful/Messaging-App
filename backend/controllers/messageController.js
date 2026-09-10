@@ -14,7 +14,7 @@ exports.softDeleteMessage = async (req, res) => {
   const ownershipCheck = await messageServices.messageOwnerCheck(thisUserId, messageId);
   if (!ownershipCheck) {
     const error = new Error("Privilege error");
-    error.status = 401;
+    error.statusCode = 401;
     throw error;
   }
   const softDeletedMessage = await messageServices.softDeleteMessage(messageId);
