@@ -106,7 +106,7 @@ export default function Chat() {
     };
     setChat((prev) => ({
       ...prev,
-      messages: prev.messages.filter((c) => c.id !== deletingMessage.id)
+      messages: prev.messages.filter((c) => c.id !== deletingMessage)
     }));
     setDeletingMessage(null);
     // Send toast notif data
