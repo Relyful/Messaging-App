@@ -5,6 +5,6 @@ const authMidd = require('../middleware/authenticationMiddleware');
 const messageRouter = new Router();
 
 messageRouter.post('/new/:chatId', authMidd, messageController.newMessage);
-messageRouter.put('./delete/:messageId', authMidd, messageController.softDeleteMessage);
+messageRouter.delete('./delete/:messageId', authMidd, messageController.softDeleteMessage);
 
 module.exports = messageRouter;
