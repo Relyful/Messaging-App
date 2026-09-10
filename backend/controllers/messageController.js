@@ -9,7 +9,7 @@ exports.newMessage = async (req, res) => {
 };
 
 exports.softDeleteMessage = async (req, res) => {
-  const messageId = req.params.messageId;
+  const messageId = Number(req.params.messageId);
   const thisUserId = req.user.id;
   const ownershipCheck = await messageServices.messageOwnerCheck(thisUserId, messageId);
   if (!ownershipCheck) {
