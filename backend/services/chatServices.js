@@ -172,6 +172,9 @@ exports.getChatById = async (requestingUserId, chatId) => {
         }
       },
       messages: {
+        where: {
+          deletedAt: null,
+        },
         orderBy: {
           createdAt: "asc",
         },
