@@ -19,3 +19,28 @@ export const sendMessage = async (chatId, newMessageContent) => {
     console.error(err);
   }
 };
+
+export const softDeleteMessage = async (messageId) => {
+  try {
+    const response = await fetch(`http://localhost:8080/message/delete/${messageId}`, {
+      method: 'DELETE',
+      credentials: 'include',      
+    });
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => {});
+      return {
+        success: false,
+        error: errorData?.errMessage || 'Server Error'
+      }
+    }
+    return {
+      success: true,
+    }
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      error: 'Network or server error'
+    }
+  }
+}

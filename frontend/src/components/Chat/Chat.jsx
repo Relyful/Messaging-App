@@ -3,7 +3,7 @@ import styles from "./Chat.module.css";
 import { fetchChat } from "../../api/chatApi";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
-import { sendMessage } from "../../api/messageApi";
+import { sendMessage, softDeleteMessage } from "../../api/messageApi";
 import ChatMembersModal from "./ChatMembersModal";
 import optionsPng from "../../assets/icon_menu.png";
 import DeleteModal from "../DeleteModal/DeleteModal";
@@ -98,6 +98,20 @@ export default function Chat() {
     setModalState((prevState) => !prevState);
   }
 
+  async function deleteMessageHandler() {
+    const deleteStatus = await softDeleteMessage(deletingMessage);
+    if (!deleteStatus.success) {
+      // PASS ERROR TO TOAST NOTIFICATION
+      return;
+    };
+    setChat((prev) => ({
+      ...prev,
+      messages: prev.messages.filter((c) => c.id !== deletingMessage.id)
+    }));
+    setDeletingMessage(null);
+    // Send toast notif data
+  };
+
   useEffect(() => {
     const controller = new AbortController();
     loadChat(controller);
@@ -154,7 +168,7 @@ export default function Chat() {
       <DeleteModal
               isOpen={deletingMessage}
               chatName={'this message'}
-              onConfirm={'function / api call to delete message here'}
+              onConfirm={deleteMessageHandler}
               onClose={() => setDeletingMessage(null)}
             />
     </div>
