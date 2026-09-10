@@ -25,7 +25,7 @@ exports.softDeleteMessage = async (messageId) => {
     id: messageId,
   },
   data: {
-    deletedAt: Date.now(),
+    deletedAt: new Date,
   }
   })
   return deletedMessage;
