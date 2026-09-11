@@ -38,8 +38,11 @@ function MainLayout() {
 
   async function logOutHandler() {
     const response = await logOut();
-    console.log(response);
-    getUser();
+    if (!response) {
+      setNotification({id: crypto.randomUUID(), message: 'Error logging out', type: 'error'});
+    }
+    await getUser();
+    setNotification({id: crypto.randomUUID(), message: 'Logout successful', type: 'notification'});
     navigate('/');
   }
 
