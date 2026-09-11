@@ -4,10 +4,12 @@ import { Outlet } from "react-router";
 import Footer from "../Footer/Footer";
 import { useEffect, useState } from "react";
 import { fetchUser, logOut } from "../../api/userApi";
+import ToastNotification from "../ToastNotification/ToastNotification";
 
 function MainLayout() {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [notification, setNotification] = useState(null);
   const navigate = useNavigate();
 
   const getUser = async (controller = null) => {
@@ -43,6 +45,12 @@ function MainLayout() {
 
   return (
     <div className={styles.mainContainer}>
+      {notification && <ToastNotification 
+        key={notification.id}
+        message={notification.message}
+        type={notification.type}
+        onClose={() => setNotification(null)}
+      />}
       <header className={styles.header}>
         <div className={styles.leftHeader}>
           <Link to="/" className={styles.headerLink}>
@@ -71,7 +79,7 @@ function MainLayout() {
         <div className={styles.container}>Loading ...</div>
       ) : (
         <main className={styles.container}>
-          <Outlet context={{ user, setUser }} />
+          <Outlet context={{ user, setUser, setNotification }} />
         </main>
       )}
       <Footer />
