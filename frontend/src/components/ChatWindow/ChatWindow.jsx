@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./ChatWindow.module.css";
 import { deleteChat, fetchMyChats } from "../../api/chatApi";
-import { Link } from "react-router";
+import { Link, useOutletContext } from "react-router";
 import DeleteModal from "../DeleteModal/DeleteModal";
 
 function ChatRow({ data, onDeleteClick }) {
@@ -44,6 +44,7 @@ function ChatRow({ data, onDeleteClick }) {
 }
 
 function ChatWindow() {
+  const { setNotification } = useOutletContext();
   const [chats, setChats] = useState(null);
   const [deletingChat, setDeletingChat] = useState(null);
 
@@ -66,11 +67,14 @@ function ChatWindow() {
       if (response.ok) {
         setChats((prev) => prev.filter((c) => c.id !== deletingChat.id));
         setDeletingChat(null);
+        setNotification({id: crypto.randomUUID(), message: 'Deleted', type: 'notification'})
       } else {
         throw new Error("Delete request failed.");
       }
     } catch (error) {
+      setNotification({id: crypto.randomUUID(), message: 'Error deleting chat.', type: 'error'})
       console.error("Failed to delete chat:", error);
+      
     }
   };
 

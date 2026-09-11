@@ -5,16 +5,20 @@ import { useOutletContext, useNavigate } from "react-router";
 import { createNewChat, createNewGroupChat, existingChatCheck } from "../../api/chatApi";
 
 function UserCards({ usersData, mode, chosenUsers, setChosenUsers }) {
-  const { user } = useOutletContext();  
+  const { user, setNotification } = useOutletContext();  
   const navigate = useNavigate();
   const filteredUsers = usersData.filter((userD) => userD.id != user.id);
 
   async function newChatOnClickHandler(id) {
     const check = await existingChatCheck(id);
     if (check) {
+      setNotification({id: crypto.randomUUID(), message: 'Chat already exists, redirecting.', type: 'notification'});
       return navigate(`/chat/${check.id}`);
     }
     const newChat = await createNewChat(id);
+    if (!newChat) {
+      return setNotification({id: crypto.randomUUID(), message: 'Error creating chat.', type: 'error'});
+    }
     navigate(`/chat/${newChat.id}`);
   }
 
@@ -46,6 +50,7 @@ function UserCards({ usersData, mode, chosenUsers, setChosenUsers }) {
 }
 
 export default function NewChat({ mode }) {
+  const { setNotification } = useOutletContext();
   const [users, setUsers] = useState(null);
   const [chosenUsers, setChosenUsers] = useState([]);
   const navigate = useNavigate();
@@ -63,6 +68,9 @@ export default function NewChat({ mode }) {
     const userArray = chosenUsers;
     const chatName = formData.get("chatGroupName");
     const newGroupChat = await createNewGroupChat(userArray, chatName);
+    if (!newGroupChat) {
+      return setNotification({id: crypto.randomUUID(), message: 'Error creating chat.', type: 'error'});
+    }
     navigate(`/chat/${newGroupChat.id}`);
   }
 
@@ -79,7 +87,7 @@ export default function NewChat({ mode }) {
       {mode === "group" && (<form action={createNewGroupChatHandler}>
         <div className={styles.inputRow}>
           <label htmlFor="groupChatName">Group chat name: </label>
-          <input type="text" name="chatGroupName" id="chatGroupName" />
+          <input type="text" name="chatGroupName" id="chatGroupName" required />
         </div>
         <div className={styles.buttonGroupRow}>
           <button type="submit">Create chat</button>

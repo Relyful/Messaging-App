@@ -77,7 +77,7 @@ function ChatMessage({ chatMessages, user, onDeleteMessage }) {
 export default function Chat() {
   const [chat, setChat] = useState(null);
   const params = useParams();
-  const { user } = useOutletContext();
+  const { user, setNotification } = useOutletContext();
   const [modalState, setModalState] = useState(false);
   const [deletingMessage, setDeletingMessage] = useState(null);
 
@@ -90,6 +90,9 @@ export default function Chat() {
 
   async function sendMessageHandler() {
     await sendMessage(chat.id, newMessageRef.current.value);
+    if (!sendMessage) {
+      return setNotification({id: crypto.randomUUID(), message: 'Error sending message.', type: 'error'})
+    }
     newMessageRef.current.value = "";
     await loadChat();
   }
@@ -101,7 +104,7 @@ export default function Chat() {
   async function deleteMessageHandler() {
     const deleteStatus = await softDeleteMessage(deletingMessage);
     if (!deleteStatus.success) {
-      // PASS ERROR TO TOAST NOTIFICATION
+      setNotification({id: crypto.randomUUID(), message: 'Error deleting message.', type: 'error'})
       return;
     };
     setChat((prev) => ({
@@ -109,7 +112,7 @@ export default function Chat() {
       messages: prev.messages.filter((c) => c.id !== deletingMessage)
     }));
     setDeletingMessage(null);
-    // Send toast notif data
+    setNotification({id: crypto.randomUUID(), message: 'Message deleted.', type: 'notification'})
   };
 
   useEffect(() => {

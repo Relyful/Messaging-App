@@ -15,6 +15,7 @@ export const sendMessage = async (chatId, newMessageContent) => {
       throw new Error("Error sending message");
     }
     console.log(response);
+    return true;
   } catch (err) {
     console.error(err);
   }

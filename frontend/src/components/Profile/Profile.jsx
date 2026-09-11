@@ -8,7 +8,7 @@ export default function Profile({ mode }) {
   // Mode can be current or other
   // Fetch stuff from backend based on users id saved in user state
   // Add userData state and keep data there.
-  const { user } = useOutletContext();
+  const { user, setNotification } = useOutletContext();
   const [profileData, setProfileData] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [modalStatus, setModalStatus] = useState(false);
@@ -34,8 +34,11 @@ export default function Profile({ mode }) {
         'displayName': newData.displayName,
         'about': newData.aboutMe,
       });
+      setEditMode(false);
+      return setNotification({id: crypto.randomUUID(), message: 'Profile updated.', type: 'notification'});
     };
     setEditMode(false);
+    return setNotification({id: crypto.randomUUID(), message: 'Error updating profile.', type: 'error'});
   }
 
   function handleModalOpenClose() {
@@ -44,6 +47,9 @@ export default function Profile({ mode }) {
 
   async function handleProfilePicChange(picId) {
     await updateProfilePic(picId);
+    if (!updateProfilePic) {
+      return setNotification({id: crypto.randomUUID(), message: 'Error updating profile picture.', type: 'error'});
+    }
     setProfileData((prevData) => {
       return {
         ...prevData,
@@ -51,6 +57,7 @@ export default function Profile({ mode }) {
       }
     })
     setModalStatus((prevStatus) => !prevStatus);
+    return setNotification({id: crypto.randomUUID(), message: 'Profile updated', type: 'notification'});
   };
 
   useEffect(() => {
