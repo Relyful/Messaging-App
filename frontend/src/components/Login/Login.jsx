@@ -17,7 +17,7 @@ function SubmitButton() {
 }
 
 export default function Login() {
-  const {setUser} = useOutletContext();
+  const {setUser, setNotification} = useOutletContext();
   const navigate = useNavigate();
 
   async function updateUser() {
@@ -53,12 +53,14 @@ export default function Login() {
       if (response.status === 401) {
         setUser(null);
       }
-      if (!response.ok) {
+      if (!response.ok) {        
         throw new Error("Error logging in");
       }
       await updateUser();
+      setNotification({id: crypto.randomUUID(), message: 'Login successful', type: 'notification'})
       navigate('/chat');
     } catch (err) {
+      setNotification({id: crypto.randomUUID(), message: err.message, type: 'error'});
       console.error(err);
     }
   }
