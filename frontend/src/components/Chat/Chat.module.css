@@ -100,6 +100,10 @@
   resize: none;  
   border-radius: 5px;
   padding: 0.4em;
+  color: white;
+
+  background: none;
+  border: 1px solid black;
 }
 
 .replyButton {
@@ -234,4 +238,33 @@
 
 .deleteItem:hover {
   background-color: #fce8e6;
+}
+
+@media (max-width: 800px) {
+  .chatContainer {
+    margin: 0;
+    border: none;
+  }
+
+  .chatHeader {
+    margin: 0 0 0.3em 0.3em;
+  }
+
+  .chatContent {
+    padding: 5px;
+  }
+
+  .messageContainer {
+    max-width: 85%;
+  }
+
+  .thisUser .nameCard {
+    text-align: end;
+    margin-right: 20px;
+  }
+
+  .replyInput {
+    background: none;
+    border: 1px solid black;
+  }  
 }

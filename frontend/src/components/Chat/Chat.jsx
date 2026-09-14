@@ -82,6 +82,11 @@ export default function Chat() {
   const [deletingMessage, setDeletingMessage] = useState(null);
 
   const newMessageRef = useRef(null);
+  const lastMessageRef = useRef(null);
+
+  const scrollToBottom = () => {
+    lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   async function loadChat(abortController) {
     const chatData = await fetchChat(params.chatId, abortController);
@@ -121,6 +126,12 @@ export default function Chat() {
     return () => controller.abort();
   }, []);
 
+  useEffect(() => {
+    if (chat?.messages) {
+      scrollToBottom();
+    }
+  }, [chat?.messages])
+
   if (!chat) {
     return (
       <div className={styles.chatContainerLoading}>
@@ -154,6 +165,7 @@ export default function Chat() {
       {chat && user && (
         <div className={styles.chatContent}>
           <ChatMessage chatMessages={chat.messages} user={user} onDeleteMessage={setDeletingMessage} />
+          <div ref={lastMessageRef} />
         </div>
       )}
       <div className={styles.replyBox}>
@@ -162,6 +174,7 @@ export default function Chat() {
           id="newMessage"
           ref={newMessageRef}
           className={styles.replyInput}
+          placeholder="Type your message here..."
           rows={1}
         ></textarea>
         <button className={styles.replyButton} onClick={sendMessageHandler}>
