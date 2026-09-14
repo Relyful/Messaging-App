@@ -58,3 +58,15 @@
 .logOutButt:hover {
   transform: scale(1.05);
 }
+
+@media (max-width: 600px) {
+  .header {
+    padding: 1em;
+    flex-direction: column;
+  }
+
+  .leftHeader {
+    /* display: none; */
+    font-size: 0.7em;
+  }
+}
