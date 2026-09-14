@@ -16,6 +16,11 @@
   flex-grow: 1;
 }
 
+.svgLogo {
+  width: 350px;
+  height: 350px;
+}
+
 .heading {
   flex-direction: column;
   justify-content: center;
@@ -47,4 +52,23 @@
 .actionLink:hover {
   transform: scale(1.05);
   color: rgb(255, 255, 194);
+}
+
+@media (max-width: 600px) {
+  .homeContainer {
+    flex-direction: column-reverse;
+  }
+
+  .svgLogo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .logo {
+    flex: 0;
+  }
+
+  .heading h2 {
+    text-align: center;
+  }
 }
