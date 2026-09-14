@@ -115,3 +115,44 @@
 @keyframes l21{
   100%{background-position: left}
 }
+
+@media (max-width: 800px) {
+  .chatContainer {
+    margin: 0;
+  }
+
+  .chatTopRow {
+    flex-direction: column;
+  }
+
+  .topRowHeading {
+    text-align: center;
+    font-size: 1.3em;
+  }
+
+  .newChatLinks {
+    justify-content: center;
+  }
+
+  .chatName {
+    font-size: 1em;
+  }
+
+  .chatRow:hover, .newChatLinks:hover {
+    transform: none;
+  }
+
+  .rightSideRow {
+    max-height: 3em;
+    gap: 5px;
+  }
+
+  .lastMessage {
+    font-size: 0.9em;
+  }
+
+  .deleteChatButton {
+    display: inline-block;
+    padding: 2px 2px;
+  }
+}
