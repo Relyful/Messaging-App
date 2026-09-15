@@ -26,8 +26,8 @@ function MainLayout() {
         setUser(undefined);
       }
     } finally {
-    setIsLoading(false);
-  }
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -39,21 +39,31 @@ function MainLayout() {
   async function logOutHandler() {
     const response = await logOut();
     if (!response) {
-      setNotification({id: crypto.randomUUID(), message: 'Error logging out', type: 'error'});
+      setNotification({
+        id: crypto.randomUUID(),
+        message: "Error logging out",
+        type: "error",
+      });
     }
     await getUser();
-    setNotification({id: crypto.randomUUID(), message: 'Logout successful', type: 'notification'});
-    navigate('/');
+    setNotification({
+      id: crypto.randomUUID(),
+      message: "Logout successful",
+      type: "notification",
+    });
+    navigate("/");
   }
 
   return (
     <div className={styles.mainContainer}>
-      {notification && <ToastNotification 
-        key={notification.id}
-        message={notification.message}
-        type={notification.type}
-        onClose={() => setNotification(null)}
-      />}
+      {notification && (
+        <ToastNotification
+          key={notification.id}
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
       <header className={styles.header}>
         <div className={styles.leftHeader}>
           <Link to="/" className={styles.headerLink}>
@@ -65,7 +75,9 @@ function MainLayout() {
           {user && <Link to="/chat">Chat</Link>}
           {user ? (
             <>
-              <div className={styles.headerUsername}><Link to="/profile">{user.username}</Link></div>
+              <div className={styles.headerUsername}>
+                <Link to="/profile">{user.username}</Link>
+              </div>
               <button className={styles.logOutButt} onClick={logOutHandler}>
                 Log Out
               </button>
@@ -78,13 +90,14 @@ function MainLayout() {
           )}
         </div>
       </header>
-      {isLoading ? (
-        <div className={styles.container}>Loading ...</div>
-      ) : (
-        <main className={styles.container}>
-          <Outlet context={{ user, setUser, setNotification }} />
-        </main>
-      )}
+
+      <main className={styles.container}>
+        {isLoading ? (
+          <div>Loading ...</div>
+        ) : (
+          <Outlet context={{ user, setUser, setNotification, isLoading }} />
+        )}
+      </main>
       <Footer />
     </div>
   );
