@@ -32,7 +32,7 @@
 
 .profileData {
   display: flex;
-  /* align-items: center; */
+  overflow: scroll;
 }
 
 .profilePicture {
@@ -67,6 +67,7 @@
 
 .aboutMe {
   font-size: 1.2em;
+  overflow: scroll;
 }
 
 .profilePicPlaceholder {
@@ -85,7 +86,6 @@
 }
 
 .profilePicPickerModal {
-  /* display: none; */
   position: fixed;
   z-index: 1;
   left: 0;
@@ -197,4 +197,41 @@
 
 @keyframes l21{
   100%{background-position: left}
+}
+
+@media (max-width: 800px) {
+  .profileContainer {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .profileHeader {
+    margin-bottom: 1em;
+  }
+
+  .mainHeading {
+    font-size: 1.5em;
+  }
+
+  .profilePicPlaceholder {
+    width: 5em;
+    height: 5em;
+  }
+
+  .profileData {
+    flex-direction: column;
+  }
+
+  .profilePicture {
+    margin-right: 0;
+    padding-bottom: 0.5em;
+  }
+
+  .infoContainer {
+    font-size: 0.9em;
+  }
+
+  .displayName {
+    margin-bottom: 0.5em;
+  }
 }
