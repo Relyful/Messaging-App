@@ -22,7 +22,7 @@ export default function Register() {
         <input type="password" name="password" id="password" className={styles.registerInput} placeholder='Password' />
         <label htmlFor="repeatPassword">Repeat password</label>
         <input type="password" name="repeatPassword" id="repeastPassword" className={styles.registerInput} placeholder='Repeat Password' />
-        <button className={styles.formSubmitButt} type="submit">Submit</button>   
+        <button className={styles.formSubmitButt} type="submit">Register</button>   
       </form>
     </div>
   )

@@ -49,3 +49,11 @@
   background-color: rgb(255, 249, 206);
   transform: scale(1.05);
 }
+
+@media (max-width: 800px) {
+  .registerFormContainer {
+    margin: 0;
+    align-self: center;
+    box-shadow: none;
+  }
+}
