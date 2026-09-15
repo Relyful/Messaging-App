@@ -61,12 +61,20 @@
 
 @media (max-width: 600px) {
   .header {
-    padding: 1em;
+    padding: 0.5em;
     flex-direction: column;
+  }
+
+  .header a {
+    padding: 0.2em 0.3em;
   }
 
   .leftHeader {
     font-size: 0.7em;
+  }
+
+  .rightHeader {
+    gap: 0.5em;
   }
 
   .container {
