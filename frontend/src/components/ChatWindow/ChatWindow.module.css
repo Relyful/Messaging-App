@@ -119,6 +119,7 @@
 @media (max-width: 800px) {
   .chatContainer {
     margin: 0;
+    padding: 5px;
   }
 
   .chatTopRow {
