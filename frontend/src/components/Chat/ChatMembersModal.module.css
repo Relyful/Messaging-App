@@ -23,6 +23,8 @@
   padding: 1em 1.5em 1.5em 1.5em;
   min-width: 33%;
   border-radius: 10px;
+  overflow: scroll;
+  max-height: 70vh;
 }
 
 .chatMembersHeading {
@@ -67,4 +69,10 @@
 
 .modalClose:hover {
   color: #333333;
+}
+
+@media (max-width: 800px) {
+  .modalContent {
+    min-width: 80%;
+  }
 }
