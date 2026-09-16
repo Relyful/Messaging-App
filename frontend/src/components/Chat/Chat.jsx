@@ -1,4 +1,4 @@
-import { useOutletContext, useParams } from "react-router";
+import { useNavigate, useOutletContext, useParams } from "react-router";
 import styles from "./Chat.module.css";
 import { fetchChat } from "../../api/chatApi";
 import { useEffect, useState } from "react";
@@ -77,6 +77,7 @@ function ChatMessage({ chatMessages, user, onDeleteMessage }) {
 export default function Chat() {
   const [chat, setChat] = useState(null);
   const params = useParams();
+  const navigate = useNavigate();
   const { user, setNotification } = useOutletContext();
   const [modalState, setModalState] = useState(false);
   const [deletingMessage, setDeletingMessage] = useState(null);
@@ -153,7 +154,7 @@ export default function Chat() {
         {chat && (
           <div
             className={`${styles.chatName} ${chat.type == "GROUP" ? styles.groupLinkHeader : null}`}
-            onClick={chat.type == "GROUP" ? modalToggle : null}
+            onClick={chat.type == "GROUP" ? modalToggle : () => navigate(`/profile/${chat.chatMembers[0].user.id}`)}
           >
             {chat.name
               ? chat.name

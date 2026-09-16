@@ -17,6 +17,10 @@
   margin: 1em;
 }
 
+.chatName {
+  cursor: pointer;
+}
+
 .chatContent {
   display: flex;
   flex-direction: column;  
