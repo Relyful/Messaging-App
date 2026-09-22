@@ -1,13 +1,33 @@
 // const { prisma } = require('../lib/prisma.mjs');
 const bcrypt = require('bcrypt');
 const userServices = require('../services/userServices');
+const { body, validationResult, matchedData } = require('express-validator');
 
-exports.createUser = async (req, res) => {
+const validateCreateUser = [
+  body('username').trim()
+  .isLength({min: 4, max: 12})
+  .isAlphanumeric()
+  .escape(),
+  body('password')
+  .isLength({min: 5, max: 20}),
+  body('repeatPassword')
+  .custom((value, {req}) => value === req.body.password).withMessage('Passwords must match'),
+]
+
+exports.createUser = [validateCreateUser, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors.array()
+    })
+  }
+  const matchedDataz = matchedData(req);
+  console.log(matchedDataz);
   const data = req.body;
   const password = await bcrypt.hash(data.password, 10);
   const user = await userServices.createNewUser(data.username, password);
   res.json(user);
-};
+}];
 
 exports.deleteUser = async (req, res) => {
   const currentUserId = req.user.id;
