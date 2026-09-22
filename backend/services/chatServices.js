@@ -132,6 +132,9 @@ exports.findUsersChats = async (userId) => {
         }
       },
       messages: {
+        where: {
+          deletedAt: null,
+        },
         orderBy: {
           createdAt: "desc",
         },
