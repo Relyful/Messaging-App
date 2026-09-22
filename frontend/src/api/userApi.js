@@ -35,7 +35,7 @@ export const logOut = async (controller = null) => {
   }
 };
 
-export const registerUser = async (newUserData) => {
+export const registerUser = async (newUserData, setFormErrors) => {
   try {
     const response = await fetch(`http://localhost:8080/user/create`, {
       method: 'POST',
@@ -45,7 +45,17 @@ export const registerUser = async (newUserData) => {
       credentials: "include",
       body: JSON.stringify(newUserData)
     });
+    const data = await response.json();
     if (!response.ok) {
+      if (data.errors) {
+        const mappedErr = data.errors.reduce((acc, err) => {
+          if (err.path && !acc[err.path]) {
+            acc[err.path] = err.msg;
+          }
+          return acc;
+        }, {});
+        setFormErrors(mappedErr);
+      }
       throw new Error("Error registering user")
     };
     return response;
