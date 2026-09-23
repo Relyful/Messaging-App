@@ -48,12 +48,10 @@ export const registerUser = async (newUserData, setFormErrors) => {
     const data = await response.json();
     if (!response.ok) {
       if (data.errors) {
-        const mappedErr = data.errors.reduce((acc, err) => {
-          if (err.path && !acc[err.path]) {
-            acc[err.path] = err.msg;
-          }
-          return acc;
-        }, {});
+        const mappedErr = data.errors.map((err) => {
+          console.log(err);
+          return err.msg;
+        }, []);
         setFormErrors(mappedErr);
       }
       throw new Error("Error registering user")
