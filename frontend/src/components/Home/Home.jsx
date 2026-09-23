@@ -3,8 +3,7 @@ import styles from "./Home.module.css";
 
 export default function Home() {
   const { user } = useOutletContext();
-  console.log(user);
-
+  
   return (
     <div className={styles.homeContainer}>
       <div className={styles.heading}>
