@@ -12,6 +12,7 @@
   flex-direction: column;
   flex-grow: 0;
   max-width: 30em;
+  width: 20em;
 }
 
 .registerHeading {
@@ -50,10 +51,18 @@
   transform: scale(1.05);
 }
 
+.inputErr {
+  font-size: small;
+  margin-top: -0.7em;
+  color: rgb(255, 157, 157);
+}
+
 @media (max-width: 800px) {
   .registerFormContainer {
-    margin: 0;
+    width: 85%;
+    margin: 0 auto;
     align-self: center;
     box-shadow: none;
+    padding: 0;
   }
 }
