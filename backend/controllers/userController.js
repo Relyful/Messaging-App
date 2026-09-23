@@ -5,11 +5,11 @@ const { body, validationResult, matchedData } = require('express-validator');
 
 const validateCreateUser = [
   body('username').trim()
-  .isLength({min: 4, max: 12})
-  .isAlphanumeric()
+  .isLength({min: 4, max: 12}).withMessage('Username must be between 4 to 12 characters long')
+  .isAlphanumeric().withMessage('Username must contain only letters and numbers')
   .escape(),
   body('password')
-  .isLength({min: 5, max: 20}),
+  .isLength({min: 5, max: 20}).withMessage('Password must be between 5 to 20 characters long.'),
   body('repeatPassword')
   .custom((value, {req}) => value === req.body.password).withMessage('Passwords must match'),
 ]
