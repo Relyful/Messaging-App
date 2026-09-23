@@ -1,7 +1,7 @@
 import styles from "./Login.module.css";
 import { useFormStatus } from "react-dom";
 import { useOutletContext, useNavigate } from "react-router";
-import { fetchUser } from "../../api/userApi";
+import { fetchUser, userLogIn } from "../../api/userApi";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -36,39 +36,22 @@ export default function Login() {
     }
   }
 
-  async function onLogInSubmit(formData) {
-    const logInData = {
-      username: formData.get("username"),
-      password: formData.get("password"),
-    };
-    try {
-      const response = await fetch("http://localhost:8080/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(logInData),
-      });
-      if (response.status === 401) {
-        setUser(null);
-      }
-      if (!response.ok) {        
-        throw new Error("Error logging in");
-      }
-      await updateUser();
-      setNotification({id: crypto.randomUUID(), message: 'Login successful', type: 'notification'})
-      navigate('/chat');
-    } catch (err) {
-      setNotification({id: crypto.randomUUID(), message: err.message, type: 'error'});
-      console.error(err);
+  async function loginHandler(formData) {
+    const response = await userLogIn(formData);
+    if (!response.success) {
+      setUser(null);
+      setNotification({id: crypto.randomUUID(), message: response.error, type: 'error'});
+      return await updateUser();
     }
+    await updateUser();
+    setNotification({id: crypto.randomUUID(), message: 'Login successful', type: 'notification'});
+    navigate('/chat');
   }
 
   return (
     <div className={styles.logInContainer}>
       <h2 className={styles.loginHeader}>Log In</h2>
-      <form action={onLogInSubmit} className={styles.logInForm}>
+      <form action={loginHandler} className={styles.logInForm}>
         <input
           type="text"
           name="username"

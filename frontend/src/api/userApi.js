@@ -49,7 +49,6 @@ export const registerUser = async (newUserData, setFormErrors) => {
     if (!response.ok) {
       if (data.errors) {
         const mappedErr = data.errors.map((err) => {
-          console.log(err);
           return err.msg;
         }, []);
         setFormErrors(mappedErr);
@@ -148,3 +147,34 @@ export const updateProfilePic = async (picId) => {
     console.error(error);
   }
 }
+
+export const userLogIn = async (formData) => {
+    const logInData = {
+      username: formData.get("username"),
+      password: formData.get("password"),
+    };
+    try {
+      const response = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(logInData),
+      });
+      if (response.status === 401) {
+        const data = await response.json();
+        return {success: false,
+          error: data.message,
+        }
+      }
+      if (!response.ok) {        
+        throw new Error("Error logging in");
+      }
+      return {success: true};      
+    } catch (err) {
+      return {success: false,
+          error: err.message || 'Error logging in',
+        }
+    }
+  }
