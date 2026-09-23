@@ -106,7 +106,7 @@ function ChatWindow() {
           <Link to={`/chat/new`}>New Chat</Link>
         </div>
       </div>
-
+      {chats.length < 1 && <div className={styles.chatRow} >So empty here ...</div>}
       {chats
         ? chats.map((chat) => (
             <Link
