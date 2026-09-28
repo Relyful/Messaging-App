@@ -1,5 +1,12 @@
 // const { prisma } = require("../lib/prisma.mjs");
 const chatServices = require("../services/chatServices");
+const { body, validationResult, matchedData } = require('express-validator');
+
+const groupChatValidation = [
+  body('chatName').trim()
+  .isLength({min: 3, max: 30}).withMessage('Chat name must be 3 to 30 characters long.')
+  .escape()
+]
 
 exports.getAllChat = async (req, res) => {
   const allChat = await chatServices.getAllChat();
@@ -74,11 +81,15 @@ exports.addUserToChatById = async (req, res) => {
   res.json(updatedChatInfo);
 };
 
-exports.createGroupChat = async (req, res) => {
+exports.createGroupChat = [groupChatValidation, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({errors: errors.array()})
+  }
   const thisUser = req.user.id;
   const userArray = req.body.userArray;
-  const chatName = req.body.chatName;
+  const chatName = matchedData(req).chatName;
   console.log(userArray)
   const createdChat = await chatServices.createNewChatWithUser(thisUser, userArray, chatName);
   res.json(createdChat);
-}
+}]
