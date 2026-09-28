@@ -1,7 +1,7 @@
 // const { prisma } = require('../lib/prisma.mjs');
 const bcrypt = require('bcrypt');
 const userServices = require('../services/userServices');
-const { body, validationResult, matchedData } = require('express-validator');
+const { body, validationResult, matchedData, param } = require('express-validator');
 
 const validateCreateUser = [
   body('username').trim()
@@ -12,6 +12,19 @@ const validateCreateUser = [
   .isLength({min: 5, max: 20}).withMessage('Password must be between 5 to 20 characters long.'),
   body('repeatPassword')
   .custom((value, {req}) => value === req.body.password).withMessage('Passwords must match'),
+] 
+
+const validateDisplayName = [
+  param('displayName').trim()
+  .isLength({min: 4, max: 12}).withMessage('Display name must be betweeen 4 to 12 characters long')
+  .isAlphanumeric().withMessage('Display name must contain only letters and numbers')
+  .escape()
+]
+
+const validateAboutMe = [
+  body('aboutMe')
+  .isLength({max: 400}).withMessage('About me cannot exceed 400 characters')
+  .escape()
 ]
 
 exports.createUser = [validateCreateUser, async (req, res) => {
@@ -42,30 +55,43 @@ exports.updateProfilePic = async (req, res) => {
   res.json(udpatedUser);
 };
 
-exports.updateDisplayName = async (req, res) => {
+exports.updateDisplayName = [validateDisplayName, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors.array()
+    })
+  }
+
   const userId = req.user.id;
-  const newDisplayName = req.params.displayName;
+  const newDisplayName = matchedData(req).displayName;
   const updatedUser = await userServices.updateDisplayName(userId, newDisplayName);
   res.json(updatedUser);
-}
+}];
 
-exports.updateAbout = async (req, res) => {
-  const newAbout = req.body.aboutMe;
+exports.updateAbout = [validateAboutMe, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors.array()
+    })
+  }
+  const newAbout = matchedData(req).aboutMe;
   const userId = req.user.id;
   const updatedUser = await userServices.updateAbout(userId, newAbout);
   res.json(updatedUser);
-}
+}];
 
 exports.getUserById = async (req, res) => {
   const userId = req.params.userId;
   const foundUser = await userServices.getUserById(userId);
   res.json(foundUser);
-}
+};
 
 exports.getAll = async (req, res) => {
   const allUsers = await userServices.getAllUsers();
   res.json(allUsers);
-}
+};
 
 exports.thisUser = (req, res) => {
   if (!req.isAuthenticated()) {
@@ -77,4 +103,4 @@ exports.thisUser = (req, res) => {
     'role': thisUser.role,
     'id': thisUser.id
   });
-}
+};
