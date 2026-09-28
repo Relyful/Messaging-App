@@ -81,13 +81,21 @@ export const createNewGroupChat = async (chatterArray, chatName) => {
       },
       body: JSON.stringify({ userArray: chatterArray, chatName: chatName }),
     });
-    if (!response.ok) {
-      throw new Error("Error creating chat");
-    }
     const data = await response.json();
-    return data;
+    if (!response.ok) {
+      const mappedErr = data.errors?.map(err => err.msg)
+      return ({
+        success: false,
+        error: mappedErr
+      })
+    }
+    return ({success: true});
   } catch (error) {
     console.error(error);
+    return ({
+      success: false, 
+      error: 'Problem contacting server',
+    })
   }
 };
 
