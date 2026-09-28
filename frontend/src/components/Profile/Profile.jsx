@@ -12,6 +12,7 @@ export default function Profile({ mode }) {
   const [profileData, setProfileData] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [modalStatus, setModalStatus] = useState(false);
+  const [constraintError, setConstraintError] = useState({})
   const params = useParams();
 
   async function fetchDataHandler(user, controller) {
@@ -58,6 +59,30 @@ export default function Profile({ mode }) {
     })
     setModalStatus((prevStatus) => !prevStatus);
     return setNotification({id: crypto.randomUUID(), message: 'Profile updated', type: 'notification'});
+  };
+
+  function handleFormValidation(e) {
+    const input = e.target;
+
+    input.setCustomValidity('');
+
+    if (!input.checkValidity()) {
+      if (input.name === 'displayName') {
+        input.setCustomValidity('Display name must be 3 to 12 characters long')
+      };
+      if (input.name === 'aboutMe') {
+        input.setCustomValidity('About me cannot be longer than 400 characters')
+      }
+      setConstraintError((prev) => ({
+        ...prev,
+        [input.name]: input.validationMessage,
+      }))
+    } else {
+      setConstraintError((prev) => ({
+        ...prev,
+        [input.name]: ''
+      }));
+    }
   };
 
   useEffect(() => {
@@ -107,11 +132,13 @@ export default function Profile({ mode }) {
           </div>
           <div className={styles.infoContainer}>
             {editMode ? (
-              <form action={handleProfileUpdate} className={styles.editForm}>
+              <form action={handleProfileUpdate} onChange={handleFormValidation} className={styles.editForm}>
                 <label htmlFor="displayName">Display name: </label>
-                <input type="text" name="displayName" id="displayName" defaultValue={profileData.displayName} className={styles.editDisplayName} />
+                <input type="text" name="displayName" id="displayName" defaultValue={profileData.displayName} maxLength={12} minLength={3} className={styles.editDisplayName} />
+                {constraintError.displayName && <span className={styles.constraintError}>{constraintError.displayName}</span>}
                 <label htmlFor="aboutMe">About me: </label>
                 <textarea name="aboutMe" id="aboutMe" maxLength="400" defaultValue={profileData.about} className={styles.aboutMeTextarea}></textarea>
+                {constraintError.aboutMe && <span className={styles.constraintError}>{constraintError.aboutMe}</span>}
                 <div className={styles.formButtonRow}>
                   <button type="submit">Save</button>
                   <button type="button" onClick={() => setEditMode(false)}>Cancel</button>

@@ -170,6 +170,7 @@
 .editDisplayName, .aboutMeTextarea {
   border-radius: 5px;
   padding: 0.2em;
+  margin-bottom: 1em
 }
 
 .profileContainerLoading {
@@ -193,6 +194,12 @@
   background-image: linear-gradient(90deg,#fff 50%,#000 0);
   -webkit-background-clip:text;
           background-clip:text;
+}
+
+.constraintError {
+  font-size: small;
+  margin-top: -1.5em;
+  color: rgb(255, 157, 157);
 }
 
 @keyframes l21{
