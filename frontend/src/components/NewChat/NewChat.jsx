@@ -3,6 +3,7 @@ import styles from "./NewChat.module.css";
 import { getAllUsers } from "../../api/userApi";
 import { useOutletContext, useNavigate } from "react-router";
 import { createNewChat, createNewGroupChat, existingChatCheck } from "../../api/chatApi";
+import ErrorList from "../FormErrorList/FormErrorList";
 
 function UserCards({ usersData, mode, chosenUsers, setChosenUsers }) {
   const { user, setNotification } = useOutletContext();  
@@ -53,6 +54,7 @@ export default function NewChat({ mode }) {
   const { setNotification } = useOutletContext();
   const [users, setUsers] = useState(null);
   const [chosenUsers, setChosenUsers] = useState([]);
+  const [constraintErr, setConstraintErr] = useState([]);
   const navigate = useNavigate();
 
   async function handleFetchUsers() {
@@ -74,6 +76,15 @@ export default function NewChat({ mode }) {
     navigate(`/chat/${newGroupChat.id}`);
   }
 
+  function formOnChangeHandler(e) {
+    const input = e.target;
+    input.setCustomValidity('');
+    if  (!input.checkValidity()) {
+      input.setCustomValidity('Chat name must be between 3 to 30 characters long.')      
+    };
+    setConstraintErr([input.validationMessage]);
+  };
+
   return (
     <div className={styles.newChatContainer}>
       <div className={styles.headerContainer}>
@@ -84,14 +95,15 @@ export default function NewChat({ mode }) {
       <div className={styles.userPicker}>
         {users && <UserCards usersData={users} mode={mode} chosenUsers={chosenUsers} setChosenUsers={setChosenUsers}/>}
       </div>
-      {mode === "group" && (<form action={createNewGroupChatHandler}>
+      {mode === "group" && (<form action={createNewGroupChatHandler} onChange={formOnChangeHandler}>
         <div className={styles.inputRow}>
           <label htmlFor="groupChatName">Group chat name: </label>
-          <input type="text" name="chatGroupName" id="chatGroupName" required />
+          <input type="text" name="chatGroupName" id="chatGroupName" minLength={3} maxLength={30} required />
         </div>
         <div className={styles.buttonGroupRow}>
           <button type="submit">Create chat</button>
         </div>
+        <ErrorList errData={constraintErr}/>
       </form>)}
     </div>
   );
