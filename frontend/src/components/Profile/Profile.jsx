@@ -3,6 +3,7 @@ import styles from "./Profile.module.css";
 import { fetchUserData, updateProfile, updateProfilePic } from "../../api/userApi";
 import { useOutletContext, useParams } from "react-router";
 import { profilePicColorHelper } from "../../utils/userUtils";
+import ErrorList from "../FormErrorList/FormErrorList";
 
 export default function Profile({ mode }) {
   // Mode can be current or other
@@ -12,7 +13,8 @@ export default function Profile({ mode }) {
   const [profileData, setProfileData] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [modalStatus, setModalStatus] = useState(false);
-  const [constraintError, setConstraintError] = useState({})
+  const [constraintError, setConstraintError] = useState({});
+  const [formErr, setFormErr] = useState([]);
   const params = useParams();
 
   async function fetchDataHandler(user, controller) {
@@ -24,12 +26,13 @@ export default function Profile({ mode }) {
   };
 
   async function handleProfileUpdate(formData) {
+    setFormErr([]); // Reset form errors
     const newData = {
       'displayName': formData.get('displayName'),
       'aboutMe': formData.get('aboutMe')
     };
     const profileUpdateStatus = await updateProfile(newData);
-    if (profileUpdateStatus) {
+    if (profileUpdateStatus.success) {
       setProfileData({
         ...profileData,
         'displayName': newData.displayName,
@@ -38,7 +41,8 @@ export default function Profile({ mode }) {
       setEditMode(false);
       return setNotification({id: crypto.randomUUID(), message: 'Profile updated.', type: 'notification'});
     };
-    setEditMode(false);
+    setEditMode(true);
+    setFormErr(profileUpdateStatus.messageArr);
     return setNotification({id: crypto.randomUUID(), message: 'Error updating profile.', type: 'error'});
   }
 
@@ -143,6 +147,7 @@ export default function Profile({ mode }) {
                   <button type="submit">Save</button>
                   <button type="button" onClick={() => setEditMode(false)}>Cancel</button>
                 </div>
+                {formErr.length > 0 && <ErrorList errData={formErr}/>}
               </form>
             ) : (
               <>

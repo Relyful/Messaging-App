@@ -38,12 +38,12 @@ export const logOut = async (controller = null) => {
 export const registerUser = async (newUserData, setFormErrors) => {
   try {
     const response = await fetch(`http://localhost:8080/user/create`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify(newUserData)
+      body: JSON.stringify(newUserData),
     });
     const data = await response.json();
     if (!response.ok) {
@@ -53,8 +53,8 @@ export const registerUser = async (newUserData, setFormErrors) => {
         }, []);
         setFormErrors(mappedErr);
       }
-      throw new Error("Error registering user")
-    };
+      throw new Error("Error registering user");
+    }
     return response;
   } catch (error) {
     console.error(error);
@@ -65,53 +65,61 @@ export const fetchUserData = async (userId, controller = null) => {
   try {
     const response = await fetch(`http://localhost:8080/user/${userId}`, {
       signal: controller?.signal,
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      credentials: 'include',
+      credentials: "include",
     });
     if (!response.ok) {
       console.log(response);
-      throw new Error('Error fetching user data')
-    };
+      throw new Error("Error fetching user data");
+    }
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 };
 
 export const updateProfile = async (data) => {
   try {
-    const response = await fetch(`http://localhost:8080/user/updateDisplayName/${data.displayName}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `http://localhost:8080/user/updateDisplayName/${data.displayName}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
       },
-      credentials: 'include'
-    });
+    );
+    const data1 = await response.json();
+    let errArray = [];
     if (!response.ok) {
-      throw new Error('Error updating display name');
-    };
-    console.log(data.aboutMe)
+      data1.errors.map((err) => errArray.push(err.msg));
+      return { success: false, messageArr: errArray };
+    }
+    console.log(data.aboutMe);
     const response2 = await fetch(`http://localhost:8080/user/updateAbout/`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      credentials: 'include',
-      body: JSON.stringify({'aboutMe': data.aboutMe}),
+      credentials: "include",
+      body: JSON.stringify({ aboutMe: data.aboutMe }),
     });
+    const data2 = await response2.json();
     if (!response2.ok) {
-      throw new Error('Error updating about me');
-    };
+      data2.errors.map((err) => errArray.push(err.msg));
+      return { success: false, messageArr: errArray };
+    }
     console.log(response);
     console.log(response2);
-    return true;
+    return { success: true };
   } catch (error) {
     console.error(error);
-    return false;
+    return { success: false, messageArr: error.message };
   }
 };
 
@@ -119,62 +127,61 @@ export const getAllUsers = async () => {
   try {
     const response = await fetch(`http://localhost:8080/user/`, {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      credentials: 'include',
+      credentials: "include",
     });
     if (!response.ok) {
-      throw new Error('Error fetching users')
-    };
+      throw new Error("Error fetching users");
+    }
     const data = await response.json();
     return data;
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 export const updateProfilePic = async (picId) => {
   try {
-    const response = await fetch(`http://localhost:8080/user/profilePic/${picId}`, {
-      credentials: 'include',
-      method: 'PUT',
-    });
+    const response = await fetch(
+      `http://localhost:8080/user/profilePic/${picId}`,
+      {
+        credentials: "include",
+        method: "PUT",
+      },
+    );
     if (!response.ok) {
-      throw new Error('Error updating profile pic')
-    };
+      throw new Error("Error updating profile pic");
+    }
     return true;
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 export const userLogIn = async (formData) => {
-    const logInData = {
-      username: formData.get("username"),
-      password: formData.get("password"),
-    };
-    try {
-      const response = await fetch("http://localhost:8080/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(logInData),
-      });
-      if (response.status === 401) {
-        const data = await response.json();
-        return {success: false,
-          error: data.message,
-        }
-      }
-      if (!response.ok) {        
-        throw new Error("Error logging in");
-      }
-      return {success: true};      
-    } catch (err) {
-      return {success: false,
-          error: err.message || 'Error logging in',
-        }
+  const logInData = {
+    username: formData.get("username"),
+    password: formData.get("password"),
+  };
+  try {
+    const response = await fetch("http://localhost:8080/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(logInData),
+    });
+    if (response.status === 401) {
+      const data = await response.json();
+      return { success: false, error: data.message };
     }
+    if (!response.ok) {
+      throw new Error("Error logging in");
+    }
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message || "Error logging in" };
   }
+};
