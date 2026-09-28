@@ -25,9 +25,7 @@ export default function Register() {
 
     if (input.name === 'repeatPassword' && input.value !== passwordValue) {
         input.setCustomValidity('Password must match!')
-      } else {
-        input.setCustomValidity('');
-      }
+    };
 
     if (!input.checkValidity()) {
       if (input.name === 'username') {
