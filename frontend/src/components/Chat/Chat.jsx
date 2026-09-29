@@ -98,9 +98,9 @@ export default function Chat() {
     if (!newMessageRef.current.checkValidity()) {
       return setNotification({id: crypto.randomUUID(), message: 'Message can be maximum 900 characters long.', type: 'error'})
     }
-    await sendMessage(chat.id, newMessageRef.current.value);
-    if (!sendMessage) {
-      return setNotification({id: crypto.randomUUID(), message: 'Error sending message.', type: 'error'})
+    const response = await sendMessage(chat.id, newMessageRef.current.value);
+    if (!response.success) {
+      return setNotification({id: crypto.randomUUID(), message: response.error || 'Error sending message.', type: 'error'})
     }
     newMessageRef.current.value = "";
     await loadChat();

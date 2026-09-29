@@ -11,11 +11,17 @@ export const sendMessage = async (chatId, newMessageContent) => {
         body: JSON.stringify({ content: newMessageContent }),
       },
     );
+    const data = await response.json();
     if (!response.ok) {
-      throw new Error("Error sending message");
+      return ({
+        success: false,
+        error: data.errors[0].msg
+      });
     }
-    console.log(response);
-    return true;
+    return ({
+      success: true,
+      data
+    });
   } catch (err) {
     console.error(err);
   }
