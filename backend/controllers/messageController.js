@@ -1,12 +1,23 @@
+const { body, validationResult, matchedData } = require('express-validator');
 const messageServices = require('../services/messageServices');
 
-exports.newMessage = async (req, res) => {
+const messageValidation = [
+  body('content').trim()
+  .isLength({max: 900}).withMessage('Message can be maximum 900 characters long.')
+  .escape()
+]
+
+exports.newMessage = [messageValidation, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({errors: errors.array()})
+  }
   const chatId = Number(req.params.chatId);
   const userId = Number(req.user.id);
-  const data = req.body;
+  const data = matchedData(req);
   const newMessage = await messageServices.newMessage(userId, chatId, data.content);
   res.json(newMessage)
-};
+}]
 
 exports.softDeleteMessage = async (req, res) => {
   const messageId = Number(req.params.messageId);
