@@ -67,13 +67,15 @@ export default function NewChat({ mode }) {
   }, []);
 
   async function createNewGroupChatHandler(formData) {
+    setConstraintErr([]);
     const userArray = chosenUsers;
     const chatName = formData.get("chatGroupName");
     const newGroupChat = await createNewGroupChat(userArray, chatName);
     if (!newGroupChat.success) {
-      return setNotification({id: crypto.randomUUID(), message: newGroupChat.error || 'Error creating chat.', type: 'error'});
+      return setConstraintErr(newGroupChat.error);
     }
-    navigate(`/chat/${newGroupChat.id}`);
+    setNotification({id: crypto.randomUUID(), message: 'Chat created successfully', type: 'notification'});
+    navigate(`/chat/${newGroupChat.data.id}`);
   }
 
   function formOnChangeHandler(e) {
@@ -98,7 +100,7 @@ export default function NewChat({ mode }) {
       {mode === "group" && (<form action={createNewGroupChatHandler} onChange={formOnChangeHandler}>
         <div className={styles.inputRow}>
           <label htmlFor="groupChatName">Group chat name: </label>
-          <input type="text" name="chatGroupName" id="chatGroupName"  required />
+          <input type="text" name="chatGroupName" id="chatGroupName" minLength={3} maxLength={30} required />
         </div>
         <div className={styles.buttonGroupRow}>
           <button type="submit">Create chat</button>
