@@ -89,7 +89,7 @@ export const createNewGroupChat = async (chatterArray, chatName) => {
         error: mappedErr
       })
     }
-    return ({success: true});
+    return ({success: true, data});
   } catch (error) {
     console.error(error);
     return ({
