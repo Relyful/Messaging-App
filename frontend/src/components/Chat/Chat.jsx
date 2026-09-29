@@ -95,6 +95,9 @@ export default function Chat() {
   }
 
   async function sendMessageHandler() {
+    if (!newMessageRef.current.checkValidity()) {
+      return setNotification({id: crypto.randomUUID(), message: 'Message can be maximum 900 characters long.', type: 'error'})
+    }
     await sendMessage(chat.id, newMessageRef.current.value);
     if (!sendMessage) {
       return setNotification({id: crypto.randomUUID(), message: 'Error sending message.', type: 'error'})
@@ -177,6 +180,7 @@ export default function Chat() {
           className={styles.replyInput}
           placeholder="Type your message here..."
           rows={1}
+          maxLength={900}
         ></textarea>
         <button className={styles.replyButton} onClick={sendMessageHandler}>
           Reply
