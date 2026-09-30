@@ -1,6 +1,6 @@
 export const fetchMyChats = async (controller = null) => {
   try {
-    const response = await fetch("http://localhost:8080/chat/my", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/chat/my`, {
       credentials: "include",
       signal: controller?.signal,
     });
@@ -17,7 +17,7 @@ export const fetchMyChats = async (controller = null) => {
 
 export const fetchChat = async (chatId, controller = null) => {
   try {
-    const response = await fetch(`http://localhost:8080/chat/${chatId}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/chat/${chatId}`, {
       credentials: "include",
       signal: controller?.signal,
     });
@@ -35,7 +35,7 @@ export const fetchChat = async (chatId, controller = null) => {
 export const existingChatCheck = async (chatterId) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/chat/user/${chatterId}`,
+      `${import.meta.env.VITE_BACKEND_ADDRESS}/chat/user/${chatterId}`,
       {
         credentials: "include",
       },
@@ -54,7 +54,7 @@ export const existingChatCheck = async (chatterId) => {
 export const createNewChat = async (chatterId) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/chat/user/${chatterId}`,
+      `${import.meta.env.VITE_BACKEND_ADDRESS}/chat/user/${chatterId}`,
       {
         method: "POST",
         credentials: "include",
@@ -73,7 +73,7 @@ export const createNewChat = async (chatterId) => {
 export const createNewGroupChat = async (chatterArray, chatName) => {
   try {
     console.log(chatterArray);
-    const response = await fetch(`http://localhost:8080/chat/newGroupChat`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/chat/newGroupChat`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -101,7 +101,7 @@ export const createNewGroupChat = async (chatterArray, chatName) => {
 
 export const deleteChat = async (chatId) => {
   try {
-    const response = await fetch(`http://localhost:8080/chat/delete/${chatId}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/chat/delete/${chatId}`, {
       method: 'DELETE',
       credentials: 'include'
     });
