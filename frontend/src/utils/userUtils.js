@@ -1,5 +1,4 @@
 export function profilePicColorHelper(picId) {
-  console.log(picId);
   switch (picId) {
     case 0:
       return 'white';

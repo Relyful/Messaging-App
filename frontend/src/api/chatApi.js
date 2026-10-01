@@ -8,7 +8,6 @@ export const fetchMyChats = async (controller = null) => {
       throw new Error("Auth failed");
     }
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (err) {
     console.error(err);
@@ -25,7 +24,6 @@ export const fetchChat = async (chatId, controller = null) => {
       throw new Error("Chat could not be loaded");
     }
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (err) {
     console.error(err);
@@ -72,7 +70,6 @@ export const createNewChat = async (chatterId) => {
 
 export const createNewGroupChat = async (chatterArray, chatName) => {
   try {
-    console.log(chatterArray);
     const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/chat/newGroupChat`, {
       method: "POST",
       credentials: "include",

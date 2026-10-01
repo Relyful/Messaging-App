@@ -21,7 +21,6 @@ export default function Profile({ mode }) {
     if (user) {
       const data = await fetchUserData(user.id, controller);
       setProfileData(data);
-      console.log(data);
     }
   };
 

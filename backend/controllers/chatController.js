@@ -89,7 +89,6 @@ exports.createGroupChat = [groupChatValidation, async (req, res) => {
   const thisUser = req.user.id;
   const userArray = req.body.userArray;
   const chatName = matchedData(req).chatName;
-  console.log(userArray)
   const createdChat = await chatServices.createNewChatWithUser(thisUser, userArray, chatName);
   res.json(createdChat);
 }]

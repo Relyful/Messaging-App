@@ -10,7 +10,6 @@ export const fetchUser = async (controller = null) => {
       }
       throw new Error("Auth failed");
     }
-    console.log(response);
     const data = await response.json();
     return data;
   } catch (err) {
@@ -77,7 +76,6 @@ export const fetchUserData = async (userId, controller = null) => {
       credentials: "include",
     });
     if (!response.ok) {
-      console.log(response);
       throw new Error("Error fetching user data");
     }
     const data = await response.json();
@@ -105,7 +103,6 @@ export const updateProfile = async (data) => {
       data1.errors.map((err) => errArray.push(err.msg));
       return { success: false, messageArr: errArray };
     }
-    console.log(data.aboutMe);
     const response2 = await fetch(`http://localhost:8080/user/updateAbout/`, {
       method: "PUT",
       headers: {
@@ -119,8 +116,6 @@ export const updateProfile = async (data) => {
       data2.errors.map((err) => errArray.push(err.msg));
       return { success: false, messageArr: errArray };
     }
-    console.log(response);
-    console.log(response2);
     return { success: true };
   } catch (error) {
     console.error(error);
