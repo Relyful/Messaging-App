@@ -1,13 +1,25 @@
 const { prisma } = require('../lib/prisma.mjs');
 
 exports.createNewUser = async (username, password) => {
-  const newUser = await prisma.user.create({
+  return await prisma.$transaction(async (tx) => {
+    const globalChatId = await tx.chat.findFirstOrThrow({
+      where: {
+        type: "GLOBAL"
+      }
+    })
+    const newUser = await tx.user.create({
     data: {
       username: username,
       password: password,
+      chatMembers: {
+        create: {
+          chatId: globalChatId.id
+        }
+      }
     }
   })
   return newUser;
+  })
 }
 
 exports.deleteUser = async (id) => {
