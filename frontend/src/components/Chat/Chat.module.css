@@ -123,6 +123,7 @@
 
 .replyButton {
   background-color: rgb(255, 251, 223);
+  color: black;
   border: none;
   padding: 0.4em 0.7em;
   border-radius: 5px;

@@ -153,6 +153,7 @@
 
 .formButtonRow button {
   background-color: rgb(255, 251, 223);
+  color: black;
   border: none;
   padding: 0.3em 0.5em;
   border-radius: 5px;
