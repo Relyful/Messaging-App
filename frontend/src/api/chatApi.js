@@ -1,7 +1,15 @@
+const getAuthHeaders = (additionalHeaders = {}) => {
+  const token = localStorage.getItem("token");
+  return {
+    ...additionalHeaders,
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+};
+
 export const fetchMyChats = async (controller = null) => {
   try {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/chat/my`, {
-      credentials: "include",
+      headers: getAuthHeaders(),
       signal: controller?.signal,
     });
     if (!response.ok) {
@@ -10,14 +18,14 @@ export const fetchMyChats = async (controller = null) => {
     const data = await response.json();
     return data;
   } catch (err) {
-    console.error(err);
+    if (err.name !== "AbortError") console.error(err);
   }
 };
 
 export const fetchChat = async (chatId, controller = null) => {
   try {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/chat/${chatId}`, {
-      credentials: "include",
+      headers: getAuthHeaders(),
       signal: controller?.signal,
     });
     if (!response.ok) {
@@ -26,7 +34,7 @@ export const fetchChat = async (chatId, controller = null) => {
     const data = await response.json();
     return data;
   } catch (err) {
-    console.error(err);
+    if (err.name !== "AbortError") console.error(err);
   }
 };
 
@@ -35,8 +43,8 @@ export const existingChatCheck = async (chatterId) => {
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_ADDRESS}/chat/user/${chatterId}`,
       {
-        credentials: "include",
-      },
+        headers: getAuthHeaders(),
+      }
     );
     if (!response.ok) {
       throw new Error("Error searching chat");
@@ -55,8 +63,8 @@ export const createNewChat = async (chatterId) => {
       `${import.meta.env.VITE_BACKEND_ADDRESS}/chat/user/${chatterId}`,
       {
         method: "POST",
-        credentials: "include",
-      },
+        headers: getAuthHeaders(),
+      }
     );
     if (!response.ok) {
       throw new Error("Error creating chat");
@@ -72,39 +80,38 @@ export const createNewGroupChat = async (chatterArray, chatName) => {
   try {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/chat/newGroupChat`, {
       method: "POST",
-      credentials: "include",
-      headers: {
+      headers: getAuthHeaders({
         "Content-Type": "application/json",
-      },
+      }),
       body: JSON.stringify({ userArray: chatterArray, chatName: chatName }),
     });
     const data = await response.json();
     if (!response.ok) {
-      const mappedErr = data.errors?.map(err => err.msg)
-      return ({
+      const mappedErr = data.errors?.map((err) => err.msg);
+      return {
         success: false,
-        error: mappedErr
-      })
+        error: mappedErr,
+      };
     }
-    return ({success: true, data});
+    return { success: true, data };
   } catch (error) {
     console.error(error);
-    return ({
-      success: false, 
-      error: 'Problem contacting server',
-    })
+    return {
+      success: false,
+      error: "Problem contacting server",
+    };
   }
 };
 
 export const deleteChat = async (chatId) => {
   try {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/chat/delete/${chatId}`, {
-      method: 'DELETE',
-      credentials: 'include'
+      method: "DELETE",
+      headers: getAuthHeaders(),
     });
     if (!response.ok) {
-      throw new Error('Error deleting chat');
-    };
+      throw new Error("Error deleting chat");
+    }
     return response;
   } catch (error) {
     console.error(error);
