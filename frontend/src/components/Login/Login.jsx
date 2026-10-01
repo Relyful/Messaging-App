@@ -1,7 +1,7 @@
 import styles from "./Login.module.css";
 import { useFormStatus } from "react-dom";
 import { useOutletContext, useNavigate } from "react-router";
-import { fetchUser, userLogIn } from "../../api/userApi";
+import { userLogIn } from "../../api/userApi";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -11,40 +11,34 @@ function SubmitButton() {
       disabled={pending}
       className={`${styles.formSubmitButt}`}
     >
-      {pending ? "Loggin In..." : "Log In"}
+      {pending ? "Logging In..." : "Log In"}
     </button>
   );
 }
 
 export default function Login() {
-  const {setUser, setNotification} = useOutletContext();
+  const { setUser, setNotification } = useOutletContext();
   const navigate = useNavigate();
-
-  async function updateUser() {
-    try {
-      const userData = await fetchUser();
-      if (!userData) {
-        setUser(undefined);
-      } else {
-        setUser(userData);
-      }
-    } catch (error) {
-      if (error.name !== "AbortError") {
-        console.error("Failed to fetch user:", error);
-        setUser(undefined);
-      }
-    }
-  }
 
   async function loginHandler(formData) {
     const response = await userLogIn(formData);
+    
     if (!response.success) {
       setUser(null);
-      setNotification({id: crypto.randomUUID(), message: response.error, type: 'error'});
-      return await updateUser();
+      setNotification({
+        id: crypto.randomUUID(),
+        message: response.error,
+        type: 'error'
+      });
+      return;
     }
-    await updateUser();
-    setNotification({id: crypto.randomUUID(), message: 'Login successful', type: 'notification'});
+
+    setUser(response.user);
+    setNotification({
+      id: crypto.randomUUID(),
+      message: 'Login successful',
+      type: 'notification'
+    });
     navigate('/chat');
   }
 

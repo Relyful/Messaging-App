@@ -1,11 +1,23 @@
+const getAuthHeaders = (additionalHeaders = {}) => {
+  const token = localStorage.getItem("token");
+  return {
+    ...additionalHeaders,
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+};
+
 export const fetchUser = async (controller = null) => {
   try {
+    const token = localStorage.getItem("token");
+    if (!token) return false;
+
     const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/user/me`, {
-      credentials: "include",
+      headers: getAuthHeaders(),
       signal: controller?.signal,
     });
     if (!response.ok) {
-      if (response.status == "404") {
+      if (response.status === 404 || response.status === 401) {
+        localStorage.removeItem("token");
         return false;
       }
       throw new Error("Auth failed");
@@ -13,24 +25,43 @@ export const fetchUser = async (controller = null) => {
     const data = await response.json();
     return data;
   } catch (err) {
-    console.error(err);
+    if (err.name !== "AbortError") console.error(err);
+    return false;
   }
 };
 
-export const logOut = async (controller = null) => {
+export const logOut = async () => {
+  localStorage.removeItem("token");
+  return true;
+};
+
+export const userLogIn = async (formData) => {
+  const logInData = {
+    username: formData.get("username"),
+    password: formData.get("password"),
+  };
   try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/logout`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/login`, {
       method: "POST",
-      credentials: "include",
-      signal: controller?.signal,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(logInData),
     });
+
+    const data = await response.json();
+
     if (!response.ok) {
-      throw new Error("Logout failed");
+      return { success: false, error: data.errMessage || data.message || "Invalid credentials" };
     }
-    return true;
+
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+    }
+
+    return { success: true, user: data.user };
   } catch (err) {
-    console.error(err);
-    return false;
+    return { success: false, error: err.message || "Error logging in" };
   }
 };
 
@@ -41,25 +72,17 @@ export const registerUser = async (newUserData, setFormErrors) => {
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
       body: JSON.stringify(newUserData),
     });
     const data = await response.json();
     if (!response.ok) {
       if (data.errors) {
-        const mappedErr = data.errors.map((err) => {
-          return err.msg;
-        }, []);
+        const mappedErr = data.errors.map((err) => err.msg);
         setFormErrors(mappedErr);
       }
-      return {
-        success: false,
-      };
+      return { success: false };
     }
-    return {
-      success: true,
-      data
-    };
+    return { success: true, data };
   } catch (error) {
     console.error(error);
   }
@@ -70,10 +93,7 @@ export const fetchUserData = async (userId, controller = null) => {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/user/${userId}`, {
       signal: controller?.signal,
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
+      headers: getAuthHeaders({ "Content-Type": "application/json" }),
     });
     if (!response.ok) {
       throw new Error("Error fetching user data");
@@ -91,29 +111,23 @@ export const updateProfile = async (data) => {
       `${import.meta.env.VITE_BACKEND_ADDRESS}/user/updateDisplayName/${data.displayName}`,
       {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      },
+        headers: getAuthHeaders({ "Content-Type": "application/json" }),
+      }
     );
     const data1 = await response.json();
     let errArray = [];
     if (!response.ok) {
-      data1.errors.map((err) => errArray.push(err.msg));
+      data1.errors?.map((err) => errArray.push(err.msg));
       return { success: false, messageArr: errArray };
     }
     const response2 = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/user/updateAbout/`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
+      headers: getAuthHeaders({ "Content-Type": "application/json" }),
       body: JSON.stringify({ aboutMe: data.aboutMe }),
     });
     const data2 = await response2.json();
     if (!response2.ok) {
-      data2.errors.map((err) => errArray.push(err.msg));
+      data2.errors?.map((err) => errArray.push(err.msg));
       return { success: false, messageArr: errArray };
     }
     return { success: true };
@@ -126,10 +140,7 @@ export const updateProfile = async (data) => {
 export const getAllUsers = async () => {
   try {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/user/`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
+      headers: getAuthHeaders({ "Content-Type": "application/json" }),
     });
     if (!response.ok) {
       throw new Error("Error fetching users");
@@ -146,9 +157,9 @@ export const updateProfilePic = async (picId) => {
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_ADDRESS}/user/profilePic/${picId}`,
       {
-        credentials: "include",
         method: "PUT",
-      },
+        headers: getAuthHeaders(),
+      }
     );
     if (!response.ok) {
       throw new Error("Error updating profile pic");
@@ -156,32 +167,5 @@ export const updateProfilePic = async (picId) => {
     return true;
   } catch (error) {
     console.error(error);
-  }
-};
-
-export const userLogIn = async (formData) => {
-  const logInData = {
-    username: formData.get("username"),
-    password: formData.get("password"),
-  };
-  try {
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(logInData),
-    });
-    if (response.status === 401) {
-      const data = await response.json();
-      return { success: false, error: data.message };
-    }
-    if (!response.ok) {
-      throw new Error("Error logging in");
-    }
-    return { success: true };
-  } catch (err) {
-    return { success: false, error: err.message || "Error logging in" };
   }
 };

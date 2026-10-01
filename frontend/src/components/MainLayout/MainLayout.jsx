@@ -1,6 +1,5 @@
 import styles from "./MainLayout.module.css";
-import { Link, useNavigate } from "react-router";
-import { Outlet } from "react-router";
+import { Link, useNavigate, Outlet } from "react-router";
 import Footer from "../Footer/Footer";
 import { useEffect, useState } from "react";
 import { fetchUser, logOut } from "../../api/userApi";
@@ -37,15 +36,8 @@ function MainLayout() {
   }, []);
 
   async function logOutHandler() {
-    const response = await logOut();
-    if (!response) {
-      setNotification({
-        id: crypto.randomUUID(),
-        message: "Error logging out",
-        type: "error",
-      });
-    }
-    await getUser();
+    await logOut();
+    setUser(undefined);
     setNotification({
       id: crypto.randomUUID(),
       message: "Logout successful",
