@@ -9,6 +9,10 @@
   align-items: center;
 }
 
+.footerContainer a {
+  text-decoration: none;
+}
+
 @media (max-width: 800px) {
   .footerContainer {
     height: 2em;
