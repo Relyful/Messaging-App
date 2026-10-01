@@ -3,7 +3,7 @@ const messageServices = require('../services/messageServices');
 
 const messageValidation = [
   body('content').trim()
-  .isLength({max: 900}).withMessage('Message can be maximum 900 characters long.')
+  .isLength({min: 1, max: 900}).withMessage('Message can be 1 to 900 characters long.')
 ]
 
 exports.newMessage = [messageValidation, async (req, res) => {
