@@ -91,11 +91,13 @@ exports.getAll = async (req, res) => {
   res.json(allUsers);
 };
 
-exports.thisUser = (req, res) => {
-  if (!req.isAuthenticated()) {
-    return res.status(401).send('No user found');
-  }
-  const thisUser = req.user;
+exports.thisUser = async (req, res) => {
+  const thisUser = await userServices.getUserById(req.user?.id);
+
+  if (!thisUser) {
+      return res.status(404).json({ status: 404, errMessage: 'User not found' });
+    }
+
   res.json({'username': thisUser.username,
     'displayName': thisUser.displayName,
     'role': thisUser.role,

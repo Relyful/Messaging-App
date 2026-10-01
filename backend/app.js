@@ -1,107 +1,46 @@
-const express = require('express')
+const express = require('express');
 const cors = require('cors');
-const expressSession = require('express-session');
-const { prisma } = require('./lib/prisma.mjs');
-const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
-const bcrypt = require('bcrypt');
 const indexRouter = require('./routers/indexRouter');
 const userRouter = require('./routers/userRouter');
 const chatRouter = require('./routers/chatRouter');
 const messageRouter = require('./routers/messageRouter');
 
+require('dotenv').config();
 
-require('dotenv').config()
-const app = express()
+const app = express();
 const port = process.env.PORT || 8080;
 
-//Trust railway proxy
+// 1. Trust Railway proxy
 app.set('trust proxy', 1);
-//Set up session in prisma db
-app.use(
-  expressSession({
-    cookie: {
-     maxAge: 7 * 24 * 60 * 60 * 1000, // ms aka a week
-     secure: true,
-     sameSite: 'none'
-    },
-    secret: process.env.SECRET,
-    resave: true,
-    saveUninitialized: true,
-    store: new PrismaSessionStore(
-      prisma,
-      {
-        checkPeriod: 2 * 60 * 1000,  //ms
-        dbRecordIdIsSessionId: true,
-        dbRecordIdFunction: undefined,
-      }
-    )
-  })
-);
 
-//Set-up url request body parsing
-app.use(express.urlencoded({ extended: false }));
-//Set-up cors access
+// 2. CORS setup
 app.use(cors({
   origin: process.env.ALLOWED_ORIGIN ? process.env.ALLOWED_ORIGIN : ["http://localhost:5173"],
   credentials: true
 }));
-//Allow json 
+
+// 3. Body parsers
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-//Session set-up
-app.use(passport.session());
 
-//Setup passport-local strategy
-passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    const user = await prisma.user.findUnique({
-      where: {
-        username
-      }
-    })
-    if (!user) {
-      return done(null, false, { message: 'Invalid username or password' })
-    };
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return done(null, false, { message: 'Invalid username or password' });
-    }
-    return done(null, user);
-  })
-)
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      id: id
-    }
-  })
-  done(null, user);
-});
-
+// 4. Routers
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/chat', chatRouter);
 app.use('/message', messageRouter);
 
-//Catch all route
+// 5. Catch-all route
 app.get("/*splat", (req, res) => {
   res.send("You cannot be here :( .");
 });
 
-//Error middleware
+// 6. Global error handler
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   console.error(err.stack);
 
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
-
 
   res.status(statusCode).json({
     status: statusCode,
@@ -110,5 +49,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`)
-})
+  console.log(`Server running on port ${port}`);
+});

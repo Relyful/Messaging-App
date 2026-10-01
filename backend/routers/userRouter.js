@@ -10,7 +10,7 @@ userRouter.put('/profilePic/:picId', authMidd, userController.updateProfilePic);
 userRouter.put('/updateDisplayName/:displayName', authMidd, userController.updateDisplayName);
 userRouter.put('/updateAbout', authMidd, userController.updateAbout);
 userRouter.get('/', userController.getAll);
-userRouter.get('/me', userController.thisUser);
+userRouter.get('/me', authMidd, userController.thisUser);
 userRouter.get('/:userId', userController.getUserById);
 
 module.exports = userRouter;
