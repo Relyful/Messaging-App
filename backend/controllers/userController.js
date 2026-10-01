@@ -34,9 +34,7 @@ exports.createUser = [validateCreateUser, async (req, res) => {
       errors: errors.array()
     })
   }
-  const matchedDataz = matchedData(req);
-  console.log(matchedDataz);
-  const data = req.body;
+  const data = matchedData(req);
   const password = await bcrypt.hash(data.password, 10);
   const user = await userServices.createNewUser(data.username, password);
   res.json(user);
