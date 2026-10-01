@@ -16,6 +16,8 @@ require('dotenv').config()
 const app = express()
 const port = process.env.PORT || 8080;
 
+//Trust railway proxy
+app.set('trust proxy', 1);
 //Set up session in prisma db
 app.use(
   expressSession({
@@ -49,9 +51,6 @@ app.use(cors({
 app.use(express.json());
 //Session set-up
 app.use(passport.session());
-//Trust railway proxy
-app.set('trust proxy', 1);
-
 
 //Setup passport-local strategy
 passport.use(
