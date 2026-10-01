@@ -67,6 +67,13 @@ exports.updateDisplayName = [validateDisplayName, async (req, res) => {
   res.json(updatedUser);
 }];
 
+exports.emptyDisplayName = async (req, res) => {
+  const userId = req.user.id;
+  const newDisplayName = '';
+  const updatedUser = await userServices.updateDisplayName(userId, newDisplayName);
+  res.json(updatedUser);
+}
+
 exports.updateAbout = [validateAboutMe, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
