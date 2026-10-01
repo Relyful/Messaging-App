@@ -53,9 +53,14 @@ export const registerUser = async (newUserData, setFormErrors) => {
         }, []);
         setFormErrors(mappedErr);
       }
-      throw new Error("Error registering user");
+      return {
+        success: false,
+      };
     }
-    return response;
+    return {
+      success: true,
+      data
+    };
   } catch (error) {
     console.error(error);
   }
