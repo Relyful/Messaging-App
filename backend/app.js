@@ -20,7 +20,9 @@ const port = process.env.PORT || 8080;
 app.use(
   expressSession({
     cookie: {
-     maxAge: 7 * 24 * 60 * 60 * 1000 // ms aka a week
+     maxAge: 7 * 24 * 60 * 60 * 1000, // ms aka a week
+     secure: true,
+     sameSite: 'none'
     },
     secret: process.env.SECRET,
     resave: true,
