@@ -42,7 +42,7 @@
 }
 
 .newChatLinks a {
-  transition: all 0.1s ease-in;
+  transition: transform 0.1s ease-in, color 0.1s ease-in;
 }
 
 .newChatLinks a:hover {
