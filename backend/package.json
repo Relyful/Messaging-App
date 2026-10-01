@@ -9,6 +9,7 @@
   "scripts": {
     "test": "test",
     "seed": "node seed.mjs",
+    "build": "prisma generate",
     "start": "prisma migrate deploy && node app.js"
   },
   "dependencies": {
