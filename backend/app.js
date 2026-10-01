@@ -49,6 +49,8 @@ app.use(cors({
 app.use(express.json());
 //Session set-up
 app.use(passport.session());
+//Trust railway proxy
+app.set('trust proxy', 1);
 
 
 //Setup passport-local strategy
