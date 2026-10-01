@@ -71,4 +71,5 @@ enum Role {
 enum ChatType {
   SOLO
   GROUP
+  GLOBAL
 }
