@@ -157,7 +157,7 @@ export default function Chat() {
         {chat && (
           <div
             className={`${styles.chatName} ${chat.type == "GROUP" ? styles.groupLinkHeader : null}`}
-            onClick={chat.type == "GROUP" ? modalToggle : () => navigate(`/profile/${chat.chatMembers[0].user.id}`)}
+            onClick={chat.type == "GROUP" || chat.type == "GLOBAL" ? modalToggle : () => navigate(`/profile/${chat.chatMembers[0].user.id}`)}
           >
             {chat.name
               ? chat.name
