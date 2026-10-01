@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { registerUser } from '../../api/userApi';
+import { useNavigate, useOutletContext } from 'react-router';
 import styles from './Register.module.css';
 import ErrorList from '../FormErrorList/FormErrorList';
 
@@ -7,15 +8,22 @@ export default function Register() {
   const [formErrors, setFormErrors] = useState([]);
   const [constrainErrors, setConstraintErrors] = useState({});
 
+  const navigate = useNavigate();
+  const { setNotification} = useOutletContext();
+
   async function registerSubmitHandler(formData) {
-    setFormErrors(null);
+    setFormErrors([]);
     const registerData = {
       'username': formData.get('username'),
       'password': formData.get('password'),
       'repeatPassword': formData.get('repeatPassword'),
     };
     const callServerRegister = await registerUser(registerData, setFormErrors);
-    console.log(callServerRegister);    
+    if (!callServerRegister.success) {
+      return setNotification({id: crypto.randomUUID(), message: 'Failed to register, please try again', type: 'error'});
+    }
+    setNotification({id: crypto.randomUUID(), message: 'Register successful', type: 'notification'});
+    return navigate('/login');
   }
 
   function handleFormChange(e) {
