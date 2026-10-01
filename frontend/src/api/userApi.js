@@ -1,6 +1,6 @@
 export const fetchUser = async (controller = null) => {
   try {
-    const response = await fetch("http://localhost:8080/user/me", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/user/me`, {
       credentials: "include",
       signal: controller?.signal,
     });
@@ -19,7 +19,7 @@ export const fetchUser = async (controller = null) => {
 
 export const logOut = async (controller = null) => {
   try {
-    const response = await fetch("http://localhost:8080/logout", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/logout`, {
       method: "POST",
       credentials: "include",
       signal: controller?.signal,
@@ -36,7 +36,7 @@ export const logOut = async (controller = null) => {
 
 export const registerUser = async (newUserData, setFormErrors) => {
   try {
-    const response = await fetch(`http://localhost:8080/user/create`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/user/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export const registerUser = async (newUserData, setFormErrors) => {
 
 export const fetchUserData = async (userId, controller = null) => {
   try {
-    const response = await fetch(`http://localhost:8080/user/${userId}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/user/${userId}`, {
       signal: controller?.signal,
       method: "GET",
       headers: {
@@ -88,7 +88,7 @@ export const fetchUserData = async (userId, controller = null) => {
 export const updateProfile = async (data) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/user/updateDisplayName/${data.displayName}`,
+      `${import.meta.env.VITE_BACKEND_ADDRESS}/user/updateDisplayName/${data.displayName}`,
       {
         method: "PUT",
         headers: {
@@ -103,7 +103,7 @@ export const updateProfile = async (data) => {
       data1.errors.map((err) => errArray.push(err.msg));
       return { success: false, messageArr: errArray };
     }
-    const response2 = await fetch(`http://localhost:8080/user/updateAbout/`, {
+    const response2 = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/user/updateAbout/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -125,7 +125,7 @@ export const updateProfile = async (data) => {
 
 export const getAllUsers = async () => {
   try {
-    const response = await fetch(`http://localhost:8080/user/`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/user/`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -144,7 +144,7 @@ export const getAllUsers = async () => {
 export const updateProfilePic = async (picId) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/user/profilePic/${picId}`,
+      `${import.meta.env.VITE_BACKEND_ADDRESS}/user/profilePic/${picId}`,
       {
         credentials: "include",
         method: "PUT",
@@ -165,7 +165,7 @@ export const userLogIn = async (formData) => {
     password: formData.get("password"),
   };
   try {
-    const response = await fetch("http://localhost:8080/login", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

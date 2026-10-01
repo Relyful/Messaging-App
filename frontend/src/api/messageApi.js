@@ -1,7 +1,7 @@
 export const sendMessage = async (chatId, newMessageContent) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/message/new/${chatId}`,
+      `${import.meta.env.VITE_BACKEND_ADDRESS}/message/new/${chatId}`,
       {
         method: "POST",
         headers: {
@@ -29,7 +29,7 @@ export const sendMessage = async (chatId, newMessageContent) => {
 
 export const softDeleteMessage = async (messageId) => {
   try {
-    const response = await fetch(`http://localhost:8080/message/delete/${messageId}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/message/delete/${messageId}`, {
       method: 'DELETE',
       credentials: 'include',      
     });
