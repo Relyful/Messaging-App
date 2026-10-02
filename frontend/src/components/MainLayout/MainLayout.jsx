@@ -85,7 +85,9 @@ function MainLayout() {
 
       <main className={styles.container}>
         {isLoading ? (
-          <div>Loading ...</div>
+         <div className={styles.chatContainerLoading}>
+          <div className={styles.loader}></div>
+         </div>
         ) : (
           <Outlet context={{ user, setUser, setNotification, isLoading }} />
         )}
