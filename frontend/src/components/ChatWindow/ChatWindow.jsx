@@ -30,14 +30,14 @@ function ChatRow({ data, onDeleteClick }) {
             {data.messages[0]?.content}
           </div>
         </div>
-        <button
+        {data.type !== "GLOBAL" && <button
           type="button"
           aria-label="Delete chat"
           className={styles.deleteChatButton}
           onClick={handleClickDelete}
         >
           🗑
-        </button>
+        </button>}
       </div>
     </div>
   );
