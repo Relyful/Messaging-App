@@ -87,6 +87,12 @@ export const createNewGroupChat = async (chatterArray, chatName) => {
     });
     const data = await response.json();
     if (!response.ok) {
+      if (data.errMessage) {
+        return {
+          success: false,
+          error: data.errMessage,
+        }
+      }
       const mappedErr = data.errors?.map((err) => err.msg);
       return {
         success: false,
